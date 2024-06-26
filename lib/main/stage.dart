@@ -1,0 +1,396 @@
+import 'package:flutter/material.dart';
+import 'package:iccas_test1/main/select.dart';
+
+/*
+
+    이미지 하나도 안나온(잘모른)다
+    추가하던지 해서 사용
+
+*/
+class MainStage extends StatelessWidget {
+  const MainStage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ListView(
+        children: [
+          Container(
+            width: 478,
+            height: 841,
+            child: Stack(
+              children: [
+                Positioned(
+                  left: 0,
+                  top: 0,
+                  child: Container(
+                    width: 478,
+                    height: 841,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          left: 0,
+                          top: 0,
+                          child: Container(
+                            width: 478,
+                            height: 841,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(0x3F000000),
+                                  blurRadius: 4,
+                                  offset: Offset(0, 4),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  left: 0,
+                                  top: 602,
+                                  child: Container(
+                                    width: 478,
+                                    height: 239,
+                                    decoration:
+                                        BoxDecoration(color: Color(0xFF48AA7B)),
+                                  ),
+                                ),
+                                Positioned(
+                                  left: 0,
+                                  top: 1,
+                                  child: Container(
+                                    width: 478,
+                                    height: 600,
+                                    decoration:
+                                        BoxDecoration(color: Color(0xFFFAF9E0)),
+                                  ),
+                                ),
+                                Positioned(
+                                  left: 292,
+                                  top: 319,
+                                  child: Container(
+                                    width: 193,
+                                    height: 283,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                            "https://via.placeholder.com/193x283"),
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  left: 6,
+                                  top: 421,
+                                  child: Container(
+                                    width: 182,
+                                    height: 182,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                            "https://via.placeholder.com/182x182"),
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+                                //////////////////////// 상점 //////////////////////////
+
+                                Positioned(
+                                  left: 44,
+                                  top: 755,
+                                  child: Container(
+                                    width: 107,
+                                    height: 49,
+                                    child: FlutterLogo(), //왜 플러터 로고?
+                                  ),
+                                ),
+                                Positioned(
+                                  left: 76,
+                                  top: 767,
+                                  child: Container(
+                                    width: 41,
+                                    height: 24,
+                                    child: Stack(
+                                      children: [
+                                        Positioned(
+                                          left: 0,
+                                          top: 0,
+                                          child: SizedBox(
+                                            width: 41,
+                                            height: 24,
+                                            child: Text(
+                                              'shop',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 16,
+                                                fontFamily: 'Inter',
+                                                fontWeight: FontWeight.w400,
+                                                height: 0,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+
+                                /////////////////////////// 통계 보는 화면 버튼 /////////////////////////////////
+
+                                Positioned(
+                                  left: 327,
+                                  top: 755,
+                                  child: Container(
+                                    width: 107,
+                                    height: 49,
+                                    decoration: ShapeDecoration(
+                                      color: Color(0xFFD9D9D9),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(90),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+                                Positioned(
+                                  left: 346,
+                                  top: 768,
+                                  child: SizedBox(
+                                    width: 69,
+                                    height: 18,
+                                    child: Text(
+                                      'statistics',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontFamily: 'Inter',
+                                        fontWeight: FontWeight.w400,
+                                        height: 0,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+                                ///////////////////////////////////////////////////////////////
+
+                                //////////////////////////  홈  ///////////////////////////////
+                                Positioned(
+                                  left: 186,
+                                  top: 755,
+                                  child: Container(
+                                    width: 106,
+                                    height: 49,
+                                    decoration: ShapeDecoration(
+                                      color: Color(0xFFD9D9D9),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(90),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  left: 217,
+                                  top: 768,
+                                  child: SizedBox(
+                                    width: 44,
+                                    height: 24,
+                                    child: Text(
+                                      'home',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontFamily: 'Inter',
+                                        fontWeight: FontWeight.w400,
+                                        height: 0,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+                                Positioned(
+                                  left: 58,
+                                  top: 560,
+                                  child: Container(
+                                    width: 116,
+                                    height: 162,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                            "https://via.placeholder.com/116x162"),
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  left: 23,
+                                  top: 21,
+                                  child: Container(
+                                    width: 67,
+                                    height: 30,
+                                    child: Stack(
+                                      children: [
+                                        Positioned(
+                                          left: 36,
+                                          top: 4,
+                                          child: SizedBox(
+                                            width: 31,
+                                            height: 26,
+                                            child: Text(
+                                              '35',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: Color(0xFF48AA7B),
+                                                fontSize: 17.77,
+                                                fontFamily: 'Inter',
+                                                fontWeight: FontWeight.w700,
+                                                height: 0,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  left: 411,
+                                  top: 16,
+                                  child: Container(
+                                      width: 38, height: 41, child: Stack()),
+                                ),
+                                Positioned(
+                                  left: 306,
+                                  top: 17,
+                                  child: Container(
+                                    width: 48,
+                                    height: 41,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                            "https://via.placeholder.com/48x41"),
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  left: 354,
+                                  top: 78,
+                                  child: Text(
+                                    'USERNAME ',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 17.77,
+                                      fontFamily: 'Inter',
+                                      fontWeight: FontWeight.w700,
+                                      height: 0,
+                                    ),
+                                  ),
+                                ),
+
+                                ///////////////////////////  캐릭터  ////////////////////////////
+
+                                Positioned(
+                                  left: 186,
+                                  top: 483,
+                                  child: InkWell(
+                                    onTap: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                SelectGame())),
+                                    child: Container(
+                                      width: 200,
+                                      height: 240,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: NetworkImage(
+                                              "https://via.placeholder.com/200x240"),
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+                                /////////////////////////////////////////////////////////////////////
+
+                                Positioned(
+                                  left: 252,
+                                  top: 416,
+                                  child: Transform(
+                                    transform: Matrix4.identity()
+                                      ..translate(0.0, 0.0)
+                                      ..rotateZ(3.14),
+                                    child: Container(
+                                      width: 87,
+                                      height: 89,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: NetworkImage(
+                                              "https://via.placeholder.com/87x89"),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+                                /////////////// username 쪽 변경가능하도록 구현 //////////////////////
+                                Positioned(
+                                  left: 165,
+                                  top: 424,
+                                  child: SizedBox(
+                                    width: 82,
+                                    height: 36,
+                                    child: Text(
+                                      '반갑습니다!                                     \$username',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14.40,
+                                        fontFamily: 'ABeeZee',
+                                        fontWeight: FontWeight.w400,
+                                        height: 0,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 145,
+                          top: 110,
+                          child: Container(
+                            width: 201,
+                            height: 197,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                    "https://via.placeholder.com/201x197"),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
