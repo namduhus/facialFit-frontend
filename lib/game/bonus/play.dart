@@ -1,4 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:iccas_test1/etc/buttons/stop.dart';
+
 import 'package:iccas_test1/game/ending/fail.dart';
 import 'package:iccas_test1/game/ending/success.dart';
 
@@ -45,24 +49,10 @@ class BonusPlay extends StatelessWidget {
                             ),
                           ),
                         ),
+
                         Positioned(
-                          left: 114,
-                          top: 538,
-                          child: Container(
-                            width: 250,
-                            height: 250,
-                            decoration: ShapeDecoration(
-                              color: Color(0xFFFAF9E0),
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(width: 1),
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          left: 105,
-                          top: 100,
+                          left: 38,
+                          top: 34,
                           child: Text(
                             'Bonus Mode',
                             style: TextStyle(
@@ -74,37 +64,24 @@ class BonusPlay extends StatelessWidget {
                             ),
                           ),
                         ),
+/////
                         Positioned(
-                          left: 38,
-                          top: 34,
+                          left: 23,
+                          top: 107,
                           child: Container(
-                            width: 67,
-                            height: 30,
-                            child: Stack(
-                              children: [
-                                Positioned(
-                                  left: 36,
-                                  top: 4,
-                                  child: SizedBox(
-                                    width: 31,
-                                    height: 26,
-                                    child: Text(
-                                      '35',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Color(0xFFFBFBFB),
-                                        fontSize: 17.77,
-                                        fontFamily: 'Inter',
-                                        fontWeight: FontWeight.w700,
-                                        height: 0,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                            width: 430,
+                            height: 705,
+                            decoration: ShapeDecoration(
+                              color: Color(0xFFFAF9E0),
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(width: 1),
+                                borderRadius: BorderRadius.circular(30),
+                              ),
                             ),
                           ),
                         ),
+
+/////
                         Positioned(
                           left: 114,
                           top: 253,
@@ -138,54 +115,18 @@ class BonusPlay extends StatelessWidget {
                           ),
                         ),
                         Positioned(
-                          left: 216,
-                          top: 189,
-                          child: Text(
-                            '8초',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 30,
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w400,
-                              height: 0,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          left: 412,
-                          top: 45,
-                          child: SizedBox(
-                            width: 24,
-                            height: 34,
+                          left: 165,
+                          top: 645,
+                          child: Align(
+                            alignment: Alignment.center,
                             child: Text(
-                              '||',
+                              '123456초',
                               style: TextStyle(
-                                color: Color(0xFFFFF3F3),
-                                fontSize: 35,
-                                fontFamily: 'ABeeZee',
+                                color: Colors.white,
+                                fontSize: 30,
+                                fontFamily: 'Inter',
                                 fontWeight: FontWeight.w400,
                                 height: 0,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          left: 312,
-                          top: 90,
-                          child: Transform(
-                            transform: Matrix4.identity()
-                              ..translate(0.0, 0.0)
-                              ..rotateZ(-1.57),
-                            child: Container(
-                              width: 49,
-                              height: 44,
-                              decoration: ShapeDecoration(
-                                color: Color(0xFFFFF3F3),
-                                shape: StarBorder.polygon(
-                                  side: BorderSide(
-                                      width: 1, color: Color(0xFF6B6060)),
-                                  sides: 3,
-                                ),
                               ),
                             ),
                           ),
@@ -254,7 +195,8 @@ class BonusPlay extends StatelessWidget {
                               ),
                             ),
                           ),
-                        )
+                        ),
+                        BtnStop(),
                       ],
                     ),
                   ),

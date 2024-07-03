@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:iccas_test1/main/stage.dart';
+import 'package:iccas_test1/story/story5.dart';
 
 class EndingSuccess extends StatelessWidget {
   @override
@@ -105,33 +106,37 @@ class EndingSuccess extends StatelessWidget {
                             ),
                           ),
                         ),
-                        InkWell(
-                          onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MainStage())),
-                          child: Container(
-                            width: 197,
-                            height: 86,
-                            decoration: ShapeDecoration(
-                              color: Color(0xFF909FD5),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
+                        Positioned(
+                          left: 32,
+                          top: 670,
+                          child: InkWell(
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MainStage())),
+                            child: Container(
+                              width: 197,
+                              height: 86,
+                              decoration: ShapeDecoration(
+                                color: Color(0xFFD9D9D9),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
                               ),
-                            ),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Positioned(
-                                left: 73,
-                                top: 699,
-                                child: Text(
-                                  'Home',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 35,
-                                    fontFamily: 'ABeeZee',
-                                    fontWeight: FontWeight.w400,
-                                    height: 0,
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Positioned(
+                                  left: 73,
+                                  top: 699,
+                                  child: Text(
+                                    'Home',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 35,
+                                      fontFamily: 'ABeeZee',
+                                      fontWeight: FontWeight.w400,
+                                      height: 0,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -152,6 +157,43 @@ class EndingSuccess extends StatelessWidget {
                             ),
                           ),
                         ),
+                        Positioned(
+                          left: 243,
+                          top: 670,
+                          child: InkWell(
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Story5())),
+                            child: Container(
+                              width: 197,
+                              height: 86,
+                              decoration: ShapeDecoration(
+                                color: Color(0xFFD9D9D9),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                              ),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Positioned(
+                                  left: 73,
+                                  top: 699,
+                                  child: Text(
+                                    'Epilogue',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 35,
+                                      fontFamily: 'ABeeZee',
+                                      fontWeight: FontWeight.w400,
+                                      height: 0,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iccas_test1/etc/buttons/pop.dart';
 
 import 'package:iccas_test1/game/bonus/play.dart';
 
@@ -168,6 +169,7 @@ class BonusStart extends StatelessWidget {
                             height: 111,
                             child: Text(
                               '문제설명: \n\n문제는 랜덤으로 주어집니다.\n8초 시간동안 표정을 유지해주세요 \n기회는 3번입니다.',
+                              overflow: TextOverflow.visible,
                               style: TextStyle(
                                 color: Color(0xFFF5F5F5),
                                 fontSize: 18.63,
@@ -178,27 +180,8 @@ class BonusStart extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Positioned(
-                          left: 398,
-                          top: 81,
-                          child: Transform(
-                            transform: Matrix4.identity()
-                              ..translate(0.0, 0.0)
-                              ..rotateZ(-1.57),
-                            child: Container(
-                              width: 49,
-                              height: 44,
-                              decoration: ShapeDecoration(
-                                color: Color(0xFFFFF3F3),
-                                shape: StarBorder.polygon(
-                                  side: BorderSide(
-                                      width: 1, color: Color(0xFF6B6060)),
-                                  sides: 3,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        //Positioned(left: 378, top: 31, child: Pop()),
+                        BtnPop(),
                       ],
                     ),
                   ),

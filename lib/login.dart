@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iccas_test1/main/stage.dart';
+import 'package:iccas_test1/main/statefullStage.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -47,6 +48,7 @@ class Login extends StatelessWidget {
                               ),
                             ),
                           ),
+
                           Positioned(
                             left: 35,
                             top: 296,
@@ -65,6 +67,7 @@ class Login extends StatelessWidget {
                               ),
                             ),
                           ),
+
                           Positioned(
                             left: 35,
                             top: 331,
@@ -72,13 +75,19 @@ class Login extends StatelessWidget {
                               width: 375,
                               height: 54,
                               decoration: ShapeDecoration(
-                                color: Color(0xFFD9D9D9),
+                                color: Color(0xFFFFFFFF),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
                                 ),
                               ),
+                              child: TextFormField(
+                                  keyboardType: TextInputType.text,
+
+                                  //initialValue: 'id',
+                                  decoration: InputDecoration(labelText: 'id')),
                             ),
                           ),
+
                           Positioned(
                             left: 35,
                             top: 429,
@@ -86,7 +95,7 @@ class Login extends StatelessWidget {
                               width: 266,
                               height: 27,
                               child: Text(
-                                'Pass Word',
+                                'Password',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
@@ -97,6 +106,7 @@ class Login extends StatelessWidget {
                               ),
                             ),
                           ),
+
                           Positioned(
                             left: 35,
                             top: 464,
@@ -104,9 +114,20 @@ class Login extends StatelessWidget {
                               width: 375,
                               height: 54,
                               decoration: ShapeDecoration(
-                                color: Color(0xFFD9D9D9),
+                                color: Color(0xFFFFFFFF),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
+                                ),
+                              ),
+                              child: TextFormField(
+                                keyboardType: TextInputType.text,
+                                //initialValue: 'password',
+                                decoration: InputDecoration(
+                                  //labelText: 'password',
+                                  hintText: 'password ',
+                                  //enabledBorder: OutlineInputBorder(),
+                                  //focusedBorder: OutlineInputBorder()
+                                  //border: OutlineInputBorder()
                                 ),
                               ),
                             ),
@@ -122,7 +143,8 @@ class Login extends StatelessWidget {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => MainStage()));
+                                        builder: (context) =>
+                                            (StatefullMainStage()))); //MainStage
                               },
                               child: Container(
                                 width: 197,

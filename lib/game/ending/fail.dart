@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:iccas_test1/game/bonus/start.dart';
+import 'package:iccas_test1/main/stage.dart';
 
 class EndingFail extends StatelessWidget {
   @override
@@ -44,6 +46,18 @@ class EndingFail extends StatelessWidget {
                           ),
                         ),
                         Positioned(
+                            left: 25,
+                            top: 121,
+                            child: Container(
+                                width: 420,
+                                height: 490,
+                                decoration: ShapeDecoration(
+                                    color: Color(0xFFFAF9E0),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    )))),
+
+                        Positioned(
                           left: 81,
                           top: 346,
                           child: Container(width: 99, height: 88),
@@ -81,6 +95,43 @@ class EndingFail extends StatelessWidget {
                           ),
                         ),
                         Positioned(
+                          left: 145,
+                          top: 699,
+                          child: InkWell(
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MainStage())),
+                            child: Container(
+                              width: 197,
+                              height: 86,
+                              decoration: ShapeDecoration(
+                                color: Color(0xFFD9D9D9),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                              ),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Positioned(
+                                  left: 163,
+                                  top: 699,
+                                  child: Text(
+                                    'Home',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 45.14,
+                                      fontFamily: 'ABeeZee',
+                                      fontWeight: FontWeight.w400,
+                                      height: 0,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
                           left: 182,
                           top: 361,
                           child: Text(
@@ -94,6 +145,46 @@ class EndingFail extends StatelessWidget {
                             ),
                           ),
                         ),
+                        Positioned(
+                          left: 145,
+                          top: 361,
+                          child: InkWell(
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => BonusStart())),
+                            child: Container(
+                              width: 197,
+                              height: 86,
+                              decoration: ShapeDecoration(
+                                color: Color(0xFFD9D9D9),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                              ),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Positioned(
+                                  left: 163,
+                                  top: 699,
+                                  child: Text(
+                                    'Retry',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 45.14,
+                                      fontFamily: 'ABeeZee',
+                                      fontWeight: FontWeight.w400,
+                                      height: 0,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                        //
+
+                        //
                       ],
                     ),
                   ),

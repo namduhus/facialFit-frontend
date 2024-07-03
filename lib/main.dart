@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
-
-import 'init.dart';
+import 'package:iccas_test1/etc/calendar.dart';
+import 'package:iccas_test1/etc/quest.dart';
+import 'package:iccas_test1/etc/shop.dart';
+import 'package:iccas_test1/etc/statistics.dart';
+import 'package:iccas_test1/etc/survey.dart';
+import 'package:iccas_test1/game/bonus/start.dart';
+import 'package:iccas_test1/game/story/start.dart';
+import 'package:iccas_test1/login.dart';
+import 'package:iccas_test1/main/select.dart';
+import 'package:iccas_test1/main/stage.dart';
+import 'package:iccas_test1/main/statefullStage.dart';
+import 'package:iccas_test1/massage/select.dart';
+import 'package:iccas_test1/register.dart';
+import 'package:iccas_test1/settings/select.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,18 +27,24 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
           //resizeToAvoidBottomInset: false,
-          //appBar: AppBar(),
-          // 로그인/회원가입 화면 실행
-          body: Expanded(
-        child: ListView(
-          children: [
-            Appinit(),
-          ],
-        ),
-      )),
-
-      /* body: ListView( children: [Appinit()], ) */
-      // 까지
+          body: BonusStart() //Login(),
+          ),
+      initialRoute: "/BonusStart", //"/Login",
+      routes: {
+        "/Login": (context) => Login(),
+        "/Register": (context) => Register(),
+        "/Stage": (context) => MainStage(),
+        "/GameSelect": (context) => SelectGame(),
+        "/Calendar": (context) => Calendar(),
+        "/Setting": (context) => Setting(),
+        "/Shop": (context) => Shop(),
+        "/Statistics": (context) => Statistics(),
+        "/survey": (context) => Survey(),
+        "/Quest": (context) => Quest(),
+        "/MassageSelect": (context) => SelectMassage(),
+        "/StateStage": (context) => StatefullMainStage(),
+        "/BonusStart": (context) => BonusStart(),
+      },
     );
   }
 }
