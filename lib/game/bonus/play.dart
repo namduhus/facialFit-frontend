@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:iccas_test1/etc/buttons/stop.dart';
+import 'package:iccas_test1/game/camera_screen.dart';
 
 import 'package:iccas_test1/game/ending/fail.dart';
 import 'package:iccas_test1/game/ending/success.dart';
@@ -71,13 +72,14 @@ class BonusPlay extends StatelessWidget {
                           child: Container(
                             width: 430,
                             height: 705,
-                            decoration: ShapeDecoration(
+                            /*decoration: ShapeDecoration(
                               color: Color(0xFFFAF9E0),
                               shape: RoundedRectangleBorder(
                                 side: BorderSide(width: 1),
                                 borderRadius: BorderRadius.circular(30),
                               ),
-                            ),
+                            ),*/
+                            child: CameraScreen(),
                           ),
                         ),
 

@@ -1,17 +1,28 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:iccas_test1/game/controller/scan_controller.dart';
-
 
 class CameraView extends StatelessWidget {
   const CameraView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return Scaffold(
-      body: GetBuilder<ScanController>{
+    return GetX<ScanController>(builder: (controller) {
+      if (!controller.isInitialized) {
+        return Container();
+      }
+      return Container(
+          child: SizedBox(
+              width: Get.width,
+              height: Get.height,
+              child: CameraPreview(controller.cameraController)));
+    });
+  }
+  /*
+  Positioned(
+      child: GetBuilder<ScanController>{
         init: ScanController(),
         builder: (controller) {
           return controller.isCameraInitialized.value? Stack(
@@ -33,5 +44,7 @@ class CameraView extends StatelessWidget {
         }
       },
     );
-  }
+
+
+  */
 }
