@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class StepClear extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
       children: [
         Container(
           width: 478,

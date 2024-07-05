@@ -1,17 +1,23 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 class Test extends StatelessWidget {
   var _text, _func;
-  Test(text, func) {
+  double? _left;
+  double? _right;
+  Test(text, func, {super.key, left = 400, right = 300}) {
     _text = text;
     _func = func;
+    _left = double.parse(left.toString());
+    _right = double.parse(right.toString());
   }
 
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      left: 400,
-      top: 300,
+      left: _left,
+      top: _right,
       child: InkWell(
         onTap: () => Navigator.push(
           context,

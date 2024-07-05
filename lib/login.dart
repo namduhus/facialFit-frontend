@@ -1,3 +1,7 @@
+import 'package:SmileHelper/etc/buttons/test.dart';
+import 'package:SmileHelper/game/clear.dart';
+import 'package:SmileHelper/game/ending/success.dart';
+import 'package:SmileHelper/game/fail.dart';
 import 'package:flutter/material.dart';
 import 'package:SmileHelper/main/stage.dart';
 import 'package:SmileHelper/main/statefullStage.dart';
@@ -217,6 +221,9 @@ class Login extends StatelessWidget {
                               ),
                             ),
                           ),
+
+                          Test("성공", StepClear()),
+                          Test("실패", StepFail(), right: 200),
                         ],
                       ),
                     ),
