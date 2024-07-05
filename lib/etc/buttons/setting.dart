@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iccas_test1/settings/select.dart';
+import 'package:SmileHelper/settings/select.dart';
 
 class btnSetting extends StatelessWidget {
   @override

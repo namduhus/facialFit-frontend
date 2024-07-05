@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:iccas_test1/main/stage.dart';
+import 'package:SmileHelper/main/stage.dart';
+import 'package:SmileHelper/main/statefullStage.dart';
 
 class BtnHome extends StatelessWidget {
   const BtnHome({super.key});
@@ -11,8 +12,8 @@ class BtnHome extends StatelessWidget {
       left: 187,
       top: 755,
       child: InkWell(
-        onTap: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => MainStage())),
+        onTap: () => Navigator.push(context,
+            MaterialPageRoute(builder: (context) => StatefullMainStage())),
         child: Container(
             width: 106,
             height: 49,

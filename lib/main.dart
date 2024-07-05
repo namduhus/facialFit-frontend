@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:iccas_test1/etc/calendar.dart';
-import 'package:iccas_test1/etc/quest.dart';
-import 'package:iccas_test1/etc/shop.dart';
-import 'package:iccas_test1/etc/statistics.dart';
-import 'package:iccas_test1/etc/survey.dart';
-import 'package:iccas_test1/game/bonus/play.dart';
-import 'package:iccas_test1/game/bonus/start.dart';
-import 'package:iccas_test1/game/story/start.dart';
-import 'package:iccas_test1/login.dart';
-import 'package:iccas_test1/main/select.dart';
-import 'package:iccas_test1/main/stage.dart';
-import 'package:iccas_test1/main/statefullStage.dart';
-import 'package:iccas_test1/massage/select.dart';
-import 'package:iccas_test1/register.dart';
-import 'package:iccas_test1/settings/select.dart';
+import 'package:SmileHelper/etc/calendar.dart';
+import 'package:SmileHelper/etc/loading.dart';
+import 'package:SmileHelper/etc/quest.dart';
+import 'package:SmileHelper/etc/shop.dart';
+import 'package:SmileHelper/etc/statistics.dart';
+import 'package:SmileHelper/etc/survey.dart';
+import 'package:SmileHelper/game/bonus/play.dart';
+import 'package:SmileHelper/game/bonus/start.dart';
+import 'package:SmileHelper/game/story/start.dart';
+import 'package:SmileHelper/global_binding.dart';
+import 'package:SmileHelper/login.dart';
+import 'package:SmileHelper/main/select.dart';
+import 'package:SmileHelper/main/stage.dart';
+import 'package:SmileHelper/main/statefullStage.dart';
+import 'package:SmileHelper/massage/select.dart';
+import 'package:SmileHelper/register.dart';
+import 'package:SmileHelper/settings/select.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,9 +30,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         //resizeToAvoidBottomInset: false,
-        body: BonusPlay(), //BonusStart() //Login(),
+        body: Loading(),
       ),
-      initialRoute: "/BonusStart", //"/Login",
+      initialRoute: "/Login", //"/Login",
       routes: {
         "/Login": (context) => Login(),
         "/Register": (context) => Register(),

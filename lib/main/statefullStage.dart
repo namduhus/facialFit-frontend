@@ -1,14 +1,14 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:iccas_test1/etc/calendar.dart';
-import 'package:iccas_test1/etc/quest.dart';
-import 'package:iccas_test1/etc/shop.dart';
-import 'package:iccas_test1/etc/statistics.dart';
-import 'package:iccas_test1/game/select.dart';
-import 'package:iccas_test1/main/select.dart';
-import 'package:iccas_test1/massage/select.dart';
-import 'package:iccas_test1/settings/select.dart';
+import 'package:SmileHelper/etc/calendar.dart';
+import 'package:SmileHelper/etc/quest.dart';
+import 'package:SmileHelper/etc/shop.dart';
+import 'package:SmileHelper/etc/statistics.dart';
+import 'package:SmileHelper/game/select.dart';
+import 'package:SmileHelper/main/select.dart';
+import 'package:SmileHelper/massage/select.dart';
+import 'package:SmileHelper/settings/select.dart';
 
 /*
 
@@ -30,6 +30,8 @@ class stageState extends State<StatefullMainStage> {
   int coin = 0;
   double charHeight = 240;
   double charWidth = 200;
+
+  bool _offstage = true;
 
   @override
   Widget build(BuildContext context) {
@@ -433,8 +435,10 @@ class stageState extends State<StatefullMainStage> {
 
                                           if (charHeight == 300) {
                                             _opacity = 0.5;
+                                            _offstage = false;
                                           } else {
                                             _opacity = 1.0;
+                                            _offstage = true;
                                           }
                                         });
 
@@ -519,6 +523,8 @@ class stageState extends State<StatefullMainStage> {
                               ),
                               child: Opacity(opacity: _opacity)),
                         ),
+
+                        Buttons(_offstage),
                       ],
                     ),
                   ),
@@ -535,69 +541,25 @@ class stageState extends State<StatefullMainStage> {
 ////// 버튼 나오는 부분 다시 /////
 class Buttons extends StatelessWidget {
   double _opacity = 1.0;
-  Buttons(opacity) : this._opacity = opacity;
+  //Buttons(opacity) : this._opacity = opacity;
+  Buttons(offstage) : this._offstage = offstage;
+  bool _offstage = true;
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Stack(
-      children: [
-        ///////////////////////////  마사지  /////////////////////////////
-        Positioned(
-          left: 19,
-          top: 419,
-          child: InkWell(
-              onTap: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SelectMassage())),
-              child: Container(
-                width: 157,
-                height: 103,
-                decoration: ShapeDecoration(
-                  color: Color(0xFFFAF9E0).withOpacity(_opacity),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  shadows: [
-                    BoxShadow(
-                      color: Color(0x3F000000),
-                      blurRadius: 4,
-                      offset: Offset(0, 4),
-                      spreadRadius: 0,
-                    )
-                  ],
-                ),
-                child: Align(
-                    alignment: Alignment.center,
-                    child: Positioned(
-                      left: 321,
-                      top: 441,
-                      child: SizedBox(
-                        width: 123,
-                        height: 59,
-                        child: Text(
-                          '얼굴 마사지',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.black.withOpacity(_opacity),
-                            fontSize: 17.77,
-                            fontFamily: 'Inter',
-                            fontWeight: FontWeight.w700,
-                            height: 0,
-                          ),
-                        ),
-                      ),
-                    )),
-              )),
-        ),
-
-        ////////////////////////  게임  ///////////////////////////////////////
-        Positioned(
-          right: 19,
-          top: 419,
-          child: InkWell(
-              onTap: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SelectMode())),
-              child: Container(
+    return Offstage(
+      offstage: _offstage,
+      child: Stack(
+        children: [
+          ///////////////////////////  마사지  /////////////////////////////
+          Positioned(
+            left: 19,
+            top: 419,
+            child: InkWell(
+                onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SelectMassage())),
+                child: Container(
                   width: 157,
                   height: 103,
                   decoration: ShapeDecoration(
@@ -607,7 +569,7 @@ class Buttons extends StatelessWidget {
                     ),
                     shadows: [
                       BoxShadow(
-                        color: Color(0x3F000000),
+                        color: Color(0x3F000000).withOpacity(_opacity),
                         blurRadius: 4,
                         offset: Offset(0, 4),
                         spreadRadius: 0,
@@ -617,13 +579,13 @@ class Buttons extends StatelessWidget {
                   child: Align(
                       alignment: Alignment.center,
                       child: Positioned(
-                        left: 36,
+                        left: 321,
                         top: 441,
                         child: SizedBox(
                           width: 123,
                           height: 59,
                           child: Text(
-                            '표정 짓기 게임',
+                            '얼굴 마사지',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.black.withOpacity(_opacity),
@@ -634,9 +596,58 @@ class Buttons extends StatelessWidget {
                             ),
                           ),
                         ),
-                      )))),
-        ),
-      ],
+                      )),
+                )),
+          ),
+
+          ////////////////////////  게임  ///////////////////////////////////////
+          Positioned(
+            right: 19,
+            top: 419,
+            child: InkWell(
+                onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SelectMode())),
+                child: Container(
+                    width: 157,
+                    height: 103,
+                    decoration: ShapeDecoration(
+                      color: Color(0xFFFAF9E0).withOpacity(_opacity),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      shadows: [
+                        BoxShadow(
+                          color: Color(0x3F000000).withOpacity(_opacity),
+                          blurRadius: 4,
+                          offset: Offset(0, 4),
+                          spreadRadius: 0,
+                        )
+                      ],
+                    ),
+                    child: Align(
+                        alignment: Alignment.center,
+                        child: Positioned(
+                          left: 36,
+                          top: 441,
+                          child: SizedBox(
+                            width: 123,
+                            height: 59,
+                            child: Text(
+                              '표정 짓기 게임',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.black.withOpacity(_opacity),
+                                fontSize: 17.77,
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w700,
+                                height: 0,
+                              ),
+                            ),
+                          ),
+                        )))),
+          ),
+        ],
+      ),
     );
   }
 }

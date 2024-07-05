@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iccas_test1/etc/stop.dart';
+import 'package:SmileHelper/etc/stop.dart';
 
 class BtnStop extends StatelessWidget {
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:iccas_test1/game/select.dart';
-import 'package:iccas_test1/massage/select.dart';
+import 'package:SmileHelper/game/select.dart';
+import 'package:SmileHelper/massage/select.dart';
 
 class SelectGame extends StatelessWidget {
   @override

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:iccas_test1/main/stage.dart';
-import 'package:iccas_test1/main/statefullStage.dart';
+import 'package:SmileHelper/main/stage.dart';
+import 'package:SmileHelper/main/statefullStage.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});

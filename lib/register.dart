@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iccas_test1/login.dart';
+import 'package:SmileHelper/login.dart';
 
 class Register extends StatelessWidget {
   const Register({super.key});

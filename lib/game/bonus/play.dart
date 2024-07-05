@@ -1,11 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:iccas_test1/etc/buttons/stop.dart';
-import 'package:iccas_test1/game/camera_screen.dart';
+import 'package:SmileHelper/etc/buttons/stop.dart';
+import 'package:SmileHelper/game/camera_screen.dart';
 
-import 'package:iccas_test1/game/ending/fail.dart';
-import 'package:iccas_test1/game/ending/success.dart';
+import 'package:SmileHelper/game/ending/fail.dart';
+import 'package:SmileHelper/game/ending/success.dart';
 
 class BonusPlay extends StatelessWidget {
   @override

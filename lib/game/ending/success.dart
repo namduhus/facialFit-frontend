@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:iccas_test1/main/stage.dart';
-import 'package:iccas_test1/story/story5.dart';
+import 'package:SmileHelper/main/stage.dart';
+import 'package:SmileHelper/story/story5.dart';
 
 class EndingSuccess extends StatelessWidget {
   @override

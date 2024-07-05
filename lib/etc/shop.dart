@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:iccas_test1/etc/buttons/home.dart';
-import 'package:iccas_test1/etc/buttons/shop.dart';
-import 'package:iccas_test1/etc/buttons/statistics.dart';
-import 'package:iccas_test1/etc/buttons/white/calendar.dart';
-import 'package:iccas_test1/etc/buttons/white/quest.dart';
-import 'package:iccas_test1/etc/buttons/white/setting.dart';
-import 'package:iccas_test1/etc/shop_list.dart';
+import 'package:SmileHelper/etc/buttons/home.dart';
+import 'package:SmileHelper/etc/buttons/shop.dart';
+import 'package:SmileHelper/etc/buttons/statistics.dart';
+import 'package:SmileHelper/etc/buttons/white/calendar.dart';
+import 'package:SmileHelper/etc/buttons/white/quest.dart';
+import 'package:SmileHelper/etc/buttons/white/setting.dart';
+import 'package:SmileHelper/etc/shop_list.dart';
 
 class Shop extends StatelessWidget {
   @override

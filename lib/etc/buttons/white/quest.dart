@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:iccas_test1/etc/quest.dart';
+import 'package:SmileHelper/etc/quest.dart';
 
 class btnQuest extends StatelessWidget {
   @override

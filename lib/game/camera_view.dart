@@ -2,7 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:iccas_test1/game/controller/scan_controller.dart';
+import 'package:SmileHelper/game/controller/scan_controller.dart';
 
 class CameraView extends StatelessWidget {
   const CameraView({super.key});
@@ -10,7 +10,9 @@ class CameraView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetX<ScanController>(builder: (controller) {
+      debugPrint(controller.toString());
       if (!controller.isInitialized) {
+        debugPrint('### !controller.isInitialized ###');
         return Container();
       }
       return Container(

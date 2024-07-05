@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 //import 'package:table_calendar/table_calendar.dart';
-import 'package:iccas_test1/etc/buttons/home.dart';
-import 'package:iccas_test1/etc/buttons/shop.dart';
-import 'package:iccas_test1/etc/buttons/statistics.dart';
-import 'package:iccas_test1/etc/buttons/white/calendar.dart';
-import 'package:iccas_test1/etc/buttons/white/quest.dart';
-import 'package:iccas_test1/etc/buttons/white/setting.dart';
-import 'package:iccas_test1/etc/calendar_picker.dart';
+import 'package:SmileHelper/etc/buttons/home.dart';
+import 'package:SmileHelper/etc/buttons/shop.dart';
+import 'package:SmileHelper/etc/buttons/statistics.dart';
+import 'package:SmileHelper/etc/buttons/white/calendar.dart';
+import 'package:SmileHelper/etc/buttons/white/quest.dart';
+import 'package:SmileHelper/etc/buttons/white/setting.dart';
+import 'package:SmileHelper/etc/calendar_picker.dart';
 
 class Calendar extends StatelessWidget {
   const Calendar({super.key});

@@ -2,8 +2,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:iccas_test1/game/camera_view.dart';
-import 'package:iccas_test1/game/controller/scan_controller.dart';
+import 'package:SmileHelper/game/camera_view.dart';
+import 'package:SmileHelper/game/controller/scan_controller.dart';
 
 class CameraScreen extends StatelessWidget {
   const CameraScreen({Key? key}) : super(key: key);

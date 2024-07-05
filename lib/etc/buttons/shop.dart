@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iccas_test1/etc/shop.dart';
+import 'package:SmileHelper/etc/shop.dart';
 
 class btnShop extends StatelessWidget {
   @override

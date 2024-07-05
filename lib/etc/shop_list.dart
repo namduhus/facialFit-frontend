@@ -32,9 +32,14 @@ class ShopList extends StatelessWidget {
 }
 
 class ShopItem extends StatelessWidget {
-  var _price;
-
+  var _price, _image;
   ShopItem({super.key});
+
+  /*
+  ShopItem(image, price) {
+    _image = image;
+    _price = price;
+  }*/
 
   @override
   Widget build(BuildContext context) {

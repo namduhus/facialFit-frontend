@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iccas_test1/etc/statistics.dart';
+import 'package:SmileHelper/etc/statistics.dart';
 
 class btnStatistics extends StatelessWidget {
   @override

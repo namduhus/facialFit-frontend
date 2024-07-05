@@ -1,7 +1,8 @@
+import 'package:SmileHelper/etc/buttons/pop.dart';
 import 'package:flutter/material.dart';
 
-import 'package:iccas_test1/game/bonus/start.dart';
-import 'package:iccas_test1/game/story/start.dart';
+import 'package:SmileHelper/game/bonus/start.dart';
+import 'package:SmileHelper/game/story/start.dart';
 
 class SelectMode extends StatelessWidget {
   @override
@@ -207,28 +208,7 @@ class SelectMode extends StatelessWidget {
                         ),
 
                         ////////////////////////////////////////////////////////////////////////////
-
-                        Positioned(
-                          left: 395,
-                          top: 81,
-                          child: Transform(
-                            transform: Matrix4.identity()
-                              ..translate(0.0, 0.0)
-                              ..rotateZ(-1.57),
-                            child: Container(
-                              width: 49,
-                              height: 44,
-                              decoration: ShapeDecoration(
-                                color: Color(0xFFFFF3F3),
-                                shape: StarBorder.polygon(
-                                  side: BorderSide(
-                                      width: 1, color: Color(0xFF6B6060)),
-                                  sides: 3,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        BtnPop(),
                       ],
                     ),
                   ),

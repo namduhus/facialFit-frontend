@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:typed_data';
 import 'package:camera/camera.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tflite/tflite.dart';
@@ -19,7 +20,6 @@ class ScanController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
 
     _initCamera();
@@ -28,7 +28,6 @@ class ScanController extends GetxController {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _cameraController.dispose();
     Tflite.close();
     super.dispose();
@@ -48,7 +47,7 @@ class ScanController extends GetxController {
   Future<void> _initCamera() async {
     if (await Permission.camera.request().isGranted) {
       _cameras = await availableCameras();
-      _cameraController = CameraController(_cameras[0], ResolutionPreset.high,
+      _cameraController = CameraController(_cameras[1], ResolutionPreset.high,
           imageFormatGroup: ImageFormatGroup.bgra8888);
 
       _cameraController.initialize().then((value) {
@@ -65,14 +64,18 @@ class ScanController extends GetxController {
         if (e is CameraException) {
           switch (e.code) {
             case 'CameraAccessDenied':
-              print('User denied camera access');
+              log('User denied camera access', name: "접근 불가");
               break;
             default:
-              print('Handler other errers');
+              log('Handler other errers', name: "핸들러 에러");
               break;
           }
         }
       });
+    } else {
+      print("camera denied!!!");
+      log("### camera denied log ### ", name: "access denied");
+      debugPrint("hello world!");
     }
   }
 

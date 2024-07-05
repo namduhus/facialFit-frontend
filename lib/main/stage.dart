@@ -1,13 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:iccas_test1/etc/calendar.dart';
-import 'package:iccas_test1/etc/quest.dart';
-import 'package:iccas_test1/etc/shop.dart';
-import 'package:iccas_test1/etc/statistics.dart';
-import 'package:iccas_test1/main/select.dart';
-import 'package:iccas_test1/massage/select.dart';
-import 'package:iccas_test1/settings/select.dart';
+import 'package:SmileHelper/etc/calendar.dart';
+import 'package:SmileHelper/etc/quest.dart';
+import 'package:SmileHelper/etc/shop.dart';
+import 'package:SmileHelper/etc/statistics.dart';
+import 'package:SmileHelper/main/select.dart';
+import 'package:SmileHelper/massage/select.dart';
+import 'package:SmileHelper/settings/select.dart';
 
 /*
 

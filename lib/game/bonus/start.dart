@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:iccas_test1/etc/buttons/pop.dart';
+import 'package:SmileHelper/etc/buttons/pop.dart';
+import 'package:SmileHelper/etc/buttons/test.dart';
+import 'package:SmileHelper/etc/loading.dart';
 
-import 'package:iccas_test1/game/bonus/play.dart';
+import 'package:SmileHelper/game/bonus/play.dart';
 
 class BonusStart extends StatelessWidget {
   @override
@@ -182,6 +184,8 @@ class BonusStart extends StatelessWidget {
                         ),
                         //Positioned(left: 378, top: 31, child: Pop()),
                         BtnPop(),
+                        //테스트버튼
+                        Test('loading', Loading()),
                       ],
                     ),
                   ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:SmileHelper/etc/progressbar/progressbar.dart';
 
 class Loading extends StatelessWidget {
   const Loading({super.key});
@@ -101,18 +102,27 @@ class Loading extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  left: 68,
-                  top: 394,
-                  child: Container(
-                    width: 341,
-                    height: 40,
-                    decoration: ShapeDecoration(
-                      color: Color(0xFFFAF9E0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(80),
+                  child: Stack(children: [
+                    Positioned(
+                        top: 148,
+                        left: 145,
+                        child: Image.asset('assets/images/loading.png')),
+                    Positioned(
+                      left: 68,
+                      top: 394, //130
+                      child: Container(
+                        width: 341,
+                        height: 40, //40
+                        /*decoration: ShapeDecoration(
+                          color: Color(0xFFFAF9E0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(80),
+                          ),
+                        ),*/
+                        child: Progressbar(),
                       ),
                     ),
-                  ),
+                  ]),
                 ),
                 Positioned(
                   left: 155,

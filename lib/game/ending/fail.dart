@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:iccas_test1/game/bonus/start.dart';
-import 'package:iccas_test1/main/stage.dart';
+import 'package:SmileHelper/game/bonus/start.dart';
+import 'package:SmileHelper/main/stage.dart';
 
 class EndingFail extends StatelessWidget {
   @override
