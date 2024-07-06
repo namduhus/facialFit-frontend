@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:SmileHelper/game/controller/scan_controller.dart';
+import 'package:logger/logger.dart';
 
-class CameraView extends StatelessWidget {
+class CameraView extends GetView<ScanController> {
   const CameraView({super.key});
 
   @override
@@ -13,13 +14,21 @@ class CameraView extends StatelessWidget {
       debugPrint(controller.toString());
       if (!controller.isInitialized) {
         debugPrint('### !controller.isInitialized ###');
+        Logger().e("camera view error");
+        Logger().e(controller.cameraController);
+        debugPrint(controller.cameraController.toString());
+
         return Container();
       }
-      return Container(
-          child: SizedBox(
-              width: Get.width,
-              height: Get.height,
-              child: CameraPreview(controller.cameraController)));
+      debugPrint('### controller.isInitialized!! ###');
+      Logger().e("camera viewer");
+      return Scaffold(
+        body: Container(
+            child: SizedBox(
+                width: Get.width,
+                height: Get.height,
+                child: CameraPreview(controller.cameraController))),
+      );
     });
   }
   /*
