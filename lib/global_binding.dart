@@ -1,7 +1,7 @@
-import 'package:get/instance_manager.dart';
+import 'package:get/get.dart';
 import 'package:SmileHelper/game/controller/scan_controller.dart';
 
-class GlobalBinding extends Bindings {
+class GlobalBindings extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<ScanController>(() => ScanController());

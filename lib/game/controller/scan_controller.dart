@@ -10,20 +10,26 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:image/image.dart' as img;
 
 class ScanController extends GetxController {
-  final RxBool _isInitialized = RxBool(false);
-  bool get isInitialized => _isInitialized.value;
-  CameraController get cameraController => _cameraController;
+  late List<CameraDescription> _cameras; //= <CameraDescription>[];
+  late CameraController _cameraController;
 
-  //capture
+  final RxBool _isInitialized = RxBool(false);
+
+  CameraImage? _cameraImage;
   final RxList<Uint8List> _imageList = RxList([]);
+
+  CameraController get cameraController => _cameraController;
+  bool get isInitialized => _isInitialized.value;
   List<Uint8List> get imageList => _imageList;
+
+  //var isCameraInitialized = false.obs;
+  var _imageCount = 0;
 
   @override
   void onInit() {
-    super.onInit();
-
     _initCamera();
     _initTensorFlow();
+    super.onInit();
   }
 
   @override
@@ -33,18 +39,11 @@ class ScanController extends GetxController {
     super.dispose();
   }
 
-  late CameraController _cameraController;
-  late List<CameraDescription> _cameras;
-
-  late CameraImage _cameraImage;
-
-  var isCameraInitialized = false.obs;
-  var _imageCount = 0;
-
   var x, y, w, h = 0.0;
   var label = "assets/labels/***";
 
   Future<void> _initCamera() async {
+/*
     if (await Permission.camera.request().isGranted) {
       _cameras = await availableCameras();
       _cameraController = CameraController(_cameras[1], ResolutionPreset.high,
@@ -76,7 +75,38 @@ class ScanController extends GetxController {
       print("camera denied!!!");
       log("### camera denied log ### ", name: "access denied");
       debugPrint("hello world!");
-    }
+    }*/
+
+    _cameras = await availableCameras();
+    _cameraController = CameraController(_cameras[1], ResolutionPreset.high,
+        imageFormatGroup: ImageFormatGroup.bgra8888);
+
+    _cameraController.initialize().then((value) {
+      _isInitialized.value = true;
+
+      //=> _cameraImage = image
+      _cameraController.startImageStream((image) {
+        _imageCount++;
+        if (_imageCount % 30 == 0) {
+          _imageCount = 0;
+        }
+      });
+
+      _isInitialized.refresh();
+    }).catchError((Object e) {
+      if (e is CameraException) {
+        switch (e.code) {
+          case 'CameraAccessDenied':
+            log('User denied camera access', name: "접근 불가");
+            print('User denied camera access.');
+            break;
+          default:
+            log('Handler other errers', name: "핸들러 에러");
+            print('Handle other errors.');
+            break;
+        }
+      }
+    });
   }
 
   Future<void> objectDetector(CameraImage image) async {
@@ -126,13 +156,14 @@ class ScanController extends GetxController {
 
   /*
   void capture() {
-    img.Image images = img.Image.fromBytes(
-        _cameraImage.width, _cameraImage.height, _cameraImage.planes[0].bytes,
-        format: img.Format.bgra);
-    Uint8List jpeg = Uint8List.fromList(img.encodeJpg(image));
-    //print(jpeg.length);
-    //print("Image Captured");
-    _imageList.add(jpeg);
-    _imageList.refresh();
-  }*/
+    if (_cameraImage != null) {
+      img.Image image = img.Image.fromBytes(_cameraImage!.width,
+          _cameraImage!.height, _cameraImage!.planes[0].bytes,
+          format: img.Format.bgra);
+      Uint8List list = Uint8List.fromList(img.encodeJpg(image));
+      _imageList.add(list);
+      _imageList.refresh();
+    }
+  }
+  */
 }

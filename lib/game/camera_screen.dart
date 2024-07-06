@@ -6,16 +6,19 @@ import 'package:SmileHelper/game/camera_view.dart';
 import 'package:SmileHelper/game/controller/scan_controller.dart';
 
 class CameraScreen extends StatelessWidget {
-  const CameraScreen({Key? key}) : super(key: key);
+  const CameraScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      child: Stack(
-        alignment: Alignment.center,
-        children: const [
-          CameraView(),
-        ],
-      ),
+    return Scaffold(
+      body: Positioned(
+          child: Scaffold(
+        //alignment: Alignment.center,
+        body: ListView(
+          children: const [
+            CameraView(),
+          ],
+        ),
+      )),
     );
   }
 }
