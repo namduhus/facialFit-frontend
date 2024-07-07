@@ -1,3 +1,4 @@
+import 'package:SmileHelper/etc/buttons/pop.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,12 +23,12 @@ class CameraView extends GetView<ScanController> {
       }
       debugPrint('### controller.isInitialized!! ###');
       Logger().e("camera viewer");
-      return Scaffold(
-        body: Container(
-            child: SizedBox(
-                width: Get.width,
-                height: Get.height,
-                child: CameraPreview(controller.cameraController))),
+      return Container(
+        //aspectRatio: 1.0,
+        child: SizedBox(
+            width: Get.width,
+            height: Get.height,
+            child: CameraPreview(controller.cameraController)),
       );
     });
   }

@@ -136,7 +136,8 @@ class _startCamera extends State<BonusStart> {
                           child: InkWell(
                             onTap: () async {
                               await //Get.toNamed('/CameraScreen');
-                                  Get.to(CameraView());
+
+                                  Get.to(BonusPlay());
 
                               /*
                               availableCameras()

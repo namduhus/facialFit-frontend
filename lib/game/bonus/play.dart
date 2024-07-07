@@ -1,3 +1,4 @@
+import 'package:SmileHelper/etc/buttons/pop.dart';
 import 'package:SmileHelper/game/camera_view.dart';
 import 'package:SmileHelper/global_binding.dart';
 import 'package:camera/camera.dart';
@@ -10,9 +11,9 @@ import 'package:SmileHelper/game/ending/success.dart';
 import 'package:get/get.dart';
 
 class BonusPlay extends StatelessWidget {
-  final List<CameraDescription>? cameras;
+  //final List<CameraDescription>? cameras;
 
-  const BonusPlay({super.key, required this.cameras});
+  const BonusPlay({super.key});
 
   //@override
   //State<BonusPlay> createState() => PlayCamera();
@@ -94,6 +95,7 @@ class BonusPlay extends StatelessWidget {
                                 CameraView(), ///////////////////////////////////////////
                           ),
                         ),
+                        BtnPop(),
 
 /////
                         Positioned(

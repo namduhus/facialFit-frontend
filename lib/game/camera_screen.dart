@@ -1,3 +1,4 @@
+import 'package:SmileHelper/etc/buttons/pop.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,16 +10,16 @@ class CameraScreen extends StatelessWidget {
   const CameraScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Positioned(
-          child: Scaffold(
-        //alignment: Alignment.center,
-        body: ListView(
-          children: const [
-            CameraView(),
-          ],
-        ),
-      )),
+    return Container(
+      child: Stack(
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: CameraView(),
+          ),
+        ],
+      ),
     );
   }
 }

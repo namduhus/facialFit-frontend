@@ -10,6 +10,9 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:image/image.dart' as img;
 
 class ScanController extends GetxController {
+  ScanController({required List<CameraDescription> cameras}) {
+    _cameras = cameras;
+  }
   late List<CameraDescription> _cameras; //= <CameraDescription>[];
   late CameraController _cameraController;
 
@@ -28,19 +31,14 @@ class ScanController extends GetxController {
   @override
   void onInit() {
     _initCamera();
-    _initTensorFlow();
     super.onInit();
   }
 
   @override
   void dispose() {
     _cameraController.dispose();
-    Tflite.close();
     super.dispose();
   }
-
-  var x, y, w, h = 0.0;
-  var label = "assets/labels/***";
 
   Future<void> _initCamera() async {
 /*
@@ -77,7 +75,7 @@ class ScanController extends GetxController {
       debugPrint("hello world!");
     }*/
 
-    _cameras = await availableCameras();
+    //_cameras = await availableCameras();
     _cameraController = CameraController(_cameras[1], ResolutionPreset.high,
         imageFormatGroup: ImageFormatGroup.bgra8888);
 
