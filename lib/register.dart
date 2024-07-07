@@ -472,7 +472,7 @@ class Register extends StatelessWidget {
     );
   }
 }
-
+////////백엔드 API////////////
   Future<bool> checkIdDuplicate(String userId) async {
     final Uri url = Uri.parse(
         'https://yourbackend.com/api/join/join'); // 실제 백엔드 서버 URL로 변경 필요
