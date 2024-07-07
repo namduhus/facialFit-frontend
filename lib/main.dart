@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         //resizeToAvoidBottomInset: false,
         body: Loading(),
       ),
-      initialRoute: "/Login", //"/Login",
+      initialRoute: "/Register", //"/Login",
       routes: {
         "/Login": (context) => Login(),
         "/Register": (context) => Register(),

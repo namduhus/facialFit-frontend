@@ -5,7 +5,7 @@ import 'package:SmileHelper/game/fail.dart';
 import 'package:flutter/material.dart';
 import 'package:SmileHelper/main/stage.dart';
 import 'package:SmileHelper/main/statefullStage.dart';
-
+import 'package:SmileHelper/register.dart';
 class Login extends StatelessWidget {
   const Login({super.key});
 
@@ -198,6 +198,29 @@ class Login extends StatelessWidget {
                                 decoration:
                                     TextDecoration.underline, //textDecoration
                                 height: 0,
+                              ),
+                            ),
+                          ),
+                          ///////////////회원가입//////////////
+                          Positioned(
+                            left: 35,
+                            top: 577,
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => Register()), // Ensure you have a RegistrationPage widget
+                                );
+                              },
+                              child: Text(
+                                'Register',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontFamily: 'ABeeZee',
+                                  fontWeight: FontWeight.w400,
+                                  decoration: TextDecoration.underline,
+                                ),
                               ),
                             ),
                           ),
