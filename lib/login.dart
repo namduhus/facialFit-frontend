@@ -1,261 +1,202 @@
-import 'package:SmileHelper/etc/buttons/test.dart';
-import 'package:SmileHelper/game/clear.dart';
-import 'package:SmileHelper/game/ending/success.dart';
-import 'package:SmileHelper/game/fail.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:SmileHelper/main/stage.dart';
-import 'package:SmileHelper/main/statefullStage.dart';
-import 'package:SmileHelper/register.dart';
-class Login extends StatelessWidget {
-  const Login({super.key});
+import 'package:http/http.dart' as http;
+import 'package:SmileHelper/register2.dart'; // Import your Register2 screen
+import 'package:SmileHelper/main/stage.dart'; // Import your MainStage screen
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  LoginScreenState createState() => LoginScreenState();
+}
+
+class LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _idController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
+
+  Future<void> _login() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final response = await http.post(
+        Uri.parse('https://your-api-url.com/api/login'), // Replace with your actual API endpoint
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'id': _idController.text,
+          'password': _passwordController.text,
+        }),
+      );
+
+      setState(() {
+        _isLoading = false;
+      });
+
+      if (response.statusCode == 200) {
+        // Login successful, navigate to MainStage screen
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => MainStage()),
+        );
+      } else {
+        // Login failed, show error message
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Login Failed'),
+              content: Text('Invalid username or password.'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text('Failed to connect to the server. Please try again later.'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: [
-          SizedBox(
-            child: SizedBox(
-              width: 478,
-              height: 841,
-              child: Stack(
+      appBar: AppBar(
+        title: Text('Login'),
+      ),
+      body: Container(
+        color: Color(0xFF207F66),
+        child: Center(
+          child: Container(
+            width: 424,
+            height: 805,
+            decoration: ShapeDecoration(
+              color: Color(0xFF48AA7B),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              shadows: [
+                BoxShadow(
+                  color: Color(0x3F000000),
+                  blurRadius: 4,
+                  offset: Offset(0, 4),
+                  spreadRadius: 0,
+                ),
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Positioned(
-                    left: 0,
-                    top: 0,
-                    child: Container(
-                      width: 478,
-                      height: 841,
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(color: Color(0xFF207F66)),
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left: 19,
-                            top: 21,
-                            child: Container(
-                              width: 436,
-                              height: 797,
-                              decoration: ShapeDecoration(
-                                color: Color(0xFF48AA7B),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                shadows: [
-                                  BoxShadow(
-                                    color: Color(0x3F000000),
-                                    blurRadius: 4,
-                                    offset: Offset(0, 4),
-                                    spreadRadius: 0,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-
-                          Positioned(
-                            left: 35,
-                            top: 296,
-                            child: SizedBox(
-                              width: 266,
-                              height: 27,
-                              child: Text(
-                                'ID',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontFamily: 'ABeeZee',
-                                  fontWeight: FontWeight.w400,
-                                  height: 0,
-                                ),
-                              ),
-                            ),
-                          ),
-
-                          Positioned(
-                            left: 35,
-                            top: 331,
-                            child: Container(
-                              width: 375,
-                              height: 54,
-                              decoration: ShapeDecoration(
-                                color: Color(0xFFFFFFFF),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                              ),
-                              child: TextFormField(
-                                  keyboardType: TextInputType.text,
-
-                                  //initialValue: 'id',
-                                  decoration: InputDecoration(labelText: 'id')),
-                            ),
-                          ),
-
-                          Positioned(
-                            left: 35,
-                            top: 429,
-                            child: SizedBox(
-                              width: 266,
-                              height: 27,
-                              child: Text(
-                                'Password',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontFamily: 'ABeeZee',
-                                  fontWeight: FontWeight.w400,
-                                  height: 0,
-                                ),
-                              ),
-                            ),
-                          ),
-
-                          Positioned(
-                            left: 35,
-                            top: 464,
-                            child: Container(
-                              width: 375,
-                              height: 54,
-                              decoration: ShapeDecoration(
-                                color: Color(0xFFFFFFFF),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                              ),
-                              child: TextFormField(
-                                keyboardType: TextInputType.text,
-                                //initialValue: 'password',
-                                decoration: InputDecoration(
-                                  //labelText: 'password',
-                                  hintText: 'password ',
-                                  //enabledBorder: OutlineInputBorder(),
-                                  //focusedBorder: OutlineInputBorder()
-                                  //border: OutlineInputBorder()
-                                ),
-                              ),
-                            ),
-                          ),
-
-                          //////// Login 버튼 ////////
-
-                          Positioned(
-                            left: 141,
-                            top: 677,
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            (StatefullMainStage()))); //MainStage
-                              },
-                              child: Container(
-                                width: 197,
-                                height: 86,
-                                decoration: ShapeDecoration(
-                                  color: Color(0xFF909FD5),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                ),
-                                child: Align(
-                                    alignment: Alignment.center,
-                                    child: Positioned(
-                                      left: 188,
-                                      top: 699,
-                                      child: SizedBox(
-                                        width: 103,
-                                        height: 43,
-                                        child: Text(
-                                          'Login',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 35,
-                                            fontFamily: 'ABeeZee',
-                                            fontWeight: FontWeight.w400,
-                                            height: 0,
-                                          ),
-                                        ),
-                                      ),
-                                    )),
-                              ),
-                            ),
-                          ),
-
-                          /////////// 비밀번호 찾기 ////////////
-
-                          Positioned(
-                            left: 35,
-                            top: 541,
-                            child: Text(
-                              'Forget your Password',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontFamily: 'ABeeZee',
-                                fontWeight: FontWeight.w400,
-                                decoration:
-                                    TextDecoration.underline, //textDecoration
-                                height: 0,
-                              ),
-                            ),
-                          ),
-                          ///////////////회원가입//////////////
-                          Positioned(
-                            left: 35,
-                            top: 577,
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => Register()), // Ensure you have a RegistrationPage widget
-                                );
-                              },
-                              child: Text(
-                                'Register',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontFamily: 'ABeeZee',
-                                  fontWeight: FontWeight.w400,
-                                  decoration: TextDecoration.underline,
-                                ),
-                              ),
-                            ),
-                          ),
-
-                          ////////// 위에 있는 LOGIN 글자 ///////////
-                          Positioned(
-                            left: 168,
-                            top: 121,
-                            child: SizedBox(
-                              width: 142,
-                              height: 57,
-                              child: Text(
-                                'Login',
-                                style: TextStyle(
-                                  color: Colors.white, //FFFFF3F3
-                                  fontSize: 51.53,
-                                  fontFamily: 'ABeeZee',
-                                  fontWeight: FontWeight.w400,
-                                  height: 0,
-                                ),
-                              ),
-                            ),
-                          ),
-
-                          Test("성공", StepClear()),
-                          Test("실패", StepFail(), right: 200),
-                        ],
+                  SizedBox(
+                    width: 196,
+                    height: 67,
+                    child: Text(
+                      '   Login',
+                      style: TextStyle(
+                        color: Color(0xFFFFF3F3),
+                        fontSize: 51.53,
+                        fontFamily: 'ABeeZee',
+                        fontWeight: FontWeight.w400,
+                        height: 1.0,
                       ),
                     ),
+                  ),
+                  SizedBox(height: 40),
+                  Container(
+                    decoration: ShapeDecoration(
+                      color: Color(0xFFD9D9D9),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    child: TextFormField(
+                      controller: _idController,
+                      decoration: InputDecoration(
+                        labelText: 'Id',
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Container(
+                    decoration: ShapeDecoration(
+                      color: Color(0xFFD9D9D9),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    child: TextFormField(
+                      controller: _passwordController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: _isLoading ? null : _login,
+                    child: _isLoading
+                        ? CircularProgressIndicator(
+                      color: Colors.white,
+                    )
+                        : Text('Login',
+                      style: TextStyle(color: Color(0xFF48AA7B),
+                        fontSize: 35,
+                        fontFamily: 'ABeeZee',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Register2()), // Navigate to Register2 screen
+                      );
+                    },
+                    child: Text('Create an account'),
                   ),
                 ],
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }

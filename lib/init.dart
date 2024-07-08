@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'login.dart';
-import 'register.dart';
+import 'register2.dart';
 
 class Appinit extends StatelessWidget {
   const Appinit({super.key});
@@ -58,7 +58,7 @@ class Appinit extends StatelessWidget {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => Login()));
+                                        builder: (context) => LoginScreen()));
                               },
                               child: Container(
                                 width: 197,
@@ -123,7 +123,7 @@ class Appinit extends StatelessWidget {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Register()));
+                                          builder: (context) => Register2()));
                                 },
                                 child: Container(
                                   width: 197,
