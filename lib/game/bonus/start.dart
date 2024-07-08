@@ -137,7 +137,7 @@ class _startCamera extends State<BonusStart> {
                             onTap: () async {
                               await //Get.toNamed('/CameraScreen');
 
-                                  Get.to(BonusPlay());
+                                  Get.to(() => BonusPlay());
 
                               /*
                               availableCameras()

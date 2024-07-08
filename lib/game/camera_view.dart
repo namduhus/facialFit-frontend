@@ -14,24 +14,23 @@ class CameraView extends GetView<ScanController> {
     return GetX<ScanController>(builder: (controller) {
       debugPrint(controller.toString());
       if (!controller.isInitialized) {
-        debugPrint('### !controller.isInitialized ###');
         Logger().e("camera view error");
-        Logger().e(controller.cameraController);
-        debugPrint(controller.cameraController.toString());
 
         return Container();
       }
-      debugPrint('### controller.isInitialized!! ###');
-      Logger().e("camera viewer");
-      return Container(
-        //aspectRatio: 1.0,
-        child: SizedBox(
-            width: Get.width,
-            height: Get.height,
-            child: CameraPreview(controller.cameraController)),
-      );
+      return Scaffold(
+          body: SafeArea(
+        //width: Get.width,
+        //height: Get.height,
+        child: controller.isCameraInitialized.value
+            ? CameraPreview(controller.cameraController)
+            : const Center(
+                child: CircularProgressIndicator(),
+              ),
+      ));
     });
   }
+
   /*
   Positioned(
       child: GetBuilder<ScanController>{

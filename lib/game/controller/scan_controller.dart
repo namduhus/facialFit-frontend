@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tflite/tflite.dart';
 import 'package:get/state_manager.dart';
@@ -25,7 +26,7 @@ class ScanController extends GetxController {
   bool get isInitialized => _isInitialized.value;
   List<Uint8List> get imageList => _imageList;
 
-  //var isCameraInitialized = false.obs;
+  var isCameraInitialized = false.obs;
   var _imageCount = 0;
 
   @override
@@ -36,6 +37,7 @@ class ScanController extends GetxController {
 
   @override
   void dispose() {
+    _isInitialized.value = false;
     _cameraController.dispose();
     super.dispose();
   }
@@ -76,20 +78,27 @@ class ScanController extends GetxController {
     }*/
 
     //_cameras = await availableCameras();
-    _cameraController = CameraController(_cameras[1], ResolutionPreset.high,
-        imageFormatGroup: ImageFormatGroup.bgra8888);
+    Logger().e('_initCamera()');
+    _cameraController = CameraController(_cameras[1], ResolutionPreset.veryHigh,
+        imageFormatGroup: ImageFormatGroup.jpeg, enableAudio: false);
 
-    _cameraController.initialize().then((value) {
+    _cameraController.initialize().then((value) async {
       _isInitialized.value = true;
+      Logger().e('### _cameraController.initialize() ###');
+      Logger().e('## not cameraImage ##');
 
-      //=> _cameraImage = image
-      _cameraController.startImageStream((image) {
+      await _cameraController.startImageStream((CameraImage image) async {
+        debugPrint("### _cameraController.startImageStream ###");
+        Logger().e('## cameraImage done ##');
+        _cameraImage = image;
+        /*
         _imageCount++;
         if (_imageCount % 30 == 0) {
           _imageCount = 0;
-        }
+        }*/
       });
 
+      Logger().e('## after startImageStream ##');
       _isInitialized.refresh();
     }).catchError((Object e) {
       if (e is CameraException) {
@@ -152,16 +161,21 @@ class ScanController extends GetxController {
     print(recognitions);
   }
 
-  /*
   void capture() {
+    Logger().e('_cameraImage?: $_cameraImage');
+    //debugPrint(_cameraImage.toString());
     if (_cameraImage != null) {
-      img.Image image = img.Image.fromBytes(_cameraImage!.width,
-          _cameraImage!.height, _cameraImage!.planes[0].bytes,
-          format: img.Format.bgra);
+      Logger().e('_cameraImage!!');
+      img.Image image = img.Image.fromBytes(
+          //format: img.Format.bgra8888,
+          width: _cameraImage!.width,
+          height: _cameraImage!.height,
+          bytes: _cameraImage!.planes.first.bytes
+              .buffer, //_cameraImage!.planes.first.bytes.buffer, // .planes[1].bytes,
+          format: img.Format.int16);
       Uint8List list = Uint8List.fromList(img.encodeJpg(image));
       _imageList.add(list);
       _imageList.refresh();
     }
   }
-  */
 }

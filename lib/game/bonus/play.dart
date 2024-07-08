@@ -1,3 +1,5 @@
+import 'package:SmileHelper/etc/buttons/capture/button.dart';
+import 'package:SmileHelper/etc/buttons/capture/topimage.dart';
 import 'package:SmileHelper/etc/buttons/pop.dart';
 import 'package:SmileHelper/game/camera_view.dart';
 import 'package:SmileHelper/global_binding.dart';
@@ -92,10 +94,14 @@ class BonusPlay extends StatelessWidget {
                                 //Get.to(CameraView(), binding: GlobalBindings()),
                                 //Get.toNamed('/CameraScreen'),
                                 //Get.to(CameraScreen()),
-                                CameraView(), ///////////////////////////////////////////
+                                Stack(children: [
+                              ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: CameraView()),
+                            ]), ///////////////////////////////////////////
                           ),
                         ),
-                        BtnPop(),
+                        BtnPop(), CaptureButton(), TopImageViewer(),
 
 /////
                         Positioned(
