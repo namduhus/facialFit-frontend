@@ -1,20 +1,19 @@
-import 'dart:convert';
+import 'package:SmileHelper/register_main.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:SmileHelper/register2.dart'; // Import your Register2 screen
+import 'package:SmileHelper/Service/AuthService.dart'; // Import AuthService
 import 'package:SmileHelper/main/stage.dart'; // Import your MainStage screen
-
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class LoginMain extends StatefulWidget {
+  const LoginMain({super.key});
 
   @override
-  LoginScreenState createState() => LoginScreenState();
+  LoginMainState createState() => LoginMainState();
 }
 
-class LoginScreenState extends State<LoginScreen> {
+class LoginMainState extends State<LoginMain> {
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
+  final AuthService _authService = AuthService(); // Instantiate AuthService
 
   Future<void> _login() async {
     setState(() {
@@ -22,57 +21,29 @@ class LoginScreenState extends State<LoginScreen> {
     });
 
     try {
-      final response = await http.post(
-        Uri.parse('https://your-api-url.com/api/login'), // Replace with your actual API endpoint
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, String>{
-          'id': _idController.text,
-          'password': _passwordController.text,
-        }),
-      );
+      await _authService.login(_idController.text, _passwordController.text);
 
       setState(() {
         _isLoading = false;
       });
 
-      if (response.statusCode == 200) {
-        // Login successful, navigate to MainStage screen
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => MainStage()),
-        );
-      } else {
-        // Login failed, show error message
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Login Failed'),
-              content: Text('Invalid username or password.'),
-              actions: <Widget>[
-                TextButton(
-                  child: Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      }
+      // Navigate to MainStage screen or any other screen after successful login
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => MainStage()),
+      );
     } catch (e) {
       setState(() {
         _isLoading = false;
       });
+
+      // Show error dialog for failed login
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Error'),
-            content: Text('Failed to connect to the server. Please try again later.'),
+            title: Text('Login Failed'),
+            content: Text('Invalid username or password.'),
             actions: <Widget>[
               TextButton(
                 child: Text('OK'),
@@ -91,7 +62,7 @@ class LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: Text('Smile-Helper'),
       ),
       body: Container(
         color: Color(0xFF207F66),
@@ -174,8 +145,10 @@ class LoginScreenState extends State<LoginScreen> {
                         ? CircularProgressIndicator(
                       color: Colors.white,
                     )
-                        : Text('Login',
-                      style: TextStyle(color: Color(0xFF48AA7B),
+                        : Text(
+                      'Login',
+                      style: TextStyle(
+                        color: Color(0xFF48AA7B),
                         fontSize: 35,
                         fontFamily: 'ABeeZee',
                         fontWeight: FontWeight.w400,
@@ -185,9 +158,10 @@ class LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: 20),
                   TextButton(
                     onPressed: () {
+                      // Navigate to Register2 screen or any other registration screen
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Register2()), // Navigate to Register2 screen
+                        MaterialPageRoute(builder: (context) => RegisterMain()),
                       );
                     },
                     child: Text('Create an account'),

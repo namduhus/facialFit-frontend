@@ -44,7 +44,8 @@ dependencies:
   tflite_flutter: ^0.10.4
   image: ^4.2.0
   tflite: ^1.1.2
-  http: ^0.13.3
+  http: ^0.13.4
+  shared_preferences: ^2.0.13
 
 dev_dependencies:
   flutter_test:

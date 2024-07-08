@@ -8,14 +8,14 @@ import 'package:SmileHelper/game/bonus/play.dart';
 import 'package:SmileHelper/game/bonus/start.dart';
 import 'package:SmileHelper/game/story/start.dart';
 import 'package:SmileHelper/global_binding.dart';
-import 'package:SmileHelper/login.dart';
 import 'package:SmileHelper/main/select.dart';
 import 'package:SmileHelper/main/stage.dart';
 import 'package:SmileHelper/main/statefullStage.dart';
 import 'package:SmileHelper/massage/select.dart';
 import 'package:SmileHelper/settings/select.dart';
-import 'package:SmileHelper/register2.dart';
 import 'package:SmileHelper/survey.dart';
+import 'package:SmileHelper/register_main.dart';
+import 'package:SmileHelper/login_main.dart';
 void main() {
   runApp(MyApp());
 }
@@ -31,12 +31,12 @@ class MyApp extends StatelessWidget {
         //resizeToAvoidBottomInset: false,
         body: Loading(),
       ),
-      initialRoute: "/LoginScreen",
+      initialRoute: "/LoginMain",
       routes: {
+        "/LoginMain": (context) => LoginMain(),
+        "/RegisterMain": (context) => RegisterMain(),
         "/Stage": (context) => MainStage(),
         "/Survey": (context) => Survey(),
-        "/Register": (context) => Register2(),
-        "/LoginScreen": (context) => LoginScreen(),
         "/GameSelect": (context) => SelectGame(),
         "/Calendar": (context) => Calendar(),
         "/Setting": (context) => Setting(),

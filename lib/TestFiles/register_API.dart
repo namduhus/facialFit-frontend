@@ -1,25 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:SmileHelper/login.dart';
-import 'package:SmileHelper/survey.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:SmileHelper/TestFiles/login.dart';
+import 'package:SmileHelper/survey.dart';
 
-class Register2 extends StatefulWidget {
-  const Register2({super.key});
+class Register3 extends StatefulWidget {
+  const Register3({super.key});
 
   @override
   RegisterFormState createState() => RegisterFormState();
 }
 
-class RegisterFormState extends State<Register2> {
+class RegisterFormState extends State<Register3> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _idController = TextEditingController();
-  final TextEditingController _userIdController = TextEditingController();
+  final TextEditingController _nicknameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-  TextEditingController();
+  final TextEditingController _ageController = TextEditingController();
+
+  String? _selectedHealthArea;
+  String? _selectedSeverityLevel;
   bool _termsAccepted = false;
   bool _isLoading = false;
+
+  final List<String> healthAreas = [
+    'LEFT_FACE',
+    'RIGHT_FACE',
+    'FOREHEAD',
+    'MOUTH',
+    'EYE',
+    'CHEEK'
+  ];
+
+  final List<String> severityLevels = ['MILD', 'MODERATE', 'SEVERE'];
 
   Future<void> _register() async {
     setState(() {
@@ -28,14 +41,17 @@ class RegisterFormState extends State<Register2> {
 
     try {
       final response = await http.post(
-        Uri.parse('https://your-api-url.com/api/join/join'),
+        Uri.parse('http://34.47.88.29:8082/api/join/join'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, String>{
+        body: jsonEncode(<String, dynamic>{
           'id': _idController.text,
-          'username': _userIdController.text,
+          'nickname': _nicknameController.text,
           'password': _passwordController.text,
+          'age': int.parse(_ageController.text),
+          'healthArea': _selectedHealthArea!.toUpperCase(),
+          'severityLevel': _selectedSeverityLevel!.toUpperCase(),
         }),
       );
 
@@ -43,17 +59,20 @@ class RegisterFormState extends State<Register2> {
         _isLoading = false;
       });
 
-      if (response.statusCode == 200) {
-        // Registration successful, navigate to login screen or handle as needed
+      if (response.statusCode == 201) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Registration successful!'),
+          ),
+        );
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => LoginScreen()),
         );
       } else {
-        // Registration failed, show error message
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to register. Please try again.'),
+            content: Text('Failed to register. Status code: ${response.statusCode}, ${response.body}'),
           ),
         );
       }
@@ -103,13 +122,13 @@ class RegisterFormState extends State<Register2> {
                   child: Column(
                     children: [
                       SizedBox(
-                        width: 196,
-                        height: 67,
+                        width: 170,
+                        height: 50,
                         child: Text(
                           'Register',
                           style: TextStyle(
                             color: Color(0xFFFFF3F3),
-                            fontSize: 51.53,
+                            fontSize: 45,
                             fontFamily: 'ABeeZee',
                             fontWeight: FontWeight.w400,
                             height: 1.0,
@@ -130,7 +149,7 @@ class RegisterFormState extends State<Register2> {
                             labelText: 'ID',
                             border: InputBorder.none,
                             contentPadding:
-                            EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            EdgeInsets.symmetric(horizontal: 2, vertical: 2),
                             suffixIcon: IconButton(
                               icon: Icon(Icons.check),
                               onPressed: () {
@@ -155,16 +174,16 @@ class RegisterFormState extends State<Register2> {
                           ),
                         ),
                         child: TextFormField(
-                          controller: _userIdController,
+                          controller: _nicknameController,
                           decoration: InputDecoration(
-                            labelText: 'Username',
+                            labelText: 'Nickname',
                             border: InputBorder.none,
                             contentPadding:
-                            EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            EdgeInsets.symmetric(horizontal: 2, vertical: 2),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter your username';
+                              return 'Please enter your nickname';
                             }
                             return null;
                           },
@@ -184,7 +203,7 @@ class RegisterFormState extends State<Register2> {
                             labelText: 'Password',
                             border: InputBorder.none,
                             contentPadding:
-                            EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            EdgeInsets.symmetric(horizontal: 2, vertical: 2),
                           ),
                           obscureText: true,
                           validator: (value) {
@@ -204,12 +223,11 @@ class RegisterFormState extends State<Register2> {
                           ),
                         ),
                         child: TextFormField(
-                          controller: _confirmPasswordController,
                           decoration: InputDecoration(
                             labelText: 'Confirm Password',
                             border: InputBorder.none,
                             contentPadding:
-                            EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            EdgeInsets.symmetric(horizontal: 2, vertical: 2),
                           ),
                           obscureText: true,
                           validator: (value) {
@@ -228,6 +246,103 @@ class RegisterFormState extends State<Register2> {
                             borderRadius: BorderRadius.circular(15),
                           ),
                         ),
+                        child: TextFormField(
+                          controller: _ageController,
+                          decoration: InputDecoration(
+                            labelText: 'Age',
+                            border: InputBorder.none,
+                            contentPadding:
+                            EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+                          ),
+                          keyboardType: TextInputType.number,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your age';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Container(
+                        decoration: ShapeDecoration(
+                          color: Color(0xFFD9D9D9),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                        child: DropdownButtonFormField<String>(
+                          decoration: InputDecoration(
+                            labelText: 'Health Area',
+                            border: InputBorder.none,
+                            contentPadding:
+                            EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                          ),
+                          value: _selectedHealthArea,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _selectedHealthArea = newValue;
+                            });
+                          },
+                          items: healthAreas
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          validator: (value) {
+                            if (value == null) {
+                              return 'Please select a health area';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Container(
+                        decoration: ShapeDecoration(
+                          color: Color(0xFFD9D9D9),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                        child: DropdownButtonFormField<String>(
+                          decoration: InputDecoration(
+                            labelText: 'Severity Level',
+                            border: InputBorder.none,
+                            contentPadding:
+                            EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                          ),
+                          value: _selectedSeverityLevel,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _selectedSeverityLevel = newValue;
+                            });
+                          },
+                          items: severityLevels
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          validator: (value) {
+                            if (value == null) {
+                              return 'Please select a severity level';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Container(
+                        decoration: ShapeDecoration(
+                          color: Color(0xFFD9D9D9),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
                         child: CheckboxListTile(
                           title: Text('I agree to the terms and conditions'),
                           value: _termsAccepted,
@@ -239,13 +354,13 @@ class RegisterFormState extends State<Register2> {
                           controlAffinity: ListTileControlAffinity.leading,
                           activeColor: Colors.green,
                           checkColor: Colors.white,
-                          contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                          contentPadding: EdgeInsets.symmetric(horizontal: 5),
                           checkboxShape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 10),
                       ElevatedButton(
                         onPressed: () async {
                           final result = await Navigator.push(
@@ -267,8 +382,8 @@ class RegisterFormState extends State<Register2> {
                           } else if (!_termsAccepted) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content:
-                                Text('You must accept the terms and conditions'),
+                                content: Text(
+                                    'You must accept the terms and conditions'),
                               ),
                             );
                           }

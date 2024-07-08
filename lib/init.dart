@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'login.dart';
-import 'register2.dart';
+import 'TestFiles/login.dart';
+import 'TestFiles/register2.dart';
 
 class Appinit extends StatelessWidget {
   const Appinit({super.key});
