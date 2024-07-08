@@ -167,12 +167,12 @@ class ScanController extends GetxController {
     if (_cameraImage != null) {
       Logger().e('_cameraImage!!');
       img.Image image = img.Image.fromBytes(
-          //format: img.Format.bgra8888,
-          width: _cameraImage!.width,
-          height: _cameraImage!.height,
-          bytes: _cameraImage!.planes.first.bytes
-              .buffer, //_cameraImage!.planes.first.bytes.buffer, // .planes[1].bytes,
-          format: img.Format.int8);
+        //format: img.Format.bgra8888,
+        width: _cameraImage!.width,
+        height: _cameraImage!.height,
+        bytes: _cameraImage!.planes.first.bytes
+            .buffer, //_cameraImage!.planes.first.bytes.buffer, // .planes[1].bytes,
+      );
 
       Uint8List list = Uint8List.fromList(img.encodeJpg(image));
       _imageList.add(list);

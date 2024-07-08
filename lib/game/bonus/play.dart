@@ -104,6 +104,7 @@ class BonusPlay extends StatelessWidget {
                         BtnPop(), CaptureButton(), TopImageViewer(),
 
 /////
+/*
                         Positioned(
                           left: 114,
                           top: 253,
@@ -122,6 +123,9 @@ class BonusPlay extends StatelessWidget {
                             ),
                           ),
                         ),
+
+
+                        */
                         Positioned(
                           left: 165,
                           top: 645,

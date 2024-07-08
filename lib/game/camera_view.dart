@@ -22,7 +22,7 @@ class CameraView extends GetView<ScanController> {
           body: SafeArea(
         //width: Get.width,
         //height: Get.height,
-        child: controller.isCameraInitialized.value
+        child: controller.isInitialized
             ? CameraPreview(controller.cameraController)
             : const Center(
                 child: CircularProgressIndicator(),
