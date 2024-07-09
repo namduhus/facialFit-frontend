@@ -1,6 +1,8 @@
 import 'dart:developer';
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
@@ -9,6 +11,7 @@ import 'package:tflite/tflite.dart';
 import 'package:get/state_manager.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:image/image.dart' as img;
+import 'package:video_player/video_player.dart';
 
 class ScanController extends GetxController {
   ScanController({required List<CameraDescription> cameras}) {
@@ -165,6 +168,7 @@ class ScanController extends GetxController {
     Logger().e('_cameraImage?: $_cameraImage');
     //debugPrint(_cameraImage.toString());
     if (_cameraImage != null) {
+      Logger().e('카메라캡처버튼클릭!!');
       Logger().e('_cameraImage!!');
       img.Image image = img.Image.fromBytes(
         //format: img.Format.bgra8888,
@@ -178,5 +182,86 @@ class ScanController extends GetxController {
       _imageList.add(list);
       _imageList.refresh();
     }
+  }
+
+  Future<XFile?> takePicture() async {
+    //final CameraController? cameraController = _controller;
+    if (cameraController == null || !cameraController.value.isInitialized) {
+      //showInSnackBar('Error: select a camera first.');
+      Logger().e('Error: select a camera first.');
+      return null;
+    }
+
+    if (cameraController.value.isTakingPicture) {
+      // A capture is already pending, do nothing.
+      return null;
+    }
+
+    try {
+      final XFile file = await cameraController.takePicture();
+      Logger().e('takePicture()!$file');
+      //Logger().e(file);
+      final path = file.path;
+      final Uint8List bytes = await File(path).readAsBytes();
+      Logger().e('Uint8List bytes: $bytes');
+
+      _imageList.add(bytes);
+
+      thumbnailWidget();
+
+      _imageList.refresh();
+      Logger().e('_imageList: $_imageList');
+
+      return file;
+    } on CameraException catch (e) {
+      Logger().e(e);
+      //_showCameraException(e);
+      return null;
+    }
+  }
+
+  XFile? imageFile;
+  VideoPlayerController? videoController;
+
+  Widget thumbnailWidget() {
+    final VideoPlayerController? localVideoController = videoController;
+    //imageFile = controller.takePicture();
+    return Expanded(
+      child: Align(
+        alignment: Alignment.centerRight,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            //Logger().e('thumbnailWidget: ${imageFile?.path}');
+            if (imageFile == null) //localVideoController == null &&
+              Container()
+            else
+              SizedBox(
+                width: 64.0,
+                height: 64.0,
+                child: (localVideoController == null)
+                    ? (
+                        // The captured image on the web contains a network-accessible URL
+                        // pointing to a location within the browser. It may be displayed
+                        // either with Image.network or Image.memory after loading the image
+                        // bytes to memory.
+                        kIsWeb
+                            ? Image.network(imageFile!.path)
+                            : Image.file(File(imageFile!.path)))
+                    : Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.pink)),
+                        child: Center(
+                          child: AspectRatio(
+                              aspectRatio:
+                                  localVideoController.value.aspectRatio,
+                              child: VideoPlayer(localVideoController)),
+                        ),
+                      ),
+              ),
+          ],
+        ),
+      ),
+    );
   }
 }

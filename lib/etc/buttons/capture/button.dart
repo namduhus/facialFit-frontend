@@ -1,7 +1,12 @@
+import 'dart:io';
+
 import 'package:SmileHelper/game/controller/scan_controller.dart';
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 class CaptureButton extends GetView<ScanController> {
   const CaptureButton({super.key});
@@ -11,11 +16,21 @@ class CaptureButton extends GetView<ScanController> {
       bottom: 30,
       child: GestureDetector(
         onTap: () async {
-          //controller._cameraImage == null ?
-
-          controller.capture();
-          //Logger().e('capture?'),
-        }, //Logger().e('capture?'),
+          //await _initializeControllerFuture;
+          final path = join(
+              ('/assets/images/${DateTime.now().hour}.png')); //await getTemporaryDirectory()).path,
+          Logger().e("path: $path");
+          controller.takePicture().then((XFile? file) {
+            controller.imageFile = file;
+            //controller.imageFile.path = path;
+            //Get.to(() => controller.thumbnailWidget());
+            Logger().e(
+                "message-path: ${controller.imageFile?.path}"); //controller.imageFile!.path
+            Logger().e("message-name: ${controller.imageFile?.name}");
+            //Image.file(File(controller.imageFile!.path));
+            //controller.imageFile.as
+          });
+        },
         child: Container(
           height: 100,
           width: 100,

@@ -97,11 +97,11 @@ class BonusPlay extends StatelessWidget {
                                 Stack(children: [
                               ClipRRect(
                                   borderRadius: BorderRadius.circular(15),
-                                  child: CameraView()),
+                                  child: CameraScreen()),
                             ]), ///////////////////////////////////////////
                           ),
                         ),
-                        BtnPop(), CaptureButton(), TopImageViewer(),
+                        BtnPop(), //TopImageViewer(), //CaptureButton(),
 
 /////
 /*
