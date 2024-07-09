@@ -49,7 +49,9 @@ class _ScreenState extends State<CameraScreen> {
     //카운트 후 촬영
     //Duration(seconds: 3);
     //Logger().e('initState: *');
-    //Future.delayed(Duration(seconds: 3));
+    Future.delayed(Duration(seconds: 3), () {
+      CaptureButton().controller.takePicture();
+    });
     //Logger().e('initState: $Duration(seconds: 3)');
     //Logger().e('initState: **');
 
