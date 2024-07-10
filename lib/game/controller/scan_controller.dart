@@ -1,10 +1,12 @@
 import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:SmileHelper/game/controller/mlkit.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tflite/tflite.dart';
@@ -32,6 +34,14 @@ class ScanController extends GetxController {
   var isCameraInitialized = false.obs;
   var _imageCount = 0;
 
+  bool get canProcess => _canProcess;
+
+  bool get isBusy => _isBusy;
+
+  set isBusy(bool isBusy) {
+    _isBusy = isBusy;
+  }
+
   @override
   void onInit() {
     _initCamera();
@@ -40,8 +50,11 @@ class ScanController extends GetxController {
 
   @override
   void dispose() {
+    _canProcess = false;
+    _faceDetector.close();
     _isInitialized.value = false;
     _cameraController.dispose();
+
     super.dispose();
   }
 
@@ -199,13 +212,15 @@ class ScanController extends GetxController {
 
     try {
       final XFile file = await cameraController.takePicture();
-      Logger().e('takePicture()!$file');
+      Logger().e('takePicture(): $file');
       //Logger().e(file);
       final path = file.path;
       final Uint8List bytes = await File(path).readAsBytes();
       Logger().e('Uint8List bytes: $bytes');
 
       _imageList.add(bytes);
+
+      _processImage(InputImage.fromFilePath(path));
 
       thumbnailWidget();
 
@@ -263,5 +278,46 @@ class ScanController extends GetxController {
         ),
       ),
     );
+  }
+
+//mlkit facedetector
+  final FaceDetector _faceDetector = FaceDetector(
+    options: FaceDetectorOptions(enableContours: true, enableLandmarks: true),
+  );
+  bool _canProcess = true;
+  bool _isBusy = false;
+  CustomPaint? _customPaint;
+  //RxString text = '' as RxString;
+  var _cameraLensDirection = CameraLensDirection.front;
+  String? _text;
+  String? get text => this._text;
+
+  Future<void> _processImage(InputImage inputImage) async {
+    if (!_canProcess) return;
+    if (_isBusy) return;
+    Logger().e('init _processimage');
+    final faces = await _faceDetector.processImage(inputImage);
+    if (inputImage.metadata?.size != null &&
+        inputImage.metadata?.rotation != null) {
+      final painter = FaceDetectorPainter(
+        faces,
+        inputImage.metadata!.size,
+        inputImage.metadata!.rotation,
+        _cameraLensDirection,
+      );
+      _customPaint = CustomPaint(painter: painter);
+    } else {
+      String text = 'Faces found: ${faces.length}\n\n';
+      Logger().e('found face length: $text');
+      for (final face in faces) {
+        text += 'face: ${face.boundingBox}\n\n';
+      }
+      _text = text;
+      Logger().e('found face boundingBox: $text');
+
+      // TODO: set _customPaint to draw boundingRect on top of image
+      _customPaint = null;
+    }
+    _isBusy = false;
   }
 }
