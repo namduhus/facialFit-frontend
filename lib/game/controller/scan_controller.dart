@@ -184,8 +184,6 @@ class ScanController extends GetxController {
     Logger().e('_cameraImage?: $_cameraImage');
     //debugPrint(_cameraImage.toString());
     if (_cameraImage != null) {
-      Logger().e('카메라캡처버튼클릭!!');
-      Logger().e('_cameraImage!!');
       img.Image image = img.Image.fromBytes(
         //format: img.Format.bgra8888,
         width: _cameraImage!.width,
@@ -306,6 +304,7 @@ class ScanController extends GetxController {
     if (_isBusy) return;
     Logger().e('init _processimage');
     final faces = await _faceDetector.processImage(inputImage);
+
     if (inputImage.metadata?.size != null &&
         inputImage.metadata?.rotation != null) {
       final painter = FaceDetectorPainter(
@@ -314,6 +313,8 @@ class ScanController extends GetxController {
         inputImage.metadata!.rotation,
         _cameraLensDirection,
       );
+      Logger().e('painter: $painter');
+
       _customPaint = CustomPaint(painter: painter);
 
       Logger().e('_processimage done');
@@ -324,6 +325,7 @@ class ScanController extends GetxController {
         text += 'face: ${face.boundingBox}\n\n';
       }
       _text = text;
+
       Logger().e('found face boundingBox: $text');
 
       // TODO: set _customPaint to draw boundingRect on top of image
