@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 //import 'package:table_calendar/table_calendar.dart';
 import 'package:SmileHelper/etc/buttons/home.dart';
-import 'package:SmileHelper/etc/buttons/shop.dart';
 import 'package:SmileHelper/etc/buttons/statistics.dart';
 import 'package:SmileHelper/etc/buttons/white/calendar.dart';
 import 'package:SmileHelper/etc/buttons/white/quest.dart';
@@ -62,7 +61,6 @@ class Calendar extends StatelessWidget {
                 btnSetting(),
                 BtnHome(),
                 btnStatistics(),
-                btnShop(),
                 Positioned(
                   left: 35,
                   top: 180,

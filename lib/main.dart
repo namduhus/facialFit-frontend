@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:SmileHelper/etc/calendar.dart';
 import 'package:SmileHelper/etc/loading.dart';
-import 'package:SmileHelper/etc/quest.dart';
-import 'package:SmileHelper/etc/shop.dart';
+import 'package:SmileHelper/quest/quest_test1.dart';
 import 'package:SmileHelper/etc/statistics.dart';
-import 'package:SmileHelper/game/bonus/play.dart';
 import 'package:SmileHelper/game/bonus/start.dart';
-import 'package:SmileHelper/game/story/start.dart';
-import 'package:SmileHelper/global_binding.dart';
 import 'package:SmileHelper/main/select.dart';
 import 'package:SmileHelper/main/stage.dart';
 import 'package:SmileHelper/main/statefullStage.dart';
@@ -16,6 +12,8 @@ import 'package:SmileHelper/settings/select.dart';
 import 'package:SmileHelper/survey.dart';
 import 'package:SmileHelper/register_main.dart';
 import 'package:SmileHelper/login_main.dart';
+import 'package:SmileHelper/shop/shop_main.dart';
+import 'package:SmileHelper/quest/quest_test2.dart';
 void main() {
   runApp(MyApp());
 }
@@ -33,16 +31,17 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: "/LoginMain",
       routes: {
-        "/LoginMain": (context) => LoginMain(),
         "/RegisterMain": (context) => RegisterMain(),
-        "/Stage": (context) => MainStage(),
         "/Survey": (context) => Survey(),
+        "/LoginMain": (context) => LoginMain(),
+        "/Stage": (context) => MainStage(),
+        "/ShopMain": (context) => ShopMain(),
         "/GameSelect": (context) => SelectGame(),
         "/Calendar": (context) => Calendar(),
         "/Setting": (context) => Setting(),
-        "/Shop": (context) => Shop(),
         "/Statistics": (context) => Statistics(),
-        "/Quest": (context) => Quest(),
+        "/Quest": (context) => QuestTest1(),
+        "/Quest2": (context) => QuestTest2(),
         "/MassageSelect": (context) => SelectMassage(),
         "/StateStage": (context) => StatefullMainStage(),
         "/BonusStart": (context) => BonusStart(),

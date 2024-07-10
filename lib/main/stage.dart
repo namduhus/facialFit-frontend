@@ -1,20 +1,15 @@
 import 'dart:math';
 
+import 'package:SmileHelper/Quest/quest_test1.dart';
+import 'package:SmileHelper/quest/quest_test2.dart';
 import 'package:flutter/material.dart';
 import 'package:SmileHelper/etc/calendar.dart';
-import 'package:SmileHelper/etc/quest.dart';
-import 'package:SmileHelper/etc/shop.dart';
 import 'package:SmileHelper/etc/statistics.dart';
 import 'package:SmileHelper/main/select.dart';
 import 'package:SmileHelper/massage/select.dart';
 import 'package:SmileHelper/settings/select.dart';
+import 'package:SmileHelper/shop/shop_main.dart';
 
-/*
-
-    이미지 하나도 안나온(잘모른)다
-    추가하던지 해서 사용
-
-*/
 class MainStage extends StatelessWidget {
   //const MainStage({super.key});
 
@@ -119,7 +114,7 @@ class MainStage extends StatelessWidget {
                                     onTap: () => Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => Shop())),
+                                            builder: (context) => ShopMain())),
                                     child: Container(
                                       width: 107,
                                       height: 49,
@@ -346,7 +341,7 @@ class MainStage extends StatelessWidget {
                                     onTap: () => Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => Quest())),
+                                            builder: (context) => QuestTest2())),
                                     child: Container(
                                       width: 48,
                                       height: 41,

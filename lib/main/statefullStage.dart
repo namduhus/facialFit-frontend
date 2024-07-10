@@ -1,9 +1,9 @@
 import 'dart:math';
 
+import 'package:SmileHelper/shop/shop_main.dart';
 import 'package:flutter/material.dart';
 import 'package:SmileHelper/etc/calendar.dart';
 import 'package:SmileHelper/etc/quest.dart';
-import 'package:SmileHelper/etc/shop.dart';
 import 'package:SmileHelper/etc/statistics.dart';
 import 'package:SmileHelper/game/select.dart';
 import 'package:SmileHelper/main/select.dart';
@@ -137,7 +137,7 @@ class stageState extends State<StatefullMainStage> {
                                     onTap: () => Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => Shop())),
+                                            builder: (context) => ShopMain())),
                                     child: Container(
                                       width: 107,
                                       height: 49,

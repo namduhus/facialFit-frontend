@@ -24,7 +24,7 @@ class RegisterFormState extends State<RegisterMain> {
   bool _isLoading = false;
 
   final List<String> healthAreas = [
-    'LETF_FACE',
+    'LEFT_FACE',
     'RIGHT_FACE',
     'FOREHEAD',
     'MOUTH',

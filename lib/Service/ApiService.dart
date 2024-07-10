@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'AuthService.dart';
+
 class ApiService {
   Future<void> fetchData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -38,3 +39,4 @@ class ApiService {
     }
   }
 }
+

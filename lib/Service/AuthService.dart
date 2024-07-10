@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,6 +24,9 @@ class AuthService {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('accessToken', accessToken);
       await prefs.setString('refreshToken', refreshToken);
+
+      // 로그인 시 userId도 저장
+      await prefs.setString('userId', id); // 추가된 부분
     } else {
       throw Exception('Failed to login');
     }
