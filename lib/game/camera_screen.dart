@@ -1,8 +1,11 @@
 import 'dart:io';
 
 import 'package:SmileHelper/etc/buttons/capture/button.dart';
+import 'package:SmileHelper/etc/buttons/capture/testmlkit.dart';
 import 'package:SmileHelper/etc/buttons/capture/topimage.dart';
 import 'package:SmileHelper/etc/buttons/pop.dart';
+import 'package:SmileHelper/game/controller/getPredict.dart';
+import 'package:SmileHelper/game/mlkit/detector_view.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +13,7 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:SmileHelper/game/camera_view.dart';
 import 'package:SmileHelper/game/controller/scan_controller.dart';
+import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:logger/logger.dart';
 import 'package:video_player/video_player.dart';
 
@@ -20,6 +24,8 @@ class CameraScreen extends StatefulWidget {
 }
 
 class _ScreenState extends State<CameraScreen> {
+  //set _controller(ScanController _controller) {}
+  late String _path;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,103 +39,43 @@ class _ScreenState extends State<CameraScreen> {
           ),
           CaptureButton(),
           TopImageViewer(),
+          /*DetectorView(
+            title: 'detectorView',
+            onImage: (inputImage) => InputImage.fromFilePath(_path),
+          ),*/
+          //Testmlkit(),
         ],
       ),
     );
   }
 
-  late CameraController _controller;
-  late Future<void> _initializeControllerFuture;
-
+  //late CameraController _controller;
+  //late Future<void> _initializeControllerFuture;
+  String? t;
   @override
   initState() {
-    // TODO: implement initState
     super.initState();
-    //thumbnailWidget();
+    //_controller = CaptureButton().controller;
     //카운트 후 촬영
-    //Duration(seconds: 3);
-    //Logger().e('initState: *');
     Future.delayed(Duration(seconds: 3), () {
       CaptureButton().controller.takePicture();
+      //_path = CaptureButton().controller.imageFile!.path;
+      //Logger().e('initState: $_path');
+      t = CaptureButton().controller.text;
+      Logger().e("initState: $t in");
+      //Getpredict().predict();
     });
-    //Logger().e('initState: $Duration(seconds: 3)');
-    //Logger().e('initState: **');
 
-    //CaptureButton().controller.takePicture();
-    //Logger().e('initState: CaptureButton().controller.takePicture()');
-
-    //TopImageViewer();
-    //Logger().e('initState: TopImageViewer()');
+    Logger().e("initState: $t out");
   }
-/*
-  XFile? imageFile;
-  VideoPlayerController? videoController;
 
-  */
-/*
-  Widget thumbnailWidget() {
-    final VideoPlayerController? localVideoController = videoController;
-    //imageFile = controller.takePicture();
-    return Expanded(
-      child: Align(
-        alignment: Alignment.centerRight,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            if (localVideoController == null && imageFile == null)
-              Container()
-            else
-              SizedBox(
-                width: 64.0,
-                height: 64.0,
-                child: (localVideoController == null)
-                    ? (
-                        // The captured image on the web contains a network-accessible URL
-                        // pointing to a location within the browser. It may be displayed
-                        // either with Image.network or Image.memory after loading the image
-                        // bytes to memory.
-                        kIsWeb
-                            ? Image.network(imageFile!.path)
-                            : Image.file(File(imageFile!.path)))
-                    : Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.pink)),
-                        child: Center(
-                          child: AspectRatio(
-                              aspectRatio:
-                                  localVideoController.value.aspectRatio,
-                              child: VideoPlayer(localVideoController)),
-                        ),
-                      ),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-*/
+  /*_processImage() {
+    if (CaptureButton().controller.canProcess) return;
+    if (CaptureButton().controller.isBusy) return;
+    CaptureButton().controller.isBusy = true;
+    setState(() {
+      _text = ;
+      Logger().e('_processImage: $_text');
+    });
+  }*/
 }
-
-/*
-      child: GetBuilder<ScanController>{
-        init: ScanController(),
-        builder: (controller) {
-          return controller.isCameraInitialized.value? Stack(
-            children: [
-              CameraPreview(controller.cameraController),
-              Container(
-                width: 200,
-                height: 100,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.green, width: 4.0),
-                ),
-                child: Column(mainAxisSize: MainAxisSize.min,children: [
-                  Container(color: Colors.white, child: Text("Label of object")),
-                ],),
-              )
-            ],
-          ):const Center(child: Text("loading preview..."));
-        }
-      },
-*/

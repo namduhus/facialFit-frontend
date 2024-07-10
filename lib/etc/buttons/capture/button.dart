@@ -22,13 +22,10 @@ class CaptureButton extends GetView<ScanController> {
           Logger().e("path: $path");
           controller.takePicture().then((XFile? file) {
             controller.imageFile = file;
-            //controller.imageFile.path = path;
-            //Get.to(() => controller.thumbnailWidget());
+
             Logger().e(
                 "message-path: ${controller.imageFile?.path}"); //controller.imageFile!.path
             Logger().e("message-name: ${controller.imageFile?.name}");
-            //Image.file(File(controller.imageFile!.path));
-            //controller.imageFile.as
           });
         },
         child: Container(

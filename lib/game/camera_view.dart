@@ -20,15 +20,16 @@ class CameraView extends GetView<ScanController> {
       }
       return Stack(children: [
         Scaffold(
-            body: SafeArea(
-          //width: Get.width,
-          //height: Get.height,
-          child: controller.isInitialized
-              ? CameraPreview(controller.cameraController)
-              : const Center(
-                  child: CircularProgressIndicator(),
-                ),
-        )),
+          body: SafeArea(
+            //width: Get.width,
+            //height: Get.height,
+            child: controller.isInitialized
+                ? CameraPreview(controller.cameraController)
+                : const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+          ),
+        ),
         //controller.thumbnailWidget(),
       ]);
     });

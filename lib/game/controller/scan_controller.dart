@@ -1,12 +1,15 @@
 import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:SmileHelper/game/controller/getPredict.dart';
 import 'package:SmileHelper/game/controller/mlkit.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
+import 'package:http/http.dart';
 import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tflite/tflite.dart';
@@ -218,6 +221,12 @@ class ScanController extends GetxController {
       final Uint8List bytes = await File(path).readAsBytes();
       Logger().e('Uint8List bytes: $bytes');
 
+      // predict
+      Future<String> response =
+          Getpredict().predict(file); //Image.file(File(path))
+      Logger().e('take_picture: ${response}');
+      //
+
       _imageList.add(bytes);
 
       _processImage(InputImage.fromFilePath(path));
@@ -306,6 +315,8 @@ class ScanController extends GetxController {
         _cameraLensDirection,
       );
       _customPaint = CustomPaint(painter: painter);
+
+      Logger().e('_processimage done');
     } else {
       String text = 'Faces found: ${faces.length}\n\n';
       Logger().e('found face length: $text');
@@ -316,7 +327,6 @@ class ScanController extends GetxController {
       Logger().e('found face boundingBox: $text');
 
       // TODO: set _customPaint to draw boundingRect on top of image
-      _customPaint = null;
     }
     _isBusy = false;
   }
