@@ -6,6 +6,7 @@ import 'package:SmileHelper/etc/buttons/capture/topimage.dart';
 import 'package:SmileHelper/etc/buttons/pop.dart';
 import 'package:SmileHelper/game/controller/getPredict.dart';
 import 'package:SmileHelper/game/mlkit/detector_view.dart';
+import 'package:SmileHelper/game/mlkit/message_view.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -39,11 +40,14 @@ class _ScreenState extends State<CameraScreen> {
           ),
           CaptureButton(),
           TopImageViewer(),
+          MessageView(), // 필요없다
+
           /*DetectorView(
             title: 'detectorView',
             onImage: (inputImage) => InputImage.fromFilePath(_path),
           ),*/
           //Testmlkit(),
+          //obs(()=> CaptureButton().controller.message.isNotEmpty?Positioned(bottom: 120, child: Text(cont),,))
         ],
       ),
     );

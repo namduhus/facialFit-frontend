@@ -8,6 +8,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:http/http.dart';
 import 'package:logger/logger.dart';
@@ -17,6 +19,7 @@ import 'package:get/state_manager.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:image/image.dart' as img;
 import 'package:video_player/video_player.dart';
+import 'dart:math' as Math;
 
 class ScanController extends GetxController {
   ScanController({required List<CameraDescription> cameras}) {
@@ -62,41 +65,6 @@ class ScanController extends GetxController {
   }
 
   Future<void> _initCamera() async {
-/*
-    if (await Permission.camera.request().isGranted) {
-      _cameras = await availableCameras();
-      _cameraController = CameraController(_cameras[1], ResolutionPreset.high,
-          imageFormatGroup: ImageFormatGroup.bgra8888);
-
-      _cameraController.initialize().then((value) {
-        _isInitialized.value = true;
-
-        //=> _cameraImage = image
-        _cameraController.startImageStream((image) {
-          _imageCount++;
-          if (_imageCount % 30 == 0) {
-            _imageCount = 0;
-          }
-        });
-      }).catchError((Object e) {
-        if (e is CameraException) {
-          switch (e.code) {
-            case 'CameraAccessDenied':
-              log('User denied camera access', name: "접근 불가");
-              break;
-            default:
-              log('Handler other errers', name: "핸들러 에러");
-              break;
-          }
-        }
-      });
-    } else {
-      print("camera denied!!!");
-      log("### camera denied log ### ", name: "access denied");
-      debugPrint("hello world!");
-    }*/
-
-    //_cameras = await availableCameras();
     Logger().e('_initCamera()');
     _cameraController = CameraController(_cameras[1], ResolutionPreset.veryHigh,
         imageFormatGroup: ImageFormatGroup.jpeg, enableAudio: false);
@@ -110,11 +78,6 @@ class ScanController extends GetxController {
         debugPrint("### _cameraController.startImageStream ###");
         Logger().e('## cameraImage done ##');
         _cameraImage = image;
-        /*
-        _imageCount++;
-        if (_imageCount % 30 == 0) {
-          _imageCount = 0;
-        }*/
       });
 
       Logger().e('## after startImageStream ##');
@@ -133,69 +96,6 @@ class ScanController extends GetxController {
         }
       }
     });
-  }
-
-  Future<void> objectDetector(CameraImage image) async {
-    var recognitions = await Tflite.detectObjectOnFrame(
-        bytesList: image.planes.map((plane) {
-          return plane.bytes;
-        }).toList(), // required
-        model: "assets/models/***",
-        imageHeight: image.height,
-        imageWidth: image.width,
-        imageMean: 127.5, // defaults to 127.5
-        imageStd: 127.5, // defaults to 127.5
-        rotation: 90, // defaults to 90, Android only
-        numResultsPerClass: 2, // defaults to 5
-        threshold: 0.1, // defaults to 0.1
-        asynch: true // defaults to true
-        );
-  }
-
-  //모델 초기화
-  Future<void> _initTensorFlow() async {
-    String? resolution = await Tflite.loadModel(
-        model: "assets/models/***",
-        labels: "assets/labels/***",
-        numThreads: 1, //defaults to 1
-        isAsset:
-            true, //defaults to true, set to false to load resources outside assets
-        useGpuDelegate: false);
-  }
-
-  Future<void> _objectRecognition(CameraImage img) async {
-    var recognitions = await Tflite.runModelOnFrame(
-        bytesList: img.planes.map((plane) {
-          return plane.bytes;
-        }).toList(), // required
-        imageHeight: img.height,
-        imageWidth: img.width,
-        imageMean: 127.5, // defaults to 127.5
-        imageStd: 127.5, // defaults to 127.5
-        rotation: 90, // defaults to 90, Android only
-        numResults: 2, // defaults to 5
-        threshold: 0.1, // defaults to 0.1
-        asynch: true // defaults to true
-        );
-    print(recognitions);
-  }
-
-  void capture() {
-    Logger().e('_cameraImage?: $_cameraImage');
-    //debugPrint(_cameraImage.toString());
-    if (_cameraImage != null) {
-      img.Image image = img.Image.fromBytes(
-        //format: img.Format.bgra8888,
-        width: _cameraImage!.width,
-        height: _cameraImage!.height,
-        bytes: _cameraImage!.planes.first.bytes
-            .buffer, //_cameraImage!.planes.first.bytes.buffer, // .planes[1].bytes,
-      );
-
-      Uint8List list = Uint8List.fromList(img.encodeJpg(image));
-      _imageList.add(list);
-      _imageList.refresh();
-    }
   }
 
   Future<XFile?> takePicture() async {
@@ -229,7 +129,7 @@ class ScanController extends GetxController {
 
       _processImage(InputImage.fromFilePath(path));
 
-      thumbnailWidget();
+      //thumbnailWidget();
 
       _imageList.refresh();
       Logger().e('_imageList: $_imageList');
@@ -287,14 +187,23 @@ class ScanController extends GetxController {
     );
   }
 
+  final RxString _message = ''.obs; // 팝업 메시지
+  String get message => _message.value;
+  final RxList<FaceLandmark> _landmarks = RxList<FaceLandmark>(); // 얼굴 랜드마크 저장
+
 //mlkit facedetector
   final FaceDetector _faceDetector = FaceDetector(
-    options: FaceDetectorOptions(enableContours: true, enableLandmarks: true),
+    options: FaceDetectorOptions(
+        enableContours: true,
+        enableLandmarks: true,
+        enableClassification: true,
+        enableTracking: true),
   );
+
   bool _canProcess = true;
   bool _isBusy = false;
   CustomPaint? _customPaint;
-  //RxString text = '' as RxString;
+
   var _cameraLensDirection = CameraLensDirection.front;
   String? _text;
   String? get text => this._text;
@@ -313,23 +222,156 @@ class ScanController extends GetxController {
         inputImage.metadata!.rotation,
         _cameraLensDirection,
       );
-      Logger().e('painter: $painter');
-
       _customPaint = CustomPaint(painter: painter);
-
-      Logger().e('_processimage done');
     } else {
       String text = 'Faces found: ${faces.length}\n\n';
       Logger().e('found face length: $text');
-      for (final face in faces) {
-        text += 'face: ${face.boundingBox}\n\n';
+      if (faces.isEmpty) {
+        _showPopup('얼굴 없음');
+      } else {
+        for (final face in faces) {
+          text += 'face: ${face.boundingBox}\n\n';
+          boundingBox.add(face.boundingBox);
+          contour.add(face.contours);
+
+          Logger().e('boundingBox: $boundingBox');
+          Logger().e('contour!!!!!: ${contour.first.entries}');
+          _landmarks.clear();
+          face.landmarks.forEach((type, landmark) {
+            if (landmark != null &&
+                (type == FaceLandmarkType.leftEye ||
+                    type == FaceLandmarkType.rightEye ||
+                    type == FaceLandmarkType.noseBase ||
+                    type == FaceLandmarkType.leftMouth ||
+                    type == FaceLandmarkType.rightMouth ||
+                    type == FaceLandmarkType.bottomMouth)) {
+              _landmarks.add(landmark);
+            }
+          });
+          bool is_frowning = _isFrowned(face);
+          bool isSmiling =
+              face.smilingProbability != null && face.smilingProbability! > 0.8;
+          bool isMouthOpen = _isMouthOpen(face);
+
+/////////
+          if (isSmiling) {
+            _showPopup('웃음');
+          }
+
+          if (is_frowning) {
+            _showPopup('찡그림 ');
+          }
+
+          if (isMouthOpen) {
+            _showPopup('입 벌림');
+          }
+
+          /*else {
+            _showPopup('웃음 아님');
+          }*/
+
+///////////
+          /*
+
+          */
+        }
       }
       _text = text;
-
+      _customPaint = CustomPaint(
+        painter: FacePainter(),
+      );
       Logger().e('found face boundingBox: $text');
 
       // TODO: set _customPaint to draw boundingRect on top of image
     }
     _isBusy = false;
+  }
+
+  bool _isFrowned(Face face) {
+    final double? leftEye = face.leftEyeOpenProbability;
+    final double? rightEye = face.rightEyeOpenProbability;
+
+    Logger().e("left eye : $leftEye");
+    Logger().e("right eye : $rightEye");
+
+    //final int? mouth_bottom = face.mouth_bottom;
+    Logger().e("contour?: $contour");
+
+    if (leftEye! < 0.3 && rightEye! < 0.3) {
+      return true;
+    }
+    return false;
+  }
+
+  //Future<void> getLandmark() {}
+  bool _isMouthOpen(Face face) {
+    FaceLandmark? leftMouth = face.landmarks[FaceLandmarkType.leftMouth];
+    FaceLandmark? rightMouth = face.landmarks[FaceLandmarkType.rightMouth];
+    FaceLandmark? bottomMouth = face.landmarks[FaceLandmarkType.bottomMouth];
+    FaceLandmark? noseBase = face.landmarks[FaceLandmarkType.noseBase];
+
+    Logger().e("face landmarks: ${face.landmarks}");
+
+    if (leftMouth != null &&
+        rightMouth != null &&
+        bottomMouth != null &&
+        noseBase != null) {
+      double mouthWidth =
+          (rightMouth.position.x.toDouble() - leftMouth.position.x.toDouble())
+              .abs();
+      double mouthHeight =
+          (bottomMouth.position.y.toDouble() - noseBase.position.y.toDouble())
+              .abs();
+
+      // 특정 비율을 기준으로 입이 벌어졌는지 감지 (적절한 값으로 설정 필요)
+      return mouthHeight / mouthWidth > 0.3;
+    }
+    return false;
+  }
+
+  bool _showPopup(String message) {
+    _message.value = message;
+    Get.snackbar(
+      '얼굴 인식 결과',
+      _message.value, //message
+      snackPosition: SnackPosition.BOTTOM,
+      duration: Duration(seconds: 2),
+    );
+    return message.isNotEmpty;
+  }
+
+  RxList<Map<FaceContourType, FaceContour?>> contour = RxList([]);
+  //get contour => contour;
+  RxList<Rect> boundingBox = RxList([]);
+  //Rx<Widget> _facePainter;
+  //get facePainter => _facePainter;
+}
+
+class FacePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    // TODO: implement paint
+    final radius = Math.min(size.width, size.height) / 2;
+    final center = Offset(size.width / 2, size.height / 2);
+    // Draw the body
+    final paint = Paint()..color = Colors.yellow;
+    canvas.drawCircle(center, radius, paint);
+    // Draw the mouth
+    final smilePaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 10;
+    canvas.drawArc(Rect.fromCircle(center: center, radius: radius / 2), 0,
+        Math.pi, false, smilePaint);
+    // Draw the eyes
+    canvas.drawCircle(
+        Offset(center.dx - radius / 2, center.dy - radius / 2), 10, Paint());
+    canvas.drawCircle(
+        Offset(center.dx + radius / 2, center.dy - radius / 2), 10, Paint());
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    // TODO: implement shouldRepaint
+    throw UnimplementedError();
   }
 }
