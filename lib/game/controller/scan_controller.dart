@@ -1,5 +1,6 @@
-import 'dart:developer';
+import 'dart:developer' as developer;
 import 'dart:io';
+import 'dart:math';
 import 'dart:typed_data';
 import 'package:SmileHelper/game/controller/getPredict.dart';
 import 'package:SmileHelper/game/controller/mlkit.dart';
@@ -19,7 +20,7 @@ import 'package:get/state_manager.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:image/image.dart' as img;
 import 'package:video_player/video_player.dart';
-import 'dart:math' as Math;
+import 'dart:math' as math;
 
 class ScanController extends GetxController {
   ScanController({required List<CameraDescription> cameras}) {
@@ -86,11 +87,12 @@ class ScanController extends GetxController {
       if (e is CameraException) {
         switch (e.code) {
           case 'CameraAccessDenied':
-            log('User denied camera access', name: "접근 불가");
+            developer.log('User denied camera access', name: "접근 불가");
             print('User denied camera access.');
             break;
           default:
-            log('Handler other errers', name: "핸들러 에러");
+
+            developer.log('Handler other errers', name: "핸들러 에러");
             print('Handle other errors.');
             break;
         }
@@ -191,7 +193,7 @@ class ScanController extends GetxController {
   String get message => _message.value;
   final RxList<FaceLandmark> _landmarks = RxList<FaceLandmark>(); // 얼굴 랜드마크 저장
 
-//mlkit facedetector
+// mlkit facedetector
   final FaceDetector _faceDetector = FaceDetector(
     options: FaceDetectorOptions(
         enableContours: true,
@@ -214,8 +216,7 @@ class ScanController extends GetxController {
     Logger().e('init _processimage');
     final faces = await _faceDetector.processImage(inputImage);
 
-    if (inputImage.metadata?.size != null &&
-        inputImage.metadata?.rotation != null) {
+    if (inputImage.metadata?.size != null && inputImage.metadata?.rotation != null) {
       final painter = FaceDetectorPainter(
         faces,
         inputImage.metadata!.size,
@@ -248,32 +249,45 @@ class ScanController extends GetxController {
               _landmarks.add(landmark);
             }
           });
+
+          // 각 랜드마크의 위치를 로그로 출력
+          face.landmarks.forEach((type, landmark) {
+            if (landmark != null) {
+              print('$type: ${landmark.position}');
+            }
+          });
+
           bool is_frowning = _isFrowned(face);
           bool isSmiling =
               face.smilingProbability != null && face.smilingProbability! > 0.8;
           bool isMouthOpen = _isMouthOpen(face);
+          bool isEyebrowRaised = _isEyebrowRaised(face);
+          bool isEyeClosed = _isEyeClosed(face);
+          bool isCheekPuffed = _isCheekPuffed(face);
 
-/////////
           if (isSmiling) {
             _showPopup('웃음');
           }
 
           if (is_frowning) {
-            _showPopup('찡그림 ');
+            _showPopup('찡그림');
           }
 
           if (isMouthOpen) {
             _showPopup('입 벌림');
           }
 
-          /*else {
-            _showPopup('웃음 아님');
-          }*/
+          if (isEyebrowRaised) {
+            _showPopup('눈썹 올리기');
+          }
 
-///////////
-          /*
+          if (isEyeClosed) {
+            _showPopup('눈 감기');
+          }
 
-          */
+          if (isCheekPuffed) {
+            _showPopup('볼 부풀리기');
+          }
         }
       }
       _text = text;
@@ -281,8 +295,6 @@ class ScanController extends GetxController {
         painter: FacePainter(),
       );
       Logger().e('found face boundingBox: $text');
-
-      // TODO: set _customPaint to draw boundingRect on top of image
     }
     _isBusy = false;
   }
@@ -303,28 +315,117 @@ class ScanController extends GetxController {
     return false;
   }
 
-  //Future<void> getLandmark() {}
+  bool _isEyebrowRaised(Face face) {
+    FaceContour? leftEyebrowTop = face.contours[FaceContourType.leftEyebrowTop];
+    FaceContour? leftEyebrowBottom = face.contours[FaceContourType.leftEyebrowBottom];
+    FaceContour? rightEyebrowTop = face.contours[FaceContourType.rightEyebrowTop];
+    FaceContour? rightEyebrowBottom = face.contours[FaceContourType.rightEyebrowBottom];
+
+    if (leftEyebrowTop != null && leftEyebrowBottom != null &&
+        rightEyebrowTop != null && rightEyebrowBottom != null) {
+
+      double leftEyebrowTopY = leftEyebrowTop.points.map((p) => p.y.toDouble()).reduce((a, b) => a + b) / leftEyebrowTop.points.length;
+      double leftEyebrowBottomY = leftEyebrowBottom.points.map((p) => p.y.toDouble()).reduce((a, b) => a + b) / leftEyebrowBottom.points.length;
+      double rightEyebrowTopY = rightEyebrowTop.points.map((p) => p.y.toDouble()).reduce((a, b) => a + b) / rightEyebrowTop.points.length;
+      double rightEyebrowBottomY = rightEyebrowBottom.points.map((p) => p.y.toDouble()).reduce((a, b) => a + b) / rightEyebrowBottom.points.length;
+
+      double leftEyebrowRaise = leftEyebrowBottomY - leftEyebrowTopY;
+      double rightEyebrowRaise = rightEyebrowBottomY - rightEyebrowTopY;
+
+      print('Left Eyebrow Top: $leftEyebrowTopY');
+      print('Left Eyebrow Bottom: $leftEyebrowBottomY');
+      print('Right Eyebrow Top: $rightEyebrowTopY');
+      print('Right Eyebrow Bottom: $rightEyebrowBottomY');
+      print('Left Eyebrow Raise: $leftEyebrowRaise');
+      print('Right Eyebrow Raise: $rightEyebrowRaise');
+
+      // 임계값 조정
+      double threshold = 38.1;  // 눈썹 올리는 임계값
+
+      bool isLeftEyebrowRaised = leftEyebrowRaise > threshold;
+      bool isRightEyebrowRaised = rightEyebrowRaise > threshold;
+
+      return isLeftEyebrowRaised || isRightEyebrowRaised;
+    }
+    return false;
+  }
+
+  bool _isEyeClosed(Face face) {
+    final double? leftEyeOpen = face.leftEyeOpenProbability;
+    final double? rightEyeOpen = face.rightEyeOpenProbability;
+
+    // 로그로 출력
+    print('Left Eye Open Probability: $leftEyeOpen');
+    print('Right Eye Open Probability: $rightEyeOpen');
+
+    return leftEyeOpen != null && rightEyeOpen != null && leftEyeOpen < 0.2 && rightEyeOpen < 0.2; // 임계값 설정
+  }
+
+  bool _isCheekPuffed(Face face) {
+    FaceContour? leftCheek = face.contours[FaceContourType.leftCheek];
+    FaceContour? rightCheek = face.contours[FaceContourType.rightCheek];
+
+    if (leftCheek != null && rightCheek != null) {
+      double leftCheekArea = _calculateContourArea(leftCheek.points);
+      double rightCheekArea = _calculateContourArea(rightCheek.points);
+
+      // 로그로 출력
+      print('Left Cheek Area: $leftCheekArea');
+      print('Right Cheek Area: $rightCheekArea');
+
+      return leftCheekArea > 1000 && rightCheekArea > 1000; // 임계값 설정
+    }
+    return false;
+  }
+
+  double _calculateContourArea(List<Point<int>> points) {
+    // 다각형 면적 계산 (shoelace formula)
+    double area = 0;
+    for (int i = 0; i < points.length; i++) {
+      int j = (i + 1) % points.length;
+      area += points[i].x * points[j].y;
+      area -= points[j].x * points[i].y;
+    }
+    area = area.abs() / 2.0;
+    return area;
+  }
+
   bool _isMouthOpen(Face face) {
     FaceLandmark? leftMouth = face.landmarks[FaceLandmarkType.leftMouth];
     FaceLandmark? rightMouth = face.landmarks[FaceLandmarkType.rightMouth];
     FaceLandmark? bottomMouth = face.landmarks[FaceLandmarkType.bottomMouth];
-    FaceLandmark? noseBase = face.landmarks[FaceLandmarkType.noseBase];
-
-    Logger().e("face landmarks: ${face.landmarks}");
+    FaceLandmark? upperMouth = face.landmarks[FaceLandmarkType.noseBase]; // 코 기저부를 윗입술로 사용
 
     if (leftMouth != null &&
         rightMouth != null &&
         bottomMouth != null &&
-        noseBase != null) {
-      double mouthWidth =
-          (rightMouth.position.x.toDouble() - leftMouth.position.x.toDouble())
-              .abs();
-      double mouthHeight =
-          (bottomMouth.position.y.toDouble() - noseBase.position.y.toDouble())
-              .abs();
+        upperMouth != null) {
 
-      // 특정 비율을 기준으로 입이 벌어졌는지 감지 (적절한 값으로 설정 필요)
-      return mouthHeight / mouthWidth > 0.3;
+      // 각 랜드마크의 위치를 로그로 출력
+      print('Left Mouth: ${leftMouth.position}');
+      print('Right Mouth: ${rightMouth.position}');
+      print('Bottom Mouth: ${bottomMouth.position}');
+      print('Upper Mouth (Nose Base): ${upperMouth.position}');
+
+      double mouthWidth =
+      (rightMouth.position.x.toDouble() - leftMouth.position.x.toDouble()).abs();
+      double mouthHeight =
+      (bottomMouth.position.y.toDouble() - upperMouth.position.y.toDouble()).abs();
+
+      // 입 벌림 판단 기준 설정
+      double ratio = mouthHeight / mouthWidth;
+
+      // 매우 높은 임계값 설정
+      double openThreshold = 1.0;  // 1.0 이상이면 입을 벌렸다고 판단
+
+      // 추가 조건: 최소 너비와 높이를 설정하여 잘못된 인식을 방지합니다.
+      bool widthCondition = mouthWidth > 50;  // 예시 값
+      bool heightCondition = mouthHeight > 50;  // 예시 값
+
+      // 입술의 움직임을 감지하는 추가 조건
+      bool mouthMovedCondition = mouthHeight > 20; // 예시 값
+
+      return ratio > openThreshold && widthCondition && heightCondition && mouthMovedCondition;
     }
     return false;
   }
@@ -351,7 +452,7 @@ class FacePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     // TODO: implement paint
-    final radius = Math.min(size.width, size.height) / 2;
+    final radius = math.min(size.width, size.height) / 2;
     final center = Offset(size.width / 2, size.height / 2);
     // Draw the body
     final paint = Paint()..color = Colors.yellow;
@@ -361,7 +462,7 @@ class FacePainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 10;
     canvas.drawArc(Rect.fromCircle(center: center, radius: radius / 2), 0,
-        Math.pi, false, smilePaint);
+        math.pi, false, smilePaint);
     // Draw the eyes
     canvas.drawCircle(
         Offset(center.dx - radius / 2, center.dy - radius / 2), 10, Paint());
