@@ -60,10 +60,6 @@ class _ScreenState extends State<CameraScreen> {
   initState() {
     super.initState();
     //_controller = CaptureButton().controller;
-    //카운트 후 촬영
-    Future.delayed(Duration(seconds: 3), () {
-      CaptureButton().controller.takePicture();
-    });
   }
 
   /*_processImage() {
