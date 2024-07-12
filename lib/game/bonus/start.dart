@@ -1,3 +1,5 @@
+import 'package:SmileHelper/game/camera_screen.dart';
+import 'package:SmileHelper/game/camera_view.dart';
 import 'package:flutter/material.dart';
 import 'package:SmileHelper/etc/buttons/pop.dart';
 import 'package:SmileHelper/etc/buttons/test.dart';
@@ -5,7 +7,15 @@ import 'package:SmileHelper/etc/loading.dart';
 
 import 'package:SmileHelper/game/bonus/play.dart';
 
-class BonusStart extends StatelessWidget {
+import 'package:camera/camera.dart';
+import 'package:get/get.dart';
+
+class BonusStart extends StatefulWidget {
+  @override
+  State<BonusStart> createState() => _startCamera();
+}
+
+class _startCamera extends State<BonusStart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,10 +134,21 @@ class BonusStart extends StatelessWidget {
                           left: 99,
                           top: 282,
                           child: InkWell(
-                            onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => BonusPlay())),
+                            onTap: () async {
+                              await //Get.toNamed('/CameraScreen');
+
+                                  Get.to(() => BonusPlay());
+
+                              /*
+                              availableCameras()
+                                  .then((value) => (Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) => BonusPlay(
+                                                cameras: value,
+                                              )))));
+                                              */
+                            }, //BonusPlay
                             child: Container(
                               width: 280,
                               height: 277,

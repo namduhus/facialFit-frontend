@@ -1,3 +1,4 @@
+import 'package:SmileHelper/etc/buttons/pop.dart';
 import 'package:flutter/material.dart';
 
 class Stop extends StatelessWidget {
@@ -187,6 +188,7 @@ class Stop extends StatelessWidget {
                     ),
                   ),
                 ),
+                BtnPop(),
               ],
             ),
           ),

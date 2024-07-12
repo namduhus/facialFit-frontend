@@ -1,27 +1,39 @@
+import 'package:SmileHelper/etc/buttons/pop.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:SmileHelper/game/controller/scan_controller.dart';
+import 'package:logger/logger.dart';
 
-class CameraView extends StatelessWidget {
+class CameraView extends GetView<ScanController> {
   const CameraView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return GetX<ScanController>(builder: (controller) {
-      debugPrint(controller.toString());
       if (!controller.isInitialized) {
-        debugPrint('### !controller.isInitialized ###');
+        Logger().e("camera view error");
+
         return Container();
       }
-      return Container(
-          child: SizedBox(
-              width: Get.width,
-              height: Get.height,
-              child: CameraPreview(controller.cameraController)));
+      return Stack(children: [
+        Scaffold(
+          body: SafeArea(
+            //width: Get.width,
+            //height: Get.height,
+            child: controller.isInitialized
+                ? CameraPreview(controller.cameraController)
+                : const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+          ),
+        ),
+        //controller.thumbnailWidget(),
+      ]);
     });
   }
+
   /*
   Positioned(
       child: GetBuilder<ScanController>{

@@ -21,3 +21,6 @@ samples, guidance on mobile development, and a full API reference.
  - 자잘한 버튼들 혹은 기타 부분 조정
  - 회원가입 등 다시 배치
  - 게임/마사지 선택 부분에서 버튼 나오는 부분이 잘 안됨
+
+
+ **카메라 마이크까지 허용하면 나오긴 함 
