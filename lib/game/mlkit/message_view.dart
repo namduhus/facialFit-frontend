@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:SmileHelper/game/controller/scan_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -12,26 +10,46 @@ class MessageView extends GetView<ScanController> {
   @override
   Widget build(BuildContext context) {
     return GetX<ScanController>(builder: (controller) {
-      Logger().e("MessageView start");
       if (!controller.isInitialized) {
         return Container();
       }
-      //
-      /*
-      if (controller.contour.isNotEmpty) {
-        List contour = controller.contour;
-        int length = contour[controller.contour.length];
+      Logger().e("controller.text: ${controller.text}");
 
-        Logger().e("length: $length");
-        var last = controller.contour.last;
-        Logger().e("last: $last");
-        return Positioned(bottom: 120, child: Text("$length, ** $last"));
-      }*/
-      //return Container();
-      return controller.boundingBox.isNotEmpty
-          ? Positioned(child: Text("***"))
-          : Positioned(bottom: 120, child: Text("NULL"));
+      return Stack(
+        children: [
+          Positioned(
+            top: 50,
+            left: 20,
+            child: Text(
+              controller.currentStage,
+              style: TextStyle(fontSize: 24, color: Colors.white),
+            ),
+          ),
+          _buildImageWidget(controller),
+        ],
+      );
     });
+  }
+
+  Widget _buildImageWidget(ScanController controller) {
+    switch (controller.text) {
+      case 'smiled':
+        return Positioned(child: Image.asset('assets/images/button.png'));
+      case 'frowned':
+        return Positioned(child: Image.asset('assets/images/coin.png'));
+      case 'mouth_opened':
+        return Positioned(child: Image.asset('assets/images/desk.png'));
+      case 'eyebrow_raised':
+        return Positioned(child: Image.asset('assets/images/sound.png'));
+      case 'eye_closed':
+        return Positioned(child: Image.asset('assets/images/pot.png'));
+      case 'cheek_puffed':
+        return Positioned(child: Image.asset('assets/images/button.png'));
+      default:
+        return controller.landmarks.isEmpty
+            ? Positioned(child: Text("aegsrsr"))
+            : Positioned(bottom: 120, child: Text("NULL"));
+    }
   }
 
   _drawLandmarks() {}
