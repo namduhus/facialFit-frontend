@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:SmileHelper/etc/buttons/home.dart';
-import 'package:SmileHelper/etc/buttons/shop.dart';
 import 'package:SmileHelper/etc/buttons/statistics.dart';
 import 'package:SmileHelper/etc/buttons/white/calendar.dart';
 import 'package:SmileHelper/etc/buttons/white/quest.dart';
@@ -399,7 +398,6 @@ class Statistics extends StatelessWidget {
                 btnSetting(),
                 BtnHome(),
                 btnStatistics(),
-                btnShop(),
               ],
             ),
           ),

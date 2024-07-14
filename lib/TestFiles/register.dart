@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:SmileHelper/login.dart';
+import 'package:SmileHelper/TestFiles/login.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class Register extends StatelessWidget {
-  const Register({super.key});
-
+  Register({super.key});
+  final idController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,6 +77,22 @@ class Register extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(15),
                                       ),
                                     ),
+                                    child: TextFormField(
+                                      controller: idController,
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: 'Enter your ID',
+                                        contentPadding: EdgeInsets.only(
+                                            left: 20),
+                                      ),
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please enter your ID';
+                                        }
+                                        // 추가적인 ID 유효성 검사 로직
+                                        return null;
+                                      },
+                                    ),
                                   ),
                                 ),
                                 Positioned(
@@ -88,6 +106,21 @@ class Register extends StatelessWidget {
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(15),
                                       ),
+                                    ),
+                                    child: TextFormField(
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: 'Enter your PW',
+                                        contentPadding: EdgeInsets.only(
+                                            left: 20),
+                                      ),
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please enter your PW';
+                                        }
+                                        // 추가적인 PW 유효성 검사 로직
+                                        return null;
+                                      },
                                     ),
                                   ),
                                 ),
@@ -103,6 +136,21 @@ class Register extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(15),
                                       ),
                                     ),
+                                    child: TextFormField(
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: 'Check your PW',
+                                        contentPadding: EdgeInsets.only(
+                                            left: 20),
+                                      ),
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please check your PW';
+                                        }
+                                        // 추가적인 PW 확인 유효성 검사 로직
+                                        return null;
+                                      },
+                                    ),
                                   ),
                                 ),
                                 Positioned(
@@ -116,6 +164,21 @@ class Register extends StatelessWidget {
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(15),
                                       ),
+                                    ),
+                                    child: TextFormField(
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: 'Enter your username',
+                                        contentPadding: EdgeInsets.only(
+                                            left: 20),
+                                      ),
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please enter your username';
+                                        }
+                                        // 추가적인 username 유효성 검사 로직
+                                        return null;
+                                      },
                                     ),
                                   ),
                                 ),
@@ -211,17 +274,18 @@ class Register extends StatelessWidget {
                                 ),
                                 Positioned(
                                   left: 170,
-                                  top: 573,
+                                  top: 560,
                                   child: SizedBox(
-                                    width: 117,
-                                    height: 21,
+                                    width: 120,
+                                    height: 30,
                                     child: Text(
                                       '<설문조사>',
+                                      textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 20,
                                         fontFamily: 'ABeeZee',
-                                        fontWeight: FontWeight.w400,
+                                        fontWeight: FontWeight.w500,
                                         height: 0,
                                       ),
                                     ),
@@ -235,9 +299,7 @@ class Register extends StatelessWidget {
                                   child: InkWell(
                                       onTap: () {
                                         Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => Login()));
+                                              context, MaterialPageRoute(builder: (context) => LoginScreen()));
                                       },
                                       child: Container(
                                         width: 197,
@@ -246,55 +308,52 @@ class Register extends StatelessWidget {
                                           color: Color(0xFF8F9FD4),
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
-                                                BorderRadius.circular(15),
+                                            BorderRadius.circular(15),
                                           ),
                                         ),
                                         child: Align(
                                             alignment: Alignment.center,
-                                            child: Positioned(
-                                              left: 170,
-                                              top: 269,
-                                              child: SizedBox(
-                                                width: 139,
-                                                height: 45,
-                                                child: Text(
-                                                  'Regitser',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 35,
-                                                    fontFamily: 'ABeeZee',
-                                                    fontWeight: FontWeight.w400,
-                                                    height: 0,
+                                          child: Text(
+                                            'Register',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 35,
+                                              fontFamily: 'ABeeZee',
+                                              fontWeight: FontWeight.w400,
                                                   ),
                                                 ),
                                               ),
-                                            )),
-                                      )),
-                                ),
+                                            ),
+                                  ),
+                                      ),
+
                                 //////////////////////////// REGISTER ////////////////////////////
 
                                 //////////////////////////// 설문조사 /////////////////////////////
                                 Positioned(
-                                  left: 155,
+                                  left: 180,
                                   top: 611,
+
                                   child: InkWell(
-                                    //설문조사 화면
-                                    //onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => findPassword())),
-                                    child: Positioned(
-                                      left: 173,
-                                      top: 628,
-                                      child: SizedBox(
-                                        width: 98,
-                                        height: 14,
-                                        child: Text(
-                                          '설문조사하기',
-                                          textAlign: TextAlign.center,
+                                    onTap: () {
+                                      Navigator.pushNamed(context, '/survey');
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFF8F9FD4),
+                                        borderRadius: BorderRadius.circular(5),
+                                    ),
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                      child: Text(
+                                        '설문조사하기',
+                                        textAlign: TextAlign.center,
                                           style: TextStyle(
-                                            color: Colors.black,
+                                            color: Colors.white,
                                             fontSize: 15,
                                             fontFamily: 'ABeeZee',
                                             fontWeight: FontWeight.w400,
-                                            height: 0,
                                           ),
                                         ),
                                       ),
@@ -308,9 +367,23 @@ class Register extends StatelessWidget {
                                   left: 342,
                                   top: 108,
                                   child: InkWell(
-                                    //비밀번호 찾는 기능과 화면 구현 및 삽입, 이름 예시 findPassword()
-                                    //onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => findPassword())),
-
+                                    onTap: () async {
+                                      String userId = idController.text;
+                                      bool isDuplicate = await checkIdDuplicate(
+                                          userId);
+                                      if (isDuplicate) {
+                                        // 중복일 경우 사용자에게 알림
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                            content: Text(
+                                                'ID is already taken')));
+                                      } else {
+                                        // 중복이 아닐 경우 사용자에게 알림
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                            content: Text('ID is available')));
+                                      }
+                                    },
                                     child: Container(
                                         width: 57,
                                         height: 24,
@@ -318,7 +391,7 @@ class Register extends StatelessWidget {
                                           color: Color(0xFFD9D9D9),
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
-                                                BorderRadius.circular(50),
+                                            BorderRadius.circular(50),
                                           ),
                                         ),
                                         child: Align(
@@ -373,7 +446,7 @@ class Register extends StatelessWidget {
                                         Colors.green.withOpacity(0.2)),
                                     splashRadius: 24,
                                     materialTapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
+                                    MaterialTapTargetSize.shrinkWrap,
                                     fillColor: const MaterialStatePropertyAll(
                                         Colors.grey),
                                     onChanged: (bool? value) {
@@ -399,3 +472,25 @@ class Register extends StatelessWidget {
     );
   }
 }
+////////백엔드 API////////////
+  Future<bool> checkIdDuplicate(String userId) async {
+    final Uri url = Uri.parse(
+        'https://yourbackend.com/api/join/join'); // 실제 백엔드 서버 URL로 변경 필요
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'userId': userId,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      return data['isDuplicate'];
+    } else {
+      // 오류 처리 또는 예외 발생
+      throw Exception('Failed to check ID duplication');
+    }
+  }
