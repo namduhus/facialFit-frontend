@@ -1,3 +1,4 @@
+import 'package:SmileHelper/global_binding.dart';
 import 'package:flutter/material.dart';
 import 'package:SmileHelper/etc/calendar.dart';
 import 'package:SmileHelper/etc/loading.dart';
@@ -14,6 +15,9 @@ import 'package:SmileHelper/register_main.dart';
 import 'package:SmileHelper/login_main.dart';
 import 'package:SmileHelper/shop/shop_main.dart';
 import 'package:SmileHelper/quest/quest_test2.dart';
+import 'package:SmileHelper/game/bonus/play.dart';
+import 'package:get/get.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -23,18 +27,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         //resizeToAvoidBottomInset: false,
         body: Loading(),
       ),
       initialRoute: "/LoginMain",
+      initialBinding: GlobalBinding(),
       routes: {
         "/RegisterMain": (context) => RegisterMain(),
         "/Survey": (context) => Survey(),
         "/LoginMain": (context) => LoginMain(),
-        "/Stage": (context) => MainStage(),
+        "/Stage": (context) => StatefullMainStage(),
         "/ShopMain": (context) => ShopMain(),
         "/GameSelect": (context) => SelectGame(),
         "/Calendar": (context) => Calendar(),
@@ -45,6 +50,7 @@ class MyApp extends StatelessWidget {
         "/MassageSelect": (context) => SelectMassage(),
         "/StateStage": (context) => StatefullMainStage(),
         "/BonusStart": (context) => BonusStart(),
+        "/BonusPlay": (context) => BonusPlay(),
       },
     );
   }

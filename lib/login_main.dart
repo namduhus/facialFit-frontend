@@ -2,6 +2,7 @@ import 'package:SmileHelper/register_main.dart';
 import 'package:flutter/material.dart';
 import 'package:SmileHelper/Service/AuthService.dart'; // AuthService import
 import 'package:SmileHelper/main/stage.dart'; // MainStage screen import
+import 'package:SmileHelper/main/statefullStage.dart';
 
 class LoginMain extends StatefulWidget {
   const LoginMain({super.key});
@@ -31,7 +32,7 @@ class LoginMainState extends State<LoginMain> {
       // Navigate to MainStage screen or any other screen after successful login
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => MainStage()),
+        MaterialPageRoute(builder: (context) => StatefullMainStage()),
       );
     } catch (e) {
       setState(() {

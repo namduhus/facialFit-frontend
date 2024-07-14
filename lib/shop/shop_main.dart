@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:SmileHelper/main/stage.dart';
 import 'package:SmileHelper/etc/statistics.dart';
 import 'package:SmileHelper/Service/AuthService.dart';
+import 'package:SmileHelper/main/statefullStage.dart';
 
 class ShopMain extends StatefulWidget {
   const ShopMain({super.key});
@@ -181,7 +182,7 @@ class ShopState extends State<ShopMain> {
   void _navigateToHome() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => MainStage()),
+      MaterialPageRoute(builder: (context) => StatefullMainStage()),
     );
   }
 
