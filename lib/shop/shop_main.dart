@@ -76,29 +76,38 @@ class ShopState extends State<ShopMain> {
     }
   }
 
-  // API에서 아이템 수량을 가져오는 함수
+  // API에서 사용자별 아이템 수량을 가져오는 함수
   Future<void> _fetchItemQuantities() async {
-    for (int i = 0; i < 9; i++) {
-      final url = Uri.parse('http://34.47.88.29:8082/api/items/${i + 1}');
-      try {
-        final response = await http.get(url);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? accessToken = prefs.getString('accessToken');
+    userId = prefs.getString('userId') ?? ''; // 사용자 ID 가져오기
 
-        if (response.statusCode == 200) {
-          // API 호출 성공
-          final jsonResponse = jsonDecode(response.body);
-          setState(() {
-            itemQuantities[i] = jsonResponse['quantity'] ?? 0;
-            itemImages[i] = jsonResponse['quantity'] > 0 ? "assets/images/${i + 1}.png" : "assets/images/Soldout.png";
+    final url = Uri.parse('http://34.47.88.29:8082/api/items/user/$userId');
+    try {
+      final response = await http.get(
+        url,
+        headers: {'Authorization': 'Bearer $accessToken'},
+      );
+
+      if (response.statusCode == 200) {
+        // API 호출 성공
+        final jsonResponse = jsonDecode(response.body) as List;
+        setState(() {
+          for (int i = 0; i < jsonResponse.length; i++) {
+            itemQuantities[i] = jsonResponse[i]['quantity'] ?? 0;
+            itemImages[i] = jsonResponse[i]['quantity'] > 0
+                ? "assets/images/${i + 1}.png"
+                : "assets/images/Soldout.png";
             itemPriceImages[i] = "assets/images/price${(i ~/ 3) + 1}.png";
-          });
-        } else {
-          print('Failed to load item quantities: ${response.statusCode}');
-          print('Response body: ${response.body}');
-        }
-      } catch (e) {
-        // 예외 처리
-        print('Error fetching item quantities: $e');
+          }
+        });
+      } else {
+        print('Failed to load item quantities: ${response.statusCode}');
+        print('Response body: ${response.body}');
       }
+    } catch (e) {
+      // 예외 처리
+      print('Error fetching item quantities: $e');
     }
   }
 
