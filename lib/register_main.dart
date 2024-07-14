@@ -120,7 +120,10 @@ class RegisterFormState extends State<RegisterMain> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Smile-Helper'),
+        title: Image.asset(
+          'assets/images/Logo.png', // 로고 이미지 경로
+          height: 30, // 이미지 높이 조정
+        ),
       ),
       body: Container(
         color: Color(0xFF207F66),

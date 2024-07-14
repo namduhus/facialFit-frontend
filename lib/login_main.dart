@@ -63,9 +63,12 @@ class LoginMainState extends State<LoginMain> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Smile-Helper'),
+        title: Image.asset(
+          'assets/images/Logo.png', // 로고 이미지 경로
+          height: 30, // 이미지 높이 조정
+        ),
       ),
-      body: SingleChildScrollView( // 추가된 부분
+      body: SingleChildScrollView(
         child: Container(
           color: Color(0xFF207F66),
           height: MediaQuery.of(context).size.height, // 화면 높이에 맞추도록 설정

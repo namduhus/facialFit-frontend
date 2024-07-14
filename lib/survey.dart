@@ -107,7 +107,10 @@ class SurveyState extends State<Survey> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Survey'),
+        title: Image.asset(
+          'assets/images/Logo.png', // 로고 이미지 경로
+          height: 30, // 이미지 높이 조정
+        ),
       ),
       body: SingleChildScrollView( // 추가된 부분
         child: Container(
