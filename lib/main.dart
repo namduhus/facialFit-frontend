@@ -44,8 +44,8 @@ class MyApp extends StatelessWidget {
       initialBinding: GlobalBindings(),
       debugShowCheckedModeBanner: false,
       title: "Camera Application",
-      home: BonusStart(), //Login(),
-      initialRoute: "/BonusStart", //"/CameraScreen", //"/Login",
+      home: LoginMain(), //Login(),
+      initialRoute: "/Login", //"/CameraScreen", //"/Login",
       getPages: [
         GetPage(
           name: '/CameraView',
@@ -60,16 +60,16 @@ class MyApp extends StatelessWidget {
         )
       ],
       routes: {
-        "/Login": (context) => Login(),
-        "/Register": (context) => Register(),
+        "/Login": (context) => LoginMain(),
+        "/Register": (context) => RegisterMain(),
         "/Stage": (context) => MainStage(),
         "/GameSelect": (context) => SelectGame(),
         "/Calendar": (context) => Calendar(),
         "/Setting": (context) => Setting(),
-        "/Shop": (context) => Shop(),
+        "/Shop": (context) => ShopMain(),
         "/Statistics": (context) => Statistics(),
         "/survey": (context) => Survey(),
-        "/Quest": (context) => Quest(),
+        "/Quest": (context) => QuestTest2(),
         "/MassageSelect": (context) => SelectMassage(),
         "/StateStage": (context) => StatefullMainStage(),
         "/BonusStart": (context) => BonusStart(),
