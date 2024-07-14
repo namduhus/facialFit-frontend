@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:SmileHelper/main/stage.dart';
 import 'package:SmileHelper/etc/statistics.dart';
 import 'package:SmileHelper/Service/AuthService.dart';
+import 'package:SmileHelper/main/main_stage.dart';
 
 class QuestTest2 extends StatefulWidget {
   const QuestTest2({super.key});
@@ -262,7 +263,7 @@ class QuestTest2State extends State<QuestTest2> {
   void _navigateToHome() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => MainStage()),
+      MaterialPageRoute(builder: (context) => MainStage2()),
     );
   }
 
@@ -320,12 +321,12 @@ class QuestTest2State extends State<QuestTest2> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(width: 40), // 코인과 Quest 로고 사이 간격 조정
+                      SizedBox(width: 45), // 코인과 Quest 로고 사이 간격 조정
                       Text(
                         'Quest',
                         style: TextStyle(
                           color: Color(0xFFFFF3F3),
-                          fontSize: 60, // 폰트 크기 조정
+                          fontSize: 45, // 폰트 크기 조정
                           fontFamily: 'ABeeZee',
                           fontWeight: FontWeight.w400,
                           height: 0.5,
@@ -375,7 +376,7 @@ class QuestTest2State extends State<QuestTest2> {
                       ),
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 1.0),
                           child: ElevatedButton(
                             onPressed: _navigateToStatistics,
                             child: Text('Statistics'),

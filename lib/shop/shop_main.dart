@@ -6,6 +6,7 @@ import 'package:SmileHelper/main/stage.dart';
 import 'package:SmileHelper/etc/statistics.dart';
 import 'package:SmileHelper/Service/AuthService.dart';
 import 'package:SmileHelper/main/statefullStage.dart';
+import 'package:SmileHelper/main/main_stage.dart';
 
 class ShopMain extends StatefulWidget {
   const ShopMain({super.key});
@@ -182,7 +183,7 @@ class ShopState extends State<ShopMain> {
   void _navigateToHome() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => StatefullMainStage()),
+      MaterialPageRoute(builder: (context) => MainStage2()),
     );
   }
 
@@ -196,6 +197,13 @@ class ShopState extends State<ShopMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Image.asset(
+          'assets/images/Logo.png', // 로고 이미지 경로
+          height: 40, // 이미지 높이 조정
+        ),
+        centerTitle: true,
+      ),
       body: Container(
         color: Color(0xFF207F66), // 배경색 설정
         child: Center(
@@ -261,11 +269,11 @@ class ShopState extends State<ShopMain> {
                   ),
                   SizedBox(height: 80),
                   SizedBox(
-                    height: 10,
+                    height: 0.3,
                   ),
                   Expanded(
                     child: GridView.builder(
-                      padding: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(40),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3, // 3 items per row
                         crossAxisSpacing: 10.0,

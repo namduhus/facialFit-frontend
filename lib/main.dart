@@ -21,6 +21,7 @@ import 'package:SmileHelper/shop/shop_main.dart';
 import 'package:SmileHelper/quest/quest_test2.dart';
 import 'package:SmileHelper/game/bonus/play.dart';
 import 'package:get/get.dart';
+import 'package:SmileHelper/main/main_stage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -62,7 +63,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "/Login": (context) => LoginMain(),
         "/Register": (context) => RegisterMain(),
-        "/Stage": (context) => MainStage(),
+        "/Stage2": (context) => MainStage2(),
         "/GameSelect": (context) => SelectGame(),
         "/Calendar": (context) => Calendar(),
         "/Setting": (context) => Setting(),
