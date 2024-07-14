@@ -150,8 +150,8 @@ class RegisterFormState extends State<RegisterMain> {
                   child: Column(
                     children: [
                       SizedBox(
-                        width: 170,
-                        height: 50,
+                        width: 250,
+                        height: 80,
                         child: Text(
                           'Register',
                           style: TextStyle(

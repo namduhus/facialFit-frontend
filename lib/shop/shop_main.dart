@@ -204,42 +204,48 @@ class ShopState extends State<ShopMain> {
             decoration: ShapeDecoration(
               color: Color(0xFF48AA7B), // 덮어놓는 색상 설정
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(0),
               ),
               shadows: [
                 BoxShadow(
                   color: Color(0x3F000000),
                   blurRadius: 4,
-                  offset: Offset(0, 4),
+                  offset: Offset(2, 4),
                   spreadRadius: 0,
                 ),
               ],
             ),
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(0.9),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center, // 수정된 부분
                     children: [
-                      Image.asset(
-                        "assets/images/coin.png", // 코인 이미지 경로
-                        width: 30,
-                        height: 30,
-                        fit: BoxFit.contain,
-                      ),
-                      SizedBox(width: 10),
-                      Text(
-                        '$userCoins', // 사용자 코인 소지량
-                        style: TextStyle(
-                          color: Color(0xFFFFF3F3),
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                      Container( // 추가된 부분
+                        margin: EdgeInsets.only(bottom: 10), // 원하는 만큼의 마진 추가
+                        child: Image.asset(
+                          "assets/images/coin.png", // 코인 이미지 경로
+                          width: 30,
+                          height: 50,
+                          fit: BoxFit.contain,
                         ),
                       ),
-                      SizedBox(width: 60), // 코인과 Shop 로고 사이 간격 조정
+                      SizedBox(width: 0),
+                      Container( // 추가된 부분
+                        margin: EdgeInsets.only(bottom: 8), // 원하는 만큼의 마진 추가
+                        child: Text(
+                          '$userCoins', // 사용자 코인 소지량
+                          style: TextStyle(
+                            color: Color(0xFFFFF3F3),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 40), // 코인과 Shop 로고 사이 간격 조정
                       Text(
                         'Shop',
                         style: TextStyle(
@@ -247,7 +253,7 @@ class ShopState extends State<ShopMain> {
                           fontSize: 51.53,
                           fontFamily: 'ABeeZee',
                           fontWeight: FontWeight.w400,
-                          height: 1.0,
+                          height: 1.5,
                         ),
                       ),
                     ],

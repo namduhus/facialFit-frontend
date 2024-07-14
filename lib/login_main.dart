@@ -1,7 +1,8 @@
 import 'package:SmileHelper/register_main.dart';
 import 'package:flutter/material.dart';
-import 'package:SmileHelper/Service/AuthService.dart'; // Import AuthService
-import 'package:SmileHelper/main/stage.dart'; // Import your MainStage screen
+import 'package:SmileHelper/Service/AuthService.dart'; // AuthService import
+import 'package:SmileHelper/main/stage.dart'; // MainStage screen import
+
 class LoginMain extends StatefulWidget {
   const LoginMain({super.key});
 
@@ -64,109 +65,112 @@ class LoginMainState extends State<LoginMain> {
       appBar: AppBar(
         title: Text('Smile-Helper'),
       ),
-      body: Container(
-        color: Color(0xFF207F66),
-        child: Center(
-          child: Container(
-            width: 424,
-            height: 805,
-            decoration: ShapeDecoration(
-              color: Color(0xFF48AA7B),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-              shadows: [
-                BoxShadow(
-                  color: Color(0x3F000000),
-                  blurRadius: 4,
-                  offset: Offset(0, 4),
-                  spreadRadius: 0,
+      body: SingleChildScrollView( // 추가된 부분
+        child: Container(
+          color: Color(0xFF207F66),
+          height: MediaQuery.of(context).size.height, // 화면 높이에 맞추도록 설정
+          child: Center(
+            child: Container(
+              width: 424,
+              height: 805,
+              decoration: ShapeDecoration(
+                color: Color(0xFF48AA7B),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
                 ),
-              ],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 196,
-                    height: 67,
-                    child: Text(
-                      '   Login',
-                      style: TextStyle(
-                        color: Color(0xFFFFF3F3),
-                        fontSize: 51.53,
-                        fontFamily: 'ABeeZee',
-                        fontWeight: FontWeight.w400,
-                        height: 1.0,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 40),
-                  Container(
-                    decoration: ShapeDecoration(
-                      color: Color(0xFFD9D9D9),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                    child: TextFormField(
-                      controller: _idController,
-                      decoration: InputDecoration(
-                        labelText: 'Id',
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Container(
-                    decoration: ShapeDecoration(
-                      color: Color(0xFFD9D9D9),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                    child: TextFormField(
-                      controller: _passwordController,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: _isLoading ? null : _login,
-                    child: _isLoading
-                        ? CircularProgressIndicator(
-                      color: Colors.white,
-                    )
-                        : Text(
-                      'Login',
-                      style: TextStyle(
-                        color: Color(0xFF48AA7B),
-                        fontSize: 35,
-                        fontFamily: 'ABeeZee',
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  TextButton(
-                    onPressed: () {
-                      // Navigate to Register2 screen or any other registration screen
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => RegisterMain()),
-                      );
-                    },
-                    child: Text('Create an account'),
+                shadows: [
+                  BoxShadow(
+                    color: Color(0x3F000000),
+                    blurRadius: 4,
+                    offset: Offset(0, 4),
+                    spreadRadius: 0,
                   ),
                 ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 200,
+                      height: 80,
+                      child: Text(
+                        'Login',
+                        style: TextStyle(
+                          color: Color(0xFFFFF3F3),
+                          fontSize: 51.53,
+                          fontFamily: 'ABeeZee',
+                          fontWeight: FontWeight.w400,
+                          height: 1.0,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 40),
+                    Container(
+                      decoration: ShapeDecoration(
+                        color: Color(0xFFD9D9D9),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                      child: TextFormField(
+                        controller: _idController,
+                        decoration: InputDecoration(
+                          labelText: 'Id',
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Container(
+                      decoration: ShapeDecoration(
+                        color: Color(0xFFD9D9D9),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                      child: TextFormField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          labelText: 'Password',
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: _isLoading ? null : _login,
+                      child: _isLoading
+                          ? CircularProgressIndicator(
+                        color: Colors.white,
+                      )
+                          : Text(
+                        'Login',
+                        style: TextStyle(
+                          color: Color(0xFF48AA7B),
+                          fontSize: 35,
+                          fontFamily: 'ABeeZee',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    TextButton(
+                      onPressed: () {
+                        // Navigate to Register2 screen or any other registration screen
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => RegisterMain()),
+                        );
+                      },
+                      child: Text('Create an account'),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
