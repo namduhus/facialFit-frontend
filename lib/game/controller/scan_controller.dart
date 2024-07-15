@@ -4,11 +4,9 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:async';
-import 'package:SmileHelper/etc/statistics.dart';
 import 'package:SmileHelper/game/controller/getPredict.dart';
 import 'package:SmileHelper/game/controller/mlkit.dart';
-import 'package:SmileHelper/main/statefullStage.dart';
-import 'package:SmileHelper/quest/quest_test1.dart';
+import 'package:SmileHelper/main/main_stage.dart';
 import 'package:SmileHelper/quest/quest_test2.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
@@ -162,7 +160,7 @@ class ScanController extends GetxController {
       _currentStage = 0;
       dispose();
       //
-      Get.to(StatefullMainStage());
+      Get.to(MainHome());
     } else {
       //실행조건
       _showPopup("사진이 아직 3개가 안됐어요");

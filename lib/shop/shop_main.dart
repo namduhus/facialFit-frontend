@@ -190,7 +190,7 @@ class ShopState extends State<ShopMain> {
   void _navigateToHome() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => MainStage2()),
+      MaterialPageRoute(builder: (context) => MainHome()),
     );
   }
 

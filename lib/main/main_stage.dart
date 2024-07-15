@@ -1,24 +1,27 @@
 import 'dart:convert';
-import 'package:SmileHelper/main/mypage.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:SmileHelper/main/mypage.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:SmileHelper/shop/shop_main.dart';
 import 'package:SmileHelper/Service/AuthService.dart';
-import 'package:SmileHelper/quest/quest_test2.dart'; // QuestTest2 import
+import 'package:SmileHelper/quest/quest_test2.dart';
 import 'package:audioplayers/audioplayers.dart';
 
-class MainStage2 extends StatefulWidget {
+class MainHome extends StatefulWidget {
   @override
-  _MainStage2State createState() => _MainStage2State();
+  _MainHomeState createState() => _MainHomeState();
 }
 
-class _MainStage2State extends State<MainStage2> {
+class _MainHomeState extends State<MainHome> {
   double _opacity = 1.0;
   String nickname = '';
   int userCoins = 0;
   late AudioPlayer _audioPlayer;
-  double _volume = 0.5; // Initial volume
+  double _volume = 0.5;
   bool isMuted = false;
 
   @override
@@ -139,6 +142,24 @@ class _MainStage2State extends State<MainStage2> {
       }
       isMuted = !isMuted;
     });
+  }
+
+  Future<void> _takePicture() async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+
+    if (image != null) {
+      final Directory appDir = await getApplicationDocumentsDirectory();
+      final String appDirPath = appDir.path;
+      final String fileName = DateTime.now().toIso8601String() + '.jpg';
+      final String filePath = '$appDirPath/$fileName';
+
+      File(image.path).copy(filePath).then((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('사진이 저장되었습니다: $filePath')),
+        );
+      });
+    }
   }
 
   @override
@@ -282,7 +303,7 @@ class _MainStage2State extends State<MainStage2> {
                                 onPressed: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => MainStage2()),
+                                    MaterialPageRoute(builder: (context) => MainHome()),
                                   );
                                 },
                                 child: Text('Home'),
@@ -387,6 +408,14 @@ class _MainStage2State extends State<MainStage2> {
                       onPressed: _toggleMute,
                     ),
                   ),
+                  Positioned(
+                    right: screenWidth * 0.001,
+                    top: screenHeight * 0.18,
+                    child: IconButton(
+                      icon: Icon(Icons.camera_alt),
+                      onPressed: _takePicture,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -395,10 +424,4 @@ class _MainStage2State extends State<MainStage2> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: MainStage2(),
-  ));
 }
