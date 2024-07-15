@@ -1,9 +1,6 @@
 import 'dart:io';
 
-import 'package:SmileHelper/etc/buttons/capture/button.dart';
-import 'package:SmileHelper/etc/buttons/capture/testmlkit.dart';
-import 'package:SmileHelper/etc/buttons/capture/topimage.dart';
-import 'package:SmileHelper/etc/buttons/pop.dart';
+
 import 'package:SmileHelper/game/controller/getPredict.dart';
 import 'package:SmileHelper/game/mlkit/detector_view.dart';
 import 'package:SmileHelper/game/mlkit/message_view.dart';
@@ -38,8 +35,6 @@ class _ScreenState extends State<CameraScreen> {
             width: MediaQuery.of(context).size.width,
             child: CameraView(),
           ),
-          CaptureButton(),
-          TopImageViewer(),
           MessageView(), // 필요없다
 
           /*DetectorView(

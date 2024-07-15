@@ -1,9 +1,6 @@
 import 'package:SmileHelper/game/camera_screen.dart';
 import 'package:SmileHelper/game/camera_view.dart';
 import 'package:flutter/material.dart';
-import 'package:SmileHelper/etc/buttons/pop.dart';
-import 'package:SmileHelper/etc/buttons/test.dart';
-import 'package:SmileHelper/etc/loading.dart';
 
 import 'package:SmileHelper/game/bonus/play.dart';
 
@@ -204,9 +201,7 @@ class _startCamera extends State<BonusStart> {
                           ),
                         ),
                         //Positioned(left: 378, top: 31, child: Pop()),
-                        BtnPop(),
                         //테스트버튼
-                        Test('loading', Loading()),
                       ],
                     ),
                   ),
