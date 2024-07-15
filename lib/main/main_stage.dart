@@ -1,40 +1,39 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:SmileHelper/main/mypage.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:SmileHelper/shop/shop_main.dart';
 import 'package:SmileHelper/Service/AuthService.dart';
-import 'package:SmileHelper/quest/quest_test2.dart';
+import 'package:SmileHelper/quest/quest_test2.dart'; // QuestTest2 import
 import 'package:audioplayers/audioplayers.dart';
 
-class MainHome extends StatefulWidget {
+import '../Service/AudioService.dart';
+
+class MainStage2 extends StatefulWidget {
   @override
-  _MainHomeState createState() => _MainHomeState();
+  _MainStage2State createState() => _MainStage2State();
 }
 
-class _MainHomeState extends State<MainHome> {
+class _MainStage2State extends State<MainStage2> {
   double _opacity = 1.0;
   String nickname = '';
   int userCoins = 0;
   late AudioPlayer _audioPlayer;
-  double _volume = 0.5;
+  double _volume = 0.5; // Initial volume
   bool isMuted = false;
+  final AudioService _audioService = AudioService();
 
   @override
   void initState() {
     super.initState();
     _fetchNickname();
     _fetchUserCoins();
-    _audioPlayer = AudioPlayer();
     _playBackgroundMusic();
   }
 
   Future<void> _playBackgroundMusic() async {
-    await _audioPlayer.play(AssetSource('Fun.mp3'), volume: _volume);
+    await _audioService.playBackgroundMusic();
   }
 
   @override
@@ -136,30 +135,12 @@ class _MainHomeState extends State<MainHome> {
   void _toggleMute() {
     setState(() {
       if (isMuted) {
-        _audioPlayer.setVolume(_volume); // Unmute
+        _audioService.setVolume(_volume); // Unmute
       } else {
-        _audioPlayer.setVolume(0.0); // Mute
+        _audioService.setVolume(0.0); // Mute
       }
       isMuted = !isMuted;
     });
-  }
-
-  Future<void> _takePicture() async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
-
-    if (image != null) {
-      final Directory appDir = await getApplicationDocumentsDirectory();
-      final String appDirPath = appDir.path;
-      final String fileName = DateTime.now().toIso8601String() + '.jpg';
-      final String filePath = '$appDirPath/$fileName';
-
-      File(image.path).copy(filePath).then((_) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('사진이 저장되었습니다: $filePath')),
-        );
-      });
-    }
   }
 
   @override
@@ -303,7 +284,7 @@ class _MainHomeState extends State<MainHome> {
                                 onPressed: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => MainHome()),
+                                    MaterialPageRoute(builder: (context) => MainStage2()),
                                   );
                                 },
                                 child: Text('Home'),
@@ -408,14 +389,6 @@ class _MainHomeState extends State<MainHome> {
                       onPressed: _toggleMute,
                     ),
                   ),
-                  Positioned(
-                    right: screenWidth * 0.001,
-                    top: screenHeight * 0.18,
-                    child: IconButton(
-                      icon: Icon(Icons.camera_alt),
-                      onPressed: _takePicture,
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -424,4 +397,10 @@ class _MainHomeState extends State<MainHome> {
       ),
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: MainStage2(),
+  ));
 }

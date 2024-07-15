@@ -160,7 +160,7 @@ class ScanController extends GetxController {
       _currentStage = 0;
       dispose();
       //
-      Get.to(MainHome());
+      Get.to(MainStage2());
     } else {
       //실행조건
       _showPopup("사진이 아직 3개가 안됐어요");
