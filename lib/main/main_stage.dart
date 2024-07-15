@@ -8,6 +8,8 @@ import 'package:SmileHelper/Service/AuthService.dart';
 import 'package:SmileHelper/quest/quest_test2.dart'; // QuestTest2 import
 import 'package:audioplayers/audioplayers.dart';
 
+import '../Service/AudioService.dart';
+
 class MainStage2 extends StatefulWidget {
   @override
   _MainStage2State createState() => _MainStage2State();
@@ -20,18 +22,18 @@ class _MainStage2State extends State<MainStage2> {
   late AudioPlayer _audioPlayer;
   double _volume = 0.5; // Initial volume
   bool isMuted = false;
+  final AudioService _audioService = AudioService();
 
   @override
   void initState() {
     super.initState();
     _fetchNickname();
     _fetchUserCoins();
-    _audioPlayer = AudioPlayer();
     _playBackgroundMusic();
   }
 
   Future<void> _playBackgroundMusic() async {
-    await _audioPlayer.play(AssetSource('Fun.mp3'), volume: _volume);
+    await _audioService.playBackgroundMusic();
   }
 
   @override
@@ -133,9 +135,9 @@ class _MainStage2State extends State<MainStage2> {
   void _toggleMute() {
     setState(() {
       if (isMuted) {
-        _audioPlayer.setVolume(_volume); // Unmute
+        _audioService.setVolume(_volume); // Unmute
       } else {
-        _audioPlayer.setVolume(0.0); // Mute
+        _audioService.setVolume(0.0); // Mute
       }
       isMuted = !isMuted;
     });
