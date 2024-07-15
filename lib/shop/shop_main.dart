@@ -1,11 +1,9 @@
 import 'dart:convert';
+import 'package:SmileHelper/main/mypage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:SmileHelper/main/stage.dart';
-import 'package:SmileHelper/etc/statistics.dart';
 import 'package:SmileHelper/Service/AuthService.dart';
-import 'package:SmileHelper/main/statefullStage.dart';
 import 'package:SmileHelper/main/main_stage.dart';
 
 class ShopMain extends StatefulWidget {
@@ -199,7 +197,7 @@ class ShopState extends State<ShopMain> {
   void _navigateToStatistics() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => Statistics()),
+      MaterialPageRoute(builder: (context) => MyPage()),
     );
   }
 
@@ -338,7 +336,7 @@ class ShopState extends State<ShopMain> {
                           padding: const EdgeInsets.symmetric(horizontal: 5.0),
                           child: ElevatedButton(
                             onPressed: _navigateToStatistics,
-                            child: Text('Statistics'),
+                            child: Text('MyPage'),
                           ),
                         ),
                       ),

@@ -1,8 +1,6 @@
 import 'package:SmileHelper/register_main.dart';
 import 'package:flutter/material.dart';
 import 'package:SmileHelper/Service/AuthService.dart'; // AuthService import
-import 'package:SmileHelper/main/stage.dart'; // MainStage screen import
-import 'package:SmileHelper/main/statefullStage.dart';
 import 'package:SmileHelper/main/main_stage.dart'; // MainStage2 screen import
 
 class LoginMain extends StatefulWidget {

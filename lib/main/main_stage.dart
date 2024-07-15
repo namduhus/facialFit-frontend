@@ -1,11 +1,12 @@
 import 'dart:convert';
+import 'package:SmileHelper/main/mypage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:SmileHelper/shop/shop_main.dart';
-import 'package:SmileHelper/etc/statistics.dart';
 import 'package:SmileHelper/Service/AuthService.dart';
 import 'package:SmileHelper/quest/quest_test2.dart'; // QuestTest2 import
+import 'package:audioplayers/audioplayers.dart';
 
 class MainStage2 extends StatefulWidget {
   @override
@@ -16,12 +17,27 @@ class _MainStage2State extends State<MainStage2> {
   double _opacity = 1.0;
   String nickname = '';
   int userCoins = 0;
+  late AudioPlayer _audioPlayer;
+  double _volume = 0.5; // Initial volume
+  bool isMuted = false;
 
   @override
   void initState() {
     super.initState();
     _fetchNickname();
     _fetchUserCoins();
+    _audioPlayer = AudioPlayer();
+    _playBackgroundMusic();
+  }
+
+  Future<void> _playBackgroundMusic() async {
+    await _audioPlayer.play(AssetSource('Fun.mp3'), volume: _volume);
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
   }
 
   Future<void> _fetchNickname() async {
@@ -112,6 +128,17 @@ class _MainStage2State extends State<MainStage2> {
         );
       },
     );
+  }
+
+  void _toggleMute() {
+    setState(() {
+      if (isMuted) {
+        _audioPlayer.setVolume(_volume); // Unmute
+      } else {
+        _audioPlayer.setVolume(0.0); // Mute
+      }
+      isMuted = !isMuted;
+    });
   }
 
   @override
@@ -269,10 +296,10 @@ class _MainStage2State extends State<MainStage2> {
                                 onPressed: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => Statistics()),
+                                    MaterialPageRoute(builder: (context) => MyPage()),
                                   );
                                 },
-                                child: Text('Statistics'),
+                                child: Text('MyPage'),
                               ),
                             ),
                           ),
@@ -350,6 +377,14 @@ class _MainStage2State extends State<MainStage2> {
                           onPressed: () {},
                         ),
                       ],
+                    ),
+                  ),
+                  Positioned(
+                    right: screenWidth * 0.001,
+                    top: screenHeight * 0.09,
+                    child: IconButton(
+                      icon: Icon(isMuted ? Icons.volume_off : Icons.volume_up),
+                      onPressed: _toggleMute,
                     ),
                   ),
                 ],
