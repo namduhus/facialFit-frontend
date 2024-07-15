@@ -10,12 +10,12 @@ import 'package:audioplayers/audioplayers.dart';
 
 import '../Service/AudioService.dart';
 
-class MainStage2 extends StatefulWidget {
+class MainHome extends StatefulWidget {
   @override
-  _MainStage2State createState() => _MainStage2State();
+  _MainHomeState createState() => _MainHomeState();
 }
 
-class _MainStage2State extends State<MainStage2> {
+class _MainHomeState extends State<MainHome> {
   double _opacity = 1.0;
   String nickname = '';
   int userCoins = 0;
@@ -284,7 +284,7 @@ class _MainStage2State extends State<MainStage2> {
                                 onPressed: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => MainStage2()),
+                                    MaterialPageRoute(builder: (context) => MainHome()),
                                   );
                                 },
                                 child: Text('Home'),
@@ -401,6 +401,6 @@ class _MainStage2State extends State<MainStage2> {
 
 void main() {
   runApp(MaterialApp(
-    home: MainStage2(),
+    home: MainHome(),
   ));
 }
