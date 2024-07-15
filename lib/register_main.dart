@@ -413,7 +413,7 @@ class RegisterFormState extends State<RegisterMain> {
                         onPressed: () async {
                           final result = await Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => Survey()),
+                            MaterialPageRoute(builder: (context) => Survey(registrationData: {},)),
                           );
                           // Handle survey result if needed
                         },

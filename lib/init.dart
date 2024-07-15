@@ -1,6 +1,7 @@
+import 'package:SmileHelper/login_main.dart';
+import 'package:SmileHelper/register_main.dart';
 import 'package:flutter/material.dart';
-import 'TestFiles/login.dart';
-import 'TestFiles/register2.dart';
+
 
 class Appinit extends StatelessWidget {
   const Appinit({super.key});
@@ -58,7 +59,7 @@ class Appinit extends StatelessWidget {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => LoginScreen()));
+                                        builder: (context) => LoginMain()));
                               },
                               child: Container(
                                 width: 197,
@@ -123,7 +124,7 @@ class Appinit extends StatelessWidget {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Register2()));
+                                          builder: (context) => RegisterMain()));
                                 },
                                 child: Container(
                                   width: 197,

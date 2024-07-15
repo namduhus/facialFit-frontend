@@ -1,100 +1,47 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Survey extends StatefulWidget {
-  const Survey({super.key});
+  final Map<String, dynamic> registrationData;
+
+  const Survey({Key? key, required this.registrationData}) : super(key: key);
 
   @override
   SurveyState createState() => SurveyState();
 }
 
 class SurveyState extends State<Survey> {
-  // 각 질문의 선택 상태를 관리하는 변수들
   bool answer1 = false;
   bool answer2 = false;
   bool answer3 = false;
   bool answer4 = false;
   bool answer5 = false;
   bool answer6 = false;
-  String userId = ''; // 사용자 ID를 저장할 변수
 
-  @override
-  void initState() {
-    super.initState();
-    _fetchUserId(); // 사용자 ID를 가져오는 함수 호출
-  }
-
-  Future<void> _fetchUserId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      userId = prefs.getString('userId') ?? ''; // SharedPreferences에서 사용자 ID를 가져옴
-    });
-  }
-
-  Future<void> _submitSurvey() async {
-    final url = Uri.parse('http://34.47.88.29:8082/api/surveys');
-    final headers = {'Content-Type': 'application/json'};
-    final body = jsonEncode({
-      'id': userId, // 사용자 ID를 추가
-      'subwayQuestion1': answer1,
-      'subwayQuestion2': answer2,
-      'subwayQuestion3': answer3,
-      'subwayQuestion4': answer4,
-      'subwayQuestion5': answer5,
-      'subwayQuestion6': answer6,
-    });
-
-    try {
-      final response = await http.post(url, headers: headers, body: body);
-
-      if (response.statusCode == 200) {
-        _showCompletionDialog();
-      } else {
-        print('Failed to submit survey: ${response.statusCode}');
-        print('Response body: ${response.body}');
-        _showErrorDialog();
-      }
-    } catch (e) {
-      print('Error submitting survey: $e');
-      _showErrorDialog();
-    }
-  }
-
-  void _showCompletionDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('설문조사 완료'),
-          content: Text('설문조사에 응해 주셔서 감사합니다.'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('확인'),
-              onPressed: () {
-                Navigator.of(context).pop(); // 다이얼로그 닫기
-                Navigator.of(context).pop(); // 이전 화면으로 이동
-              },
-            ),
-          ],
-        );
+  void _submitSurvey() {
+    final surveyData = {
+      ...widget.registrationData,
+      'surveyAnswers': {
+        'subwayQuestion1': answer1,
+        'subwayQuestion2': answer2,
+        'subwayQuestion3': answer3,
+        'subwayQuestion4': answer4,
+        'subwayQuestion5': answer5,
+        'subwayQuestion6': answer6,
       },
-    );
-  }
+    };
 
-  void _showErrorDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('오류'),
-          content: Text('설문조사 제출 중 오류가 발생했습니다. 다시 시도해 주세요.'),
+          title: Text('Completed Survey'),
+          content: Text('Thank you for responding to our survey.'),
           actions: <Widget>[
             TextButton(
-              child: Text('확인'),
+              child: Text('Ok'),
               onPressed: () {
                 Navigator.of(context).pop(); // 다이얼로그 닫기
+                Navigator.pop(context, surveyData); // 설문조사 데이터와 함께 이전 화면으로 이동
               },
             ),
           ],
@@ -108,11 +55,11 @@ class SurveyState extends State<Survey> {
     return Scaffold(
       appBar: AppBar(
         title: Image.asset(
-          'assets/images/Logo.png', // 로고 이미지 경로
-          height: 30, // 이미지 높이 조정
+          'assets/images/Logo.png',
+          height: 30,
         ),
       ),
-      body: SingleChildScrollView( // 추가된 부분
+      body: SingleChildScrollView(
         child: Container(
           color: Color(0xFF207F66),
           child: Center(
@@ -139,7 +86,7 @@ class SurveyState extends State<Survey> {
                     SizedBox(
                       width: double.infinity,
                       child: Text(
-                        '설문조사',
+                        'Survey',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color(0xFFFFF3F3),
@@ -151,9 +98,9 @@ class SurveyState extends State<Survey> {
                     ),
                     SizedBox(height: 35),
                     _buildQuestion(
-                      '1. 안면마비 환자이신가요?',
-                      '예',
-                      '아니오',
+                      '1. Are you a facial paralysis patient?',
+                      'Yes',
+                      'No',
                       answer1,
                           (bool value) {
                         setState(() {
@@ -165,9 +112,9 @@ class SurveyState extends State<Survey> {
                       },
                     ),
                     _buildQuestion(
-                      '2. 얼굴의 근력저하와 비대칭 증상이 있나요?',
-                      '예',
-                      '아니오',
+                      '2. Do you have any symptoms of muscle weakness and asymmetry in your face?',
+                      'Yes',
+                      'No',
                       answer2,
                           (bool value) {
                         setState(() {
@@ -179,9 +126,9 @@ class SurveyState extends State<Survey> {
                       },
                     ),
                     _buildQuestion(
-                      '3. 뚜렷한 근력저하와 비대칭이 보이고, 힘을 줘야 눈감기가 가능하나요?',
-                      '예',
-                      '아니오',
+                      '3. Can you close your eyes comfortably?',
+                      'Yes',
+                      'No',
                       answer3,
                           (bool value) {
                         setState(() {
@@ -193,9 +140,9 @@ class SurveyState extends State<Survey> {
                       },
                     ),
                     _buildQuestion(
-                      '4. 이마주름이 안잡히고, 눈이 완전히 감기지 않나요?',
-                      '예',
-                      '아니오',
+                      '4. Can you open your mouth?',
+                      'Yes',
+                      'No',
                       answer4,
                           (bool value) {
                         setState(() {
@@ -207,9 +154,9 @@ class SurveyState extends State<Survey> {
                       },
                     ),
                     _buildQuestion(
-                      '5. 무표정일 때 완전히 비대칭이고, 안움직여지나요?',
-                      '예',
-                      '아니오',
+                      "5. Doesn't it move when you are expressionless?",
+                      'Yes',
+                      'No',
                       answer5,
                           (bool value) {
                         setState(() {
@@ -221,9 +168,9 @@ class SurveyState extends State<Survey> {
                       },
                     ),
                     _buildQuestion(
-                      '6. 반쪽얼굴이 아예 움직이지 않고, 피부가 쳐저 보이나요?',
-                      '예',
-                      '아니오',
+                      "6. Doesn't your half face move at all?",
+                      'Yes',
+                      'No',
                       answer6,
                           (bool value) {
                         setState(() {
@@ -236,11 +183,8 @@ class SurveyState extends State<Survey> {
                     ),
                     SizedBox(height: 20),
                     ElevatedButton(
-                      onPressed: () {
-                        // 설문조사 완료 처리 함수
-                        _submitSurvey();
-                      },
-                      child: Text('설문조사 완료'),
+                      onPressed: _submitSurvey,
+                      child: Text('Finish Survey'),
                     ),
                   ],
                 ),
@@ -287,10 +231,10 @@ class SurveyState extends State<Survey> {
     );
   }
 
-  Widget _buildCheckBox(String option, bool isChecked, ValueChanged<bool> onChanged) {
+  Widget _buildCheckBox(
+      String option, bool isChecked, ValueChanged<bool> onChanged) {
     return GestureDetector(
       onTap: () {
-        // 체크 상태를 토글합니다
         onChanged(!isChecked);
       },
       child: Container(
@@ -304,7 +248,7 @@ class SurveyState extends State<Survey> {
             ? Center(
           child: Icon(Icons.check, size: 16, color: Colors.white),
         )
-            : SizedBox(), // isChecked가 true이면 체크 마크를 표시합니다
+            : SizedBox(),
       ),
     );
   }
