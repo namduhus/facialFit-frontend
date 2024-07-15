@@ -10,6 +10,8 @@ import 'package:SmileHelper/quest/quest_test2.dart';
 import 'package:get/get.dart';
 import 'package:SmileHelper/main/main_stage.dart';
 import 'package:SmileHelper/main/mypage.dart';
+import 'game/result/stageclear1.dart';
+import 'game/result/stagefail1.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,7 +37,7 @@ class MyApp extends StatelessWidget {
       title: "Camera Application",
       home: LoginMain(),
       //Login(),
-      initialRoute: "/Login",
+      initialRoute: "/stagefail1",
       //"/CameraScreen", //"/Login",
       getPages: [
         GetPage(
@@ -60,6 +62,8 @@ class MyApp extends StatelessWidget {
         "/MyPage": (context) => MyPage(),
         "/CameraView": (context) => CameraView(),
         "/CameraScreen": (context) => CameraScreen(),
+        "/stageclear1": (context) => StageClear(),
+        "/stagefail1": (context) => StageFail(),
         //"/CameraController": (context) => CameraController(camera, resolutionPreset),
       },
     );

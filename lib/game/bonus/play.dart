@@ -1,15 +1,10 @@
-import 'package:SmileHelper/etc/buttons/capture/button.dart';
-import 'package:SmileHelper/etc/buttons/capture/topimage.dart';
-import 'package:SmileHelper/etc/buttons/pop.dart';
 import 'package:SmileHelper/game/camera_view.dart';
 import 'package:SmileHelper/global_binding.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:SmileHelper/etc/buttons/stop.dart';
 import 'package:SmileHelper/game/camera_screen.dart';
 
-import 'package:SmileHelper/game/ending/fail.dart';
-import 'package:SmileHelper/game/ending/success.dart';
+import 'package:SmileHelper/game/result/stageclear1.dart';
 import 'package:get/get.dart';
 
 class BonusPlay extends StatelessWidget {
@@ -101,10 +96,7 @@ class BonusPlay extends StatelessWidget {
                             ]), ///////////////////////////////////////////
                           ),
                         ),
-                        BtnPop(), //TopImageViewer(), //CaptureButton(),
 
-/////
-/*
                         Positioned(
                           left: 114,
                           top: 253,
@@ -125,7 +117,7 @@ class BonusPlay extends StatelessWidget {
                         ),
 
 
-                        */
+
                         Positioned(
                           left: 165,
                           top: 645,
@@ -166,7 +158,7 @@ class BonusPlay extends StatelessWidget {
                             onTap: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => EndingSuccess())),
+                                    builder: (context) => StageClear())),
                             child: Transform(
                               transform: Matrix4.identity()
                                 ..translate(0.0, 0.0)
@@ -191,38 +183,6 @@ class BonusPlay extends StatelessWidget {
                           ),
                         ),
                         ///////////////////////////////////////////////실패테스트/////////////////////////////////////////////
-                        Positioned(
-                          left: 400,
-                          top: 500,
-                          child: InkWell(
-                            onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => EndingFail())),
-                            child: Transform(
-                              transform: Matrix4.identity()
-                                ..translate(0.0, 0.0)
-                                ..rotateZ(0),
-                              child: Container(
-                                width: 49,
-                                height: 44,
-                                decoration: ShapeDecoration(
-                                  color: Color(0xFFFF00C7),
-                                  shape: StarBorder.polygon(
-                                    side: BorderSide(
-                                        width: 1, color: Color(0xFF6B6060)),
-                                    sides: 3,
-                                  ),
-                                ),
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Text("실패 테스트"),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        BtnStop(),
                       ],
                     ),
                   ),
