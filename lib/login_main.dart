@@ -31,7 +31,7 @@ class LoginMainState extends State<LoginMain> {
       // Navigate to MainStage screen or any other screen after successful login
       Navigator.pushReplacement(
         context,
-          MaterialPageRoute(builder: (context) => MainStage2()),
+          MaterialPageRoute(builder: (context) => MainHome()),
       );
     } catch (e) {
       setState(() {

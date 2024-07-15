@@ -262,7 +262,7 @@ class QuestTest2State extends State<QuestTest2> {
   void _navigateToHome() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => MainStage2()),
+      MaterialPageRoute(builder: (context) => MainHome()),
     );
   }
 

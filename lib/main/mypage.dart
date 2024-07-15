@@ -130,7 +130,7 @@ class _MyPageState extends State<MyPage> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => MainStage2()),
+                            MaterialPageRoute(builder: (context) => MainHome()),
                           );
                         },
                         child: Text('Main'),
