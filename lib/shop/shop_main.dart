@@ -1,11 +1,10 @@
 import 'dart:convert';
+import 'package:SmileHelper/main/mypage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:SmileHelper/main/stage.dart';
-import 'package:SmileHelper/etc/statistics.dart';
 import 'package:SmileHelper/Service/AuthService.dart';
-import 'package:SmileHelper/main/statefullStage.dart';
+import 'package:SmileHelper/main/main_stage.dart';
 
 class ShopMain extends StatefulWidget {
   const ShopMain({super.key});
@@ -75,29 +74,38 @@ class ShopState extends State<ShopMain> {
     }
   }
 
-  // API에서 아이템 수량을 가져오는 함수
+  // API에서 사용자별 아이템 수량을 가져오는 함수
   Future<void> _fetchItemQuantities() async {
-    for (int i = 0; i < 9; i++) {
-      final url = Uri.parse('http://34.47.88.29:8082/api/items/${i + 1}');
-      try {
-        final response = await http.get(url);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? accessToken = prefs.getString('accessToken');
+    userId = prefs.getString('userId') ?? ''; // 사용자 ID 가져오기
 
-        if (response.statusCode == 200) {
-          // API 호출 성공
-          final jsonResponse = jsonDecode(response.body);
-          setState(() {
-            itemQuantities[i] = jsonResponse['quantity'] ?? 0;
-            itemImages[i] = jsonResponse['quantity'] > 0 ? "assets/images/${i + 1}.png" : "assets/images/Soldout.png";
+    final url = Uri.parse('http://34.47.88.29:8082/api/items/user/$userId');
+    try {
+      final response = await http.get(
+        url,
+        headers: {'Authorization': 'Bearer $accessToken'},
+      );
+
+      if (response.statusCode == 200) {
+        // API 호출 성공
+        final jsonResponse = jsonDecode(response.body) as List;
+        setState(() {
+          for (int i = 0; i < jsonResponse.length; i++) {
+            itemQuantities[i] = jsonResponse[i]['quantity'] ?? 0;
+            itemImages[i] = jsonResponse[i]['quantity'] > 0
+                ? "assets/images/${i + 1}.png"
+                : "assets/images/Soldout.png";
             itemPriceImages[i] = "assets/images/price${(i ~/ 3) + 1}.png";
-          });
-        } else {
-          print('Failed to load item quantities: ${response.statusCode}');
-          print('Response body: ${response.body}');
-        }
-      } catch (e) {
-        // 예외 처리
-        print('Error fetching item quantities: $e');
+          }
+        });
+      } else {
+        print('Failed to load item quantities: ${response.statusCode}');
+        print('Response body: ${response.body}');
       }
+    } catch (e) {
+      // 예외 처리
+      print('Error fetching item quantities: $e');
     }
   }
 
@@ -182,20 +190,27 @@ class ShopState extends State<ShopMain> {
   void _navigateToHome() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => StatefullMainStage()),
+      MaterialPageRoute(builder: (context) => MainStage2()),
     );
   }
 
   void _navigateToStatistics() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => Statistics()),
+      MaterialPageRoute(builder: (context) => MyPage()),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Image.asset(
+          'assets/images/Logo.png', // 로고 이미지 경로
+          height: 40, // 이미지 높이 조정
+        ),
+        centerTitle: true,
+      ),
       body: Container(
         color: Color(0xFF207F66), // 배경색 설정
         child: Center(
@@ -261,11 +276,11 @@ class ShopState extends State<ShopMain> {
                   ),
                   SizedBox(height: 80),
                   SizedBox(
-                    height: 10,
+                    height: 0.3,
                   ),
                   Expanded(
                     child: GridView.builder(
-                      padding: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(40),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3, // 3 items per row
                         crossAxisSpacing: 10.0,
@@ -321,7 +336,7 @@ class ShopState extends State<ShopMain> {
                           padding: const EdgeInsets.symmetric(horizontal: 5.0),
                           child: ElevatedButton(
                             onPressed: _navigateToStatistics,
-                            child: Text('Statistics'),
+                            child: Text('MyPage'),
                           ),
                         ),
                       ),
