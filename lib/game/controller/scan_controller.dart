@@ -4,8 +4,12 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:async';
+import 'package:SmileHelper/etc/statistics.dart';
 import 'package:SmileHelper/game/controller/getPredict.dart';
 import 'package:SmileHelper/game/controller/mlkit.dart';
+import 'package:SmileHelper/main/statefullStage.dart';
+import 'package:SmileHelper/quest/quest_test1.dart';
+import 'package:SmileHelper/quest/quest_test2.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +20,8 @@ import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:logger/logger.dart';
 import 'package:get/state_manager.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:path/path.dart';
+import 'package:path/path.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:math' as math;
 
@@ -39,11 +45,23 @@ class ScanController extends GetxController {
   var _imageCount = 0;
 
   // 스테이지 관련 변수 추가
+  //스테이지 관리
+
+  // "동작"
+
   int _currentStage = 0;
-  final List<String> _stages = ['웃기', '입 벌리기', '눈 감기'];
+  final List<String> _stages = [
+    '웃기',
+    '입 벌리기',
+    '눈 감기',
+    '눈썹 올리기',
+    '볼 부풀리기',
+    '눈 찡그리기'
+  ];
   Timer? _stageTimer;
 
-  String get currentStage => '스테이지 ${_currentStage + 1}: ${_stages[_currentStage]}';
+  String get currentStage =>
+      '스테이지 ${_currentStage + 1}: ${_stages[_currentStage]}';
 
   bool get canProcess => _canProcess;
 
@@ -55,10 +73,12 @@ class ScanController extends GetxController {
     _isBusy = isBusy;
   }
 
+  bool _isDisposed = false;
+
   @override
   void onInit() {
-    _initCamera();
     super.onInit();
+    _initCamera();
   }
 
   @override
@@ -66,17 +86,20 @@ class ScanController extends GetxController {
     _canProcess = false;
     _faceDetector.close();
     _isInitialized.value = false;
+    _imageList.clear();
     _cameraController.dispose();
-
-    super.dispose();
   }
 
+  //사진 찍은 횟수
+  RxInt _picture_count = RxInt(0);
+  get picture_count => _picture_count.value;
 
   // 유효성 검사 함수
   bool _validateStage(Face face) {
     switch (_currentStage) {
       case 0:
-        return face.smilingProbability != null && face.smilingProbability! > 0.8;
+        return face.smilingProbability != null &&
+            face.smilingProbability! > 0.8;
       case 1:
         return _isMouthOpen(face);
       case 2:
@@ -100,32 +123,150 @@ class ScanController extends GetxController {
       takePicture().then((file) {
         if (file != null) {
           _processImage(InputImage.fromFilePath(file.path)).then((_) {
+            //사진찍는 수 증가
+            _picture_count.value += 1;
             // 유효성 검사를 face 인식 후 호출
             _moveToNextStage();
           });
         } else {
+          //사진찍는 수 증가
+          _picture_count.value += 1;
           _moveToNextStage();
         }
       });
     });
   }
 
+//사진찍는횟수
+  var _picture_limit = 3;
+//끝났는지 판단
+  var _isDone = false;
+//맞은 개수
+  RxInt correct = RxInt(0);
+//틀린 개수
+  RxInt wrong = RxInt(0);
   // 다음 스테이지로 이동
-  void _moveToNextStage() {
+  void _moveToNextStage() async {
+    //종료조건
+    if (imageList.length >= 3) {
+      await _showPopup('사진이 3개가 됐어요 ');
+      _showPopup(correct.value.toString());
+      _showPopup(wrong.value.toString());
+
+      //종료하는척
+      _isInitialized.value = false;
+      _imageList.clear();
+
+      correct.value = 0;
+      wrong.value = 0;
+      _currentStage = 0;
+      dispose();
+      //
+      Get.to(StatefullMainStage());
+    } else {
+      //실행조건
+      _showPopup("사진이 아직 3개가 안됐어요");
+      if (_message.value == 'success') {
+        correct.value += 1;
+      } else if (_message.value == 'fail') {
+        wrong.value += 1;
+      }
+      Logger()
+          .e("실행조건: ${correct.value}  ${wrong.value}   ${imageList.length}}");
+      _currentStage += 1;
+      _startStage();
+    }
+    /*
+    //종료 조건
+    if (_picture_count.value >= _picture_limit) {
+      _showPopup(correct.toString());
+      Timer(Duration(seconds: 1), () {
+        _isDone = true;
+
+        if (correct > wrong) {
+          //성공
+          _showPopup('성공!');
+
+          dispose();
+          Get.to(StatefullMainStage());
+        } else if (wrong > correct) {
+          _showPopup('실패!');
+          dispose();
+          Get.to(Statistics());
+        }
+
+/*
+//마지막 스테이지만 실행 
+              if(){
+      _showPopup('모든 스테이지 완료');
+      dispose();
+      Get.to(QuestTest2());
+    }
+*/
+      });
+
+      Logger().e("dispose: $correct  $wrong ");
+    } else {
+      Logger().e('_message.value? ${_message.value}');
+
+      /// 지피티 물어보기
+      // 성공실패카운트
+      if (_message.value == 'success') {
+        correct += 1;
+        Logger().e("isDone correct: $correct    ${_message.value}");
+        _showPopup('성공 추가: $correct');
+        _startStage();
+      } else if (_message.value == 'fail') {
+        wrong += 1;
+        _showPopup('실패 추가: $wrong');
+        _startStage();
+
+        //끝
+      } //else
+    }
+
+    ///
+/*
     if (_currentStage < _stages.length - 1) {
       _currentStage++;
+
+
+
       _startStage();
     } else {
-      _showPopup('모든 스테이지 완료');
-    }
+
+    }*/
+
+    */
   }
+
+  _disposeCamera() {
+    _canProcess = false;
+    _faceDetector.close();
+    _isInitialized.value = false;
+    _imageList.clear();
+    _cameraController.dispose();
+  }
+
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    _disposeCamera();
+    super.onClose();
+  }
+
 // 카메라 초기화 후 스테이지 시작
   Future<void> _initCamera() async {
+    if (_isDisposed) return;
     Logger().e('_initCamera()');
-    _cameraController = CameraController(_cameras[1], ResolutionPreset.veryHigh,
-        imageFormatGroup: ImageFormatGroup.jpeg, enableAudio: false);
 
-    _cameraController.initialize().then((value) async {
+    try {
+      _cameraController = CameraController(
+          _cameras[1], ResolutionPreset.veryHigh,
+          imageFormatGroup: ImageFormatGroup.jpeg, enableAudio: false);
+
+      await _cameraController.initialize();
+      if (_isDisposed) return; // dispose 상태인 경우 초기화 방지
       _isInitialized.value = true;
       await _cameraController.startImageStream((CameraImage image) async {
         _cameraImage = image;
@@ -133,20 +274,33 @@ class ScanController extends GetxController {
 
       _isInitialized.refresh();
       _startStage(); // 스테이지 시작
-    }).catchError((Object e) {
-      if (e is CameraException) {
-        switch (e.code) {
-          case 'CameraAccessDenied':
-            developer.log('User denied camera access', name: "접근 불가");
-            print('User denied camera access.');
-            break;
-          default:
-            developer.log('Handler other errers', name: "핸들러 에러");
-            print('Handle other errors.');
-            break;
-        }
+    } on CameraException catch (e) {
+      if (e.code == 'CameraAccessDenied') {
+        Logger().e('User denied camera access');
+        Get.snackbar(
+          'Error',
+          'User denied camera access',
+          snackPosition: SnackPosition.BOTTOM,
+          duration: Duration(seconds: 2),
+        );
+      } else {
+        Logger().e('CameraException: ${e.code}');
+        Get.snackbar(
+          'Error',
+          'Failed to initialize camera: ${e.code}',
+          snackPosition: SnackPosition.BOTTOM,
+          duration: Duration(seconds: 2),
+        );
       }
-    });
+    } catch (e) {
+      Logger().e('Unknown error: $e');
+      Get.snackbar(
+        'Error',
+        'Unknown error occurred while initializing camera',
+        snackPosition: SnackPosition.BOTTOM,
+        duration: Duration(seconds: 2),
+      );
+    }
   }
 
   Future<XFile?> takePicture() async {
@@ -172,7 +326,7 @@ class ScanController extends GetxController {
 
       // predict
       Future<String> response =
-      Getpredict().predict(file); //Image.file(File(path))
+          Getpredict().predict(file); //Image.file(File(path))
       Logger().e('take_picture: ${response}');
       //
 
@@ -192,7 +346,6 @@ class ScanController extends GetxController {
       return null;
     }
   }
-
 
   XFile? imageFile;
   VideoPlayerController? videoController;
@@ -215,23 +368,23 @@ class ScanController extends GetxController {
                 height: 64.0,
                 child: (localVideoController == null)
                     ? (
-                    // The captured image on the web contains a network-accessible URL
-                    // pointing to a location within the browser. It may be displayed
-                    // either with Image.network or Image.memory after loading the image
-                    // bytes to memory.
-                    kIsWeb
-                        ? Image.network(imageFile!.path)
-                        : Image.file(File(imageFile!.path)))
+                        // The captured image on the web contains a network-accessible URL
+                        // pointing to a location within the browser. It may be displayed
+                        // either with Image.network or Image.memory after loading the image
+                        // bytes to memory.
+                        kIsWeb
+                            ? Image.network(imageFile!.path)
+                            : Image.file(File(imageFile!.path)))
                     : Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.pink)),
-                  child: Center(
-                    child: AspectRatio(
-                        aspectRatio:
-                        localVideoController.value.aspectRatio,
-                        child: VideoPlayer(localVideoController)),
-                  ),
-                ),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.pink)),
+                        child: Center(
+                          child: AspectRatio(
+                              aspectRatio:
+                                  localVideoController.value.aspectRatio,
+                              child: VideoPlayer(localVideoController)),
+                        ),
+                      ),
               ),
           ],
         ),
@@ -242,7 +395,7 @@ class ScanController extends GetxController {
   final RxString _message = ''.obs; // 팝업 메시지
   String get message => _message.value;
   final RxList<Point<int>> _landmarks =
-  RxList<Point<int>>(); // 얼굴 랜드마크 저장 FaceLandmark
+      RxList<Point<int>>(); // 얼굴 랜드마크 저장 FaceLandmark
 
 // mlkit facedetector
   final FaceDetector _faceDetector = FaceDetector(
@@ -321,35 +474,34 @@ class ScanController extends GetxController {
     _isBusy = false;
   }
 
-
   bool _isEyebrowRaised(Face face) {
     FaceContour? leftEyebrowTop = face.contours[FaceContourType.leftEyebrowTop];
     FaceContour? leftEyebrowBottom =
-    face.contours[FaceContourType.leftEyebrowBottom];
+        face.contours[FaceContourType.leftEyebrowBottom];
     FaceContour? rightEyebrowTop =
-    face.contours[FaceContourType.rightEyebrowTop];
+        face.contours[FaceContourType.rightEyebrowTop];
     FaceContour? rightEyebrowBottom =
-    face.contours[FaceContourType.rightEyebrowBottom];
+        face.contours[FaceContourType.rightEyebrowBottom];
 
     if (leftEyebrowTop != null &&
         leftEyebrowBottom != null &&
         rightEyebrowTop != null &&
         rightEyebrowBottom != null) {
       double leftEyebrowTopY = leftEyebrowTop.points
-          .map((p) => p.y.toDouble())
-          .reduce((a, b) => a + b) /
+              .map((p) => p.y.toDouble())
+              .reduce((a, b) => a + b) /
           leftEyebrowTop.points.length;
       double leftEyebrowBottomY = leftEyebrowBottom.points
-          .map((p) => p.y.toDouble())
-          .reduce((a, b) => a + b) /
+              .map((p) => p.y.toDouble())
+              .reduce((a, b) => a + b) /
           leftEyebrowBottom.points.length;
       double rightEyebrowTopY = rightEyebrowTop.points
-          .map((p) => p.y.toDouble())
-          .reduce((a, b) => a + b) /
+              .map((p) => p.y.toDouble())
+              .reduce((a, b) => a + b) /
           rightEyebrowTop.points.length;
       double rightEyebrowBottomY = rightEyebrowBottom.points
-          .map((p) => p.y.toDouble())
-          .reduce((a, b) => a + b) /
+              .map((p) => p.y.toDouble())
+              .reduce((a, b) => a + b) /
           rightEyebrowBottom.points.length;
 
       double leftEyebrowRaise = leftEyebrowBottomY - leftEyebrowTopY;
@@ -421,7 +573,7 @@ class ScanController extends GetxController {
     FaceLandmark? rightMouth = face.landmarks[FaceLandmarkType.rightMouth];
     FaceLandmark? bottomMouth = face.landmarks[FaceLandmarkType.bottomMouth];
     FaceLandmark? upperMouth =
-    face.landmarks[FaceLandmarkType.noseBase]; // 코 기저부를 윗입술로 사용
+        face.landmarks[FaceLandmarkType.noseBase]; // 코 기저부를 윗입술로 사용
 
     if (leftMouth != null &&
         rightMouth != null &&
@@ -434,11 +586,11 @@ class ScanController extends GetxController {
       print('Upper Mouth (Nose Base): ${upperMouth.position}');
 
       double mouthWidth =
-      (rightMouth.position.x.toDouble() - leftMouth.position.x.toDouble())
-          .abs();
+          (rightMouth.position.x.toDouble() - leftMouth.position.x.toDouble())
+              .abs();
       double mouthHeight =
-      (bottomMouth.position.y.toDouble() - upperMouth.position.y.toDouble())
-          .abs();
+          (bottomMouth.position.y.toDouble() - upperMouth.position.y.toDouble())
+              .abs();
 
       // 입 벌림 판단 기준 설정
       double ratio = mouthHeight / mouthWidth;
