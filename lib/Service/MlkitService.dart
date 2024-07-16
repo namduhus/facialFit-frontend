@@ -16,7 +16,17 @@ Future<List<FaceLandmark>> detectFaceLandmarks(File imageFile) async {
 
   if (faces.isNotEmpty) {
     // 첫 번째 얼굴의 랜드마크만 사용 (필요시 여러 얼굴에 대해 처리 가능)
-    return faces.first.landmarks.values.where((landmark) => landmark != null).toList().cast<FaceLandmark>();
+    final landmarks = <FaceLandmark>[];
+    final face = faces.first;
+
+    FaceLandmarkType.values.forEach((type) {
+      final landmark = face.landmarks[type];
+      if (landmark != null) {
+        landmarks.add(landmark);
+      }
+    });
+
+    return landmarks;
   } else {
     return [];
   }

@@ -153,31 +153,25 @@ class _MainHomeState extends State<MainHome> {
           counter++;
         } while (await File(filePath).exists());
 
+
         File(image.path).copy(filePath).then((file) async {
-          final String newDirPath =
-              '${externalDir!.path}/MyAppImages/Landmarks';
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('사진이 저장되었습니다: $filePath')),
+          );
+          // API 호출
+          await _uploadPhoto(userId!, filePath);
+          setState(() {
+            _imageFile = file; // 이미지 파일 갱신
+          });
+
+          // 랜드마크 디렉토리 설정
+          final String newDirPath = '${externalDir!.path}/MyAppImages/Landmarks';
           await Directory(newDirPath).create(recursive: true);
 
-          String filePath;
-          int counter = 1;
-          do {
-            filePath =
-                '$newDirPath/$userId${counter == 1 ? '' : '_$counter'}.jpg';
-            counter++;
-          } while (await File(filePath).exists());
-
-          File(image.path).copy(filePath).then((file) async {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('사진이 저장되었습니다: $filePath')),
-            );
-            // API 호출
-            await _uploadPhoto(userId!, filePath);
-            setState(() {
-              _imageFile = file; // 이미지 파일 갱신
-            });
-            await _processAndSaveLandmarks(file, newDirPath); // 추가된 코드: newDirPath 전달
-          });
+          await _processAndSaveLandmarks(file, newDirPath); // 추가된 코드: newDirPath 전달
         });
+
+
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

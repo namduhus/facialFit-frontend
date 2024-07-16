@@ -2,9 +2,8 @@ import 'dart:io';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:path_provider/path_provider.dart';
 
-Future<void> saveLandmarksToFile(List<FaceLandmark> landmarks, String fileName) async {
-  final directory = await getApplicationDocumentsDirectory();
-  final file = File('${directory.path}/$fileName.txt');
+Future<void> saveLandmarksToFile(List<FaceLandmark> landmarks, String filePath) async {
+  final file = File(filePath);
 
   String landmarksText = landmarks.map((landmark) {
     final position = landmark.position;
