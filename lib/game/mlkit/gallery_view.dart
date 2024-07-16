@@ -1,12 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:SmileHelper/game/mlkit/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mlkit_commons/google_mlkit_commons.dart';
 import 'package:image_picker/image_picker.dart';
-
-import 'utils.dart';
 
 class GalleryView extends StatefulWidget {
   GalleryView(
@@ -153,7 +152,6 @@ class _GalleryViewState extends State<GalleryView> {
                             GestureDetector(
                               onTap: () async {
                                 Navigator.of(context).pop();
-                                _processFile(await getAssetPath(path));
                               },
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
