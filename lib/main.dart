@@ -19,7 +19,8 @@ import 'calendar/calendar.dart';
 import 'game/result/stageclear1.dart';
 import 'game/result/stagefail1.dart';
 import 'package:SmileHelper/game/story/start.dart';
-import 'package:SmileHelper/game/story/play.dart';
+import 'package:SmileHelper/game/story/story_stage.dart';
+import 'package:SmileHelper/game/story/prolog.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -73,8 +74,9 @@ class MyApp extends StatelessWidget {
               "/survey": (context) => Survey(registrationData: {},),
               "/Quest": (context) => QuestTest2(),
               "/MyPage": (context) => MyPage(),
+              "/Prolog": (context) => Prolog(),
+              "/Story": (context) => StoryStage(),
               "/Start": (context) => StoryStart(),
-              "/Play": (context) => StoryPlay(),
               "/CameraView": (context) => CameraView(),
               "/CameraScreen": (context) => CameraScreen(),
               "/stageclear1": (context) => StageClear(),
