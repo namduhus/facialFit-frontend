@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'package:SmileHelper/game/bonus/play.dart';
 import 'package:SmileHelper/main/mypage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:SmileHelper/shop/shop_main.dart';
@@ -101,7 +103,8 @@ class _MainHomeState extends State<MainHome> {
                     Navigator.of(context).pop();
                     // Implement your Story Mode functionality here
                   },
-                  child: Text('Story Mode', style: TextStyle(color: Colors.black)),
+                  child:
+                      Text('Story Mode', style: TextStyle(color: Colors.black)),
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
@@ -111,10 +114,12 @@ class _MainHomeState extends State<MainHome> {
                     textStyle: TextStyle(fontSize: 18),
                   ),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    //Navigator.of(context).pushNamed("/Stage2");
+                    Get.to(BonusPlay()); //일단 플레이로
                     // Implement your Bonus Mode functionality here
                   },
-                  child: Text('Bonus Mode', style: TextStyle(color: Colors.black)),
+                  child:
+                      Text('Bonus Mode', style: TextStyle(color: Colors.black)),
                 ),
               ],
             ),
@@ -265,12 +270,14 @@ class _MainHomeState extends State<MainHome> {
                         children: [
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5.0),
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => ShopMain()),
+                                    MaterialPageRoute(
+                                        builder: (context) => ShopMain()),
                                   );
                                 },
                                 child: Text('Shop'),
@@ -279,12 +286,14 @@ class _MainHomeState extends State<MainHome> {
                           ),
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5.0),
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => MainHome()),
+                                    MaterialPageRoute(
+                                        builder: (context) => MainHome()),
                                   );
                                 },
                                 child: Text('Home'),
@@ -293,12 +302,14 @@ class _MainHomeState extends State<MainHome> {
                           ),
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5.0),
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => MyPage()),
+                                    MaterialPageRoute(
+                                        builder: (context) => MyPage()),
                                   );
                                 },
                                 child: Text('MyPage'),
@@ -366,7 +377,8 @@ class _MainHomeState extends State<MainHome> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => QuestTest2()),
+                              MaterialPageRoute(
+                                  builder: (context) => QuestTest2()),
                             );
                           },
                         ),

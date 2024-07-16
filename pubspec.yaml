@@ -97,6 +97,7 @@ flutter:
     - assets/Fun.mp3
     - assets/clear.mp3
     - assets/fail.mp3
+    - assets/gifs/
     #- assets/models/
     #- assets/labels/
   #   - images/a_dot_burr.jpeg

@@ -1,9 +1,9 @@
 import 'dart:io';
 
-
 import 'package:SmileHelper/game/controller/getPredict.dart';
 import 'package:SmileHelper/game/mlkit/detector_view.dart';
 import 'package:SmileHelper/game/mlkit/message_view.dart';
+import 'package:SmileHelper/game/showStatusImage.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -36,13 +36,9 @@ class _ScreenState extends State<CameraScreen> {
             child: CameraView(),
           ),
           MessageView(), // 필요없다
+          Showstatusimage(),
 
-          /*DetectorView(
-            title: 'detectorView',
-            onImage: (inputImage) => InputImage.fromFilePath(_path),
-          ),*/
           //Testmlkit(),
-          //obs(()=> CaptureButton().controller.message.isNotEmpty?Positioned(bottom: 120, child: Text(cont),,))
         ],
       ),
     );
