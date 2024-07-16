@@ -13,6 +13,7 @@ import 'package:permission_handler/permission_handler.dart';
 import '../calendar/calendar.dart';
 import '../Service/AudioService.dart';
 import 'package:SmileHelper/game/story/prolog.dart'; // Prolog import
+import 'package:SmileHelper/game/bonus/bonus_game.dart';
 
 class MainHome extends StatefulWidget {
   @override
@@ -282,8 +283,7 @@ class _MainHomeState extends State<MainHome> {
                     textStyle: TextStyle(fontSize: 18),
                   ),
                   onPressed: () {
-                    Navigator.of(context).pop();
-                    // Implement your Bonus Mode functionality here
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => BonusGame()));
                   },
                   child: Text('Bonus Mode', style: TextStyle(color: Colors.black)),
                 ),
