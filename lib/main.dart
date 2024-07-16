@@ -21,6 +21,7 @@ import 'game/result/stagefail1.dart';
 import 'package:SmileHelper/game/story/start.dart';
 import 'package:SmileHelper/game/story/story_stage.dart';
 import 'package:SmileHelper/game/story/prolog.dart';
+import 'package:SmileHelper/game/bonus/bonus_game.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,6 +66,7 @@ class MyApp extends StatelessWidget {
                 page: () => CameraScreen(),
                 transition: Transition.zoom,
               ),
+              GetPage(name: '/bonus', page: () => BonusGame()),
             ],
             routes: {
               "/Login": (context) => LoginMain(),
