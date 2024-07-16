@@ -14,9 +14,8 @@ import 'package:permission_handler/permission_handler.dart';
 import '../calendar/calendar.dart';
 import '../Service/AudioService.dart';
 import 'package:SmileHelper/game/story/prolog.dart'; // Prolog import
-import 'package:SmileHelper/game/bonus/play.dart'; // BonusPlay import
-import 'package:SmileHelper/Service/MlkitService.dart';
-import 'package:SmileHelper/game/mlkit/file_utils.dart'; // 좌표 저장 함수가 있는 파일
+import 'package:SmileHelper/game/bonus/start.dart'; // BonusStartPage import
+import 'package:SmileHelper/game/bonus/bonus_game.dart';
 
 class MainHome extends StatefulWidget {
   @override
@@ -153,7 +152,6 @@ class _MainHomeState extends State<MainHome> {
           counter++;
         } while (await File(filePath).exists());
 
-
         File(image.path).copy(filePath).then((file) async {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('사진이 저장되었습니다: $filePath')),
@@ -163,15 +161,7 @@ class _MainHomeState extends State<MainHome> {
           setState(() {
             _imageFile = file; // 이미지 파일 갱신
           });
-
-          // 랜드마크 디렉토리 설정
-          final String newDirPath = '${externalDir!.path}/MyAppImages/Landmarks';
-          await Directory(newDirPath).create(recursive: true);
-
-          await _processAndSaveLandmarks(file, newDirPath); // 추가된 코드: newDirPath 전달
         });
-
-
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -230,7 +220,7 @@ class _MainHomeState extends State<MainHome> {
     }
   }
 
-  Future _saveUserId(String userId) async {
+  Future<void> _saveUserId(String userId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('userId', userId);
   }
@@ -242,7 +232,7 @@ class _MainHomeState extends State<MainHome> {
         return AlertDialog(
           title: Text('사진을 찍어주세요'),
           content: Text('첫 이용자는 사진을 찍어주세요.'),
-          actions: [
+          actions: <Widget>[
             TextButton(
               child: Text('취소'),
               onPressed: () {
@@ -272,7 +262,7 @@ class _MainHomeState extends State<MainHome> {
             width: double.maxFinite,
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: [
+              children: <Widget>[
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFFFAF9E0),
@@ -298,17 +288,14 @@ class _MainHomeState extends State<MainHome> {
                     textStyle: TextStyle(fontSize: 18),
                   ),
                   onPressed: () {
-//Navigator.of(context).pushNamed(”/Stage2”);
-                    Get.to(BonusPlay()); //일단 플레이로
-// Implement your Bonus Mode functionality here
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => BonusGame()));
                   },
-                  child:
-                      Text('Bonus Mode', style: TextStyle(color: Colors.black)),
+                  child: Text('Bonus Mode', style: TextStyle(color: Colors.black)),
                 ),
               ],
             ),
           ),
-          actions: [
+          actions: <Widget>[
             TextButton(
               child: Text('Cancel'),
               onPressed: () {
@@ -332,26 +319,11 @@ class _MainHomeState extends State<MainHome> {
     });
   }
 
-  Future<void> _processAndSaveLandmarks(File imageFile, String dirPath) async {
-    final landmarks = await detectFaceLandmarks(imageFile);
-    if (landmarks.isNotEmpty) {
-      final fileName = imageFile.path.split('/').last.split('.').first;
-      final landmarksFilePath = '$dirPath/$fileName.txt';
-      await saveLandmarksToFile(landmarks, landmarksFilePath);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('랜드마크 좌표가 저장되었습니다: $landmarksFilePath')),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('얼굴을 인식하지 못했습니다.')),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false, // 뒤로 가기 버튼 없애기
@@ -594,7 +566,7 @@ class _MainHomeState extends State<MainHome> {
                             );
                           },
                         ),
-// calendar 버튼의 onPressed 함수 수정
+                        // calendar 버튼의 onPressed 함수 수정
                         IconButton(
                           icon: Image.asset('assets/images/calendar.png'),
                           onPressed: () {

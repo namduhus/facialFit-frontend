@@ -5,15 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:SmileHelper/game/camera_screen.dart';
 
 import 'package:SmileHelper/game/result/stageclear1.dart';
-import 'package:get/get.dart';
 
-class BonusPlay extends StatelessWidget {
+class StoryPlay extends StatelessWidget {
   //final List<CameraDescription>? cameras;
 
-  const BonusPlay({super.key});
+  const StoryPlay({super.key});
 
-  //@override
-  //State<BonusPlay> createState() => PlayCamera();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +58,7 @@ class BonusPlay extends StatelessWidget {
                           left: 38,
                           top: 34,
                           child: Text(
-                            'Bonus Mode',
+                            'Story Mode',
                             style: TextStyle(
                               color: Color(0xFFFFF3F3),
                               fontSize: 51.53,
