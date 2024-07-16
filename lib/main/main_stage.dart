@@ -15,6 +15,7 @@ import '../calendar/calendar.dart';
 import '../Service/AudioService.dart';
 import 'package:SmileHelper/game/story/prolog.dart'; // Prolog import
 import 'package:SmileHelper/game/bonus/start.dart'; // BonusStartPage import
+import 'package:SmileHelper/game/bonus/bonus_game.dart';
 
 class MainHome extends StatefulWidget {
   @override
@@ -287,17 +288,9 @@ class _MainHomeState extends State<MainHome> {
                     textStyle: TextStyle(fontSize: 18),
                   ),
                   onPressed: () {
-                    Navigator.of(context).pop();
-                    /*
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => BonusStart()),
-                      
-                    );*/
-                    Get.to(BonusStart());
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => BonusGame()));
                   },
-                  child:
-                      Text('Bonus Mode', style: TextStyle(color: Colors.black)),
+                  child: Text('Bonus Mode', style: TextStyle(color: Colors.black)),
                 ),
               ],
             ),
