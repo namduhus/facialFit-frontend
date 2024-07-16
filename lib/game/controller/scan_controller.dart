@@ -216,7 +216,7 @@ class ScanController extends GetxController {
           wrong.value += 1;
         }
       });
-
+      update();
       Logger()
           .e("실행조건: ${correct.value}  ${wrong.value}   ${imageList.length}}");
       _currentStage += 1;
