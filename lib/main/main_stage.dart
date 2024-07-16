@@ -12,6 +12,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../calendar/calendar.dart';
 import '../Service/AudioService.dart';
+import 'package:SmileHelper/game/story/prolog.dart'; // Prolog import
 
 class MainHome extends StatefulWidget {
   @override
@@ -263,9 +264,13 @@ class _MainHomeState extends State<MainHome> {
                     padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                     textStyle: TextStyle(fontSize: 18),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     Navigator.of(context).pop();
-                    // Implement your Story Mode functionality here
+                    await _audioService.stopBackgroundMusic(); // 배경음악 멈추기
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Prolog()),
+                    );
                   },
                   child: Text('Story Mode', style: TextStyle(color: Colors.black)),
                 ),
@@ -316,6 +321,7 @@ class _MainHomeState extends State<MainHome> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false, // 뒤로 가기 버튼 없애기
         title: Image.asset(
           'assets/images/Logo.png',
           fit: BoxFit.contain,

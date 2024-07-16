@@ -63,6 +63,7 @@ class LoginMainState extends State<LoginMain> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false, // 뒤로 가기 버튼 없애기
         title: Image.asset(
           'assets/images/Logo.png', // 로고 이미지 경로
           height: 30, // 이미지 높이 조정

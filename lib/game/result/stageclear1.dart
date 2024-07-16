@@ -36,6 +36,7 @@ class _StageClearState extends State<StageClear> {
     return Scaffold(
       backgroundColor: Color(0xFF207F66),
       appBar: AppBar(
+        automaticallyImplyLeading: false, // 뒤로 가기 버튼 없애기
         title: Image.asset(
           'assets/images/Logo.png',
           fit: BoxFit.contain,

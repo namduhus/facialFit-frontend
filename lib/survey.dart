@@ -54,6 +54,7 @@ class SurveyState extends State<Survey> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false, // 뒤로 가기 버튼 없애기
         title: Image.asset(
           'assets/images/Logo.png',
           height: 30,
