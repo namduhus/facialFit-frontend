@@ -102,6 +102,7 @@ flutter:
     - assets/clear.mp3
     - assets/fail.mp3
     - assets/prolog.mp4
+    - assets/gifs/
     #- assets/models/
     #- assets/labels/
   #   - images/a_dot_burr.jpeg

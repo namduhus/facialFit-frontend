@@ -1,8 +1,12 @@
-//// Story 모드 start 버튼
+// story_start.dart
 
 import 'package:flutter/material.dart';
+import 'package:SmileHelper/game/story/storyplay.dart';
+import 'package:get/get.dart'; // StoryPlay 페이지 import
 
 class StoryStart extends StatelessWidget {
+  const StoryStart({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,29 +58,32 @@ class StoryStart extends StatelessWidget {
                   Positioned(
                     left: 111,
                     top: 250,
-                    child: Container(
-                      width: 200,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFFAF9E0),
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 142,
-                    top: 320,
-                    child: SizedBox(
-                      width: 140,
-                      height: 250,
-                      child: Text(
-                        'Start',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(0xFFE02020),
-                          fontSize: 30,
-                          fontFamily: 'ABeeZee',
-                          fontWeight: FontWeight.w400,
+                    child: GestureDetector(
+                      onTap: () {
+                        /*Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => StoryPlay()),
+                        );*/
+                        Get.to(StoryPlay());
+                      },
+                      child: Container(
+                        width: 200,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          color: Color(0xFFFAF9E0),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Start',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color(0xFFE02020),
+                              fontSize: 30,
+                              fontFamily: 'ABeeZee',
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
                         ),
                       ),
                     ),
