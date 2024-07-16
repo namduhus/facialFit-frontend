@@ -10,6 +10,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import '../calendar/calendar.dart';
 
 import '../Service/AudioService.dart';
 
@@ -548,9 +549,15 @@ class _MainHomeState extends State<MainHome> {
                             );
                           },
                         ),
+                        // calendar 버튼의 onPressed 함수 수정
                         IconButton(
                           icon: Image.asset('assets/images/calendar.png'),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => CalendarPage()),
+                            );
+                          },
                         ),
                         IconButton(
                           icon: Image.asset('assets/images/setting.png'),
