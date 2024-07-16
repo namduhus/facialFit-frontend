@@ -132,8 +132,7 @@ class _MainHomeState extends State<MainHome> {
     }
 
     // 권한 요청
-    if (await Permission.camera.request().isGranted &&
-        await Permission.storage.request().isGranted) {
+    if (await Permission.camera.request().isGranted && await Permission.storage.request().isGranted) {
       final ImagePicker _picker = ImagePicker();
       final XFile? image = await _picker.pickImage(source: ImageSource.camera);
 
@@ -197,8 +196,7 @@ class _MainHomeState extends State<MainHome> {
       int counter = 1;
       File? imageFile;
       while (true) {
-        final filePath =
-            '$dirPath/$userId${counter == 1 ? '' : '_$counter'}.jpg';
+        final filePath = '$dirPath/$userId${counter == 1 ? '' : '_$counter'}.jpg';
         final file = File(filePath);
         if (await file.exists()) {
           imageFile = file;
@@ -573,8 +571,7 @@ class _MainHomeState extends State<MainHome> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) => CalendarPage()),
+                              MaterialPageRoute(builder: (context) => CalendarPage()),
                             );
                           },
                         ),
@@ -591,8 +588,7 @@ class _MainHomeState extends State<MainHome> {
                     child: Column(
                       children: [
                         IconButton(
-                          icon: Icon(
-                              isMuted ? Icons.volume_off : Icons.volume_up),
+                          icon: Icon(isMuted ? Icons.volume_off : Icons.volume_up),
                           onPressed: _toggleMute,
                         ),
                         IconButton(
