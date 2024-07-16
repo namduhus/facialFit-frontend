@@ -78,45 +78,14 @@ class BonusPlay extends StatelessWidget {
                           child: Container(
                             width: 430,
                             height: 705,
-                            /*decoration: ShapeDecoration(
-                              color: Color(0xFFFAF9E0),
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(width: 1),
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                            ),*/
-                            child:
-                                //Get.to(CameraView(), binding: GlobalBindings()),
-                                //Get.toNamed('/CameraScreen'),
-                                //Get.to(CameraScreen()),
-                                Stack(children: [
+
+                            child: Stack(children: [
                               ClipRRect(
                                   borderRadius: BorderRadius.circular(15),
                                   child: CameraScreen()),
                             ]), ///////////////////////////////////////////
                           ),
                         ),
-
-                        Positioned(
-                          left: 114,
-                          top: 253,
-                          child: Container(
-                            width: 250,
-                            height: 250,
-                            decoration: ShapeDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                    "https://via.placeholder.com/250x250"),
-                                fit: BoxFit.fill,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                            ),
-                          ),
-                        ),
-
-
 
                         Positioned(
                           left: 165,
@@ -150,7 +119,6 @@ class BonusPlay extends StatelessWidget {
                           ),
                         ),
 
-                        //////////////////////////////////////////////////////성공테스트///////////////////////////////////////////////
                         Positioned(
                           left: 400,
                           top: 300,
