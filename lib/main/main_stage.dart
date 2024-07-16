@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:SmileHelper/main/mypage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:SmileHelper/shop/shop_main.dart';
@@ -13,7 +14,7 @@ import 'package:permission_handler/permission_handler.dart';
 import '../calendar/calendar.dart';
 import '../Service/AudioService.dart';
 import 'package:SmileHelper/game/story/prolog.dart'; // Prolog import
-import 'package:SmileHelper/game/bonus/bonus_game.dart';
+import 'package:SmileHelper/game/bonus/start.dart'; // BonusStartPage import
 
 class MainHome extends StatefulWidget {
   @override
@@ -132,7 +133,8 @@ class _MainHomeState extends State<MainHome> {
     }
 
     // 권한 요청
-    if (await Permission.camera.request().isGranted && await Permission.storage.request().isGranted) {
+    if (await Permission.camera.request().isGranted &&
+        await Permission.storage.request().isGranted) {
       final ImagePicker _picker = ImagePicker();
       final XFile? image = await _picker.pickImage(source: ImageSource.camera);
 
@@ -196,7 +198,8 @@ class _MainHomeState extends State<MainHome> {
       int counter = 1;
       File? imageFile;
       while (true) {
-        final filePath = '$dirPath/$userId${counter == 1 ? '' : '_$counter'}.jpg';
+        final filePath =
+            '$dirPath/$userId${counter == 1 ? '' : '_$counter'}.jpg';
         final file = File(filePath);
         if (await file.exists()) {
           imageFile = file;
@@ -273,7 +276,8 @@ class _MainHomeState extends State<MainHome> {
                       MaterialPageRoute(builder: (context) => Prolog()),
                     );
                   },
-                  child: Text('Story Mode', style: TextStyle(color: Colors.black)),
+                  child:
+                      Text('Story Mode', style: TextStyle(color: Colors.black)),
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
@@ -283,9 +287,17 @@ class _MainHomeState extends State<MainHome> {
                     textStyle: TextStyle(fontSize: 18),
                   ),
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => BonusGame()));
+                    Navigator.of(context).pop();
+                    /*
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => BonusStart()),
+                      
+                    );*/
+                    Get.to(BonusStart());
                   },
-                  child: Text('Bonus Mode', style: TextStyle(color: Colors.black)),
+                  child:
+                      Text('Bonus Mode', style: TextStyle(color: Colors.black)),
                 ),
               ],
             ),
@@ -449,12 +461,14 @@ class _MainHomeState extends State<MainHome> {
                         children: [
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5.0),
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => ShopMain()),
+                                    MaterialPageRoute(
+                                        builder: (context) => ShopMain()),
                                   );
                                 },
                                 child: Text('Shop'),
@@ -463,12 +477,14 @@ class _MainHomeState extends State<MainHome> {
                           ),
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5.0),
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => MainHome()),
+                                    MaterialPageRoute(
+                                        builder: (context) => MainHome()),
                                   );
                                 },
                                 child: Text('Home'),
@@ -477,12 +493,14 @@ class _MainHomeState extends State<MainHome> {
                           ),
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5.0),
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => MyPage()),
+                                    MaterialPageRoute(
+                                        builder: (context) => MyPage()),
                                   );
                                 },
                                 child: Text('MyPage'),
@@ -550,7 +568,8 @@ class _MainHomeState extends State<MainHome> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => QuestTest2()),
+                              MaterialPageRoute(
+                                  builder: (context) => QuestTest2()),
                             );
                           },
                         ),
@@ -560,7 +579,8 @@ class _MainHomeState extends State<MainHome> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => CalendarPage()),
+                              MaterialPageRoute(
+                                  builder: (context) => CalendarPage()),
                             );
                           },
                         ),
@@ -577,7 +597,8 @@ class _MainHomeState extends State<MainHome> {
                     child: Column(
                       children: [
                         IconButton(
-                          icon: Icon(isMuted ? Icons.volume_off : Icons.volume_up),
+                          icon: Icon(
+                              isMuted ? Icons.volume_off : Icons.volume_up),
                           onPressed: _toggleMute,
                         ),
                         IconButton(
