@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:SmileHelper/main/mypage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -6,8 +7,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:SmileHelper/shop/shop_main.dart';
 import 'package:SmileHelper/quest/quest_test2.dart'; // QuestTest2 import
 import 'package:audioplayers/audioplayers.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 import '../Service/AudioService.dart';
-import '../calendar/calendar.dart';
 
 class MainHome extends StatefulWidget {
   @override
@@ -22,6 +26,8 @@ class _MainHomeState extends State<MainHome> {
   double _volume = 0.5; // Initial volume
   bool isMuted = false;
   final AudioService _audioService = AudioService();
+  File? _imageFile; // 이미지 파일을 한 장만 저장
+  String? userId;
 
   @override
   void initState() {
@@ -29,6 +35,8 @@ class _MainHomeState extends State<MainHome> {
     _fetchNickname();
     _fetchUserCoins();
     _playBackgroundMusic();
+    _loadImage();
+    _checkFirstPhoto();
   }
 
   Future<void> _playBackgroundMusic() async {
@@ -45,18 +53,22 @@ class _MainHomeState extends State<MainHome> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accessToken');
 
-    final response = await http.get(
-      Uri.parse('http://34.47.88.29:8082/api/user/all'),
-      headers: {'Authorization': 'Bearer $accessToken'},
-    );
+    if (accessToken != null) {
+      final response = await http.get(
+        Uri.parse('http://34.47.88.29:8082/api/user/all'),
+        headers: {'Authorization': 'Bearer $accessToken'},
+      );
 
-    if (response.statusCode == 200) {
-      final jsonResponse = jsonDecode(response.body);
-      setState(() {
-        nickname = jsonResponse['nickname'];
-      });
-    } else {
-      print('Failed to load nickname: ${response.statusCode}');
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        setState(() {
+          nickname = jsonResponse['nickname'];
+          userId = jsonResponse['userId'];
+          _saveUserId(userId!); // 사용자 ID를 SharedPreferences에 저장
+        });
+      } else {
+        print('Failed to load nickname: ${response.statusCode}');
+      }
     }
   }
 
@@ -64,19 +76,174 @@ class _MainHomeState extends State<MainHome> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accessToken');
 
-    final response = await http.get(
-      Uri.parse('http://34.47.88.29:8082/api/user/coin'),
-      headers: {'Authorization': 'Bearer $accessToken'},
+    if (accessToken != null) {
+      final response = await http.get(
+        Uri.parse('http://34.47.88.29:8082/api/user/coin'),
+        headers: {'Authorization': 'Bearer $accessToken'},
+      );
+
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        setState(() {
+          userCoins = jsonResponse['coin'] ?? 0;
+        });
+      } else {
+        print('Failed to load user coins: ${response.statusCode}');
+      }
+    }
+  }
+
+  Future<void> _checkFirstPhoto() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    userId = prefs.getString('userId');
+
+    if (userId != null) {
+      final response = await http.post(
+        Uri.parse('http://34.47.88.29:8082/api/user/first-photo'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'userid': userId}),
+      );
+
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        bool hasTakenFirstPhoto = jsonResponse['firstPhoto'] ?? true;
+
+        if (hasTakenFirstPhoto) {
+          _showPhotoDialog();
+        }
+      } else {
+        print('Failed to check first photo status: ${response.statusCode}');
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('사용자 ID를 찾을 수 없습니다. 다시 로그인해 주세요.')),
+      );
+    }
+  }
+
+  Future<void> _takePicture() async {
+    if (userId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('사용자 ID를 찾을 수 없습니다. 다시 로그인해 주세요.')),
+      );
+      return;
+    }
+
+    // 권한 요청
+    if (await Permission.camera.request().isGranted && await Permission.storage.request().isGranted) {
+      final ImagePicker _picker = ImagePicker();
+      final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+
+      if (image != null) {
+        // 특정 디렉토리 설정
+        final Directory? externalDir = await getExternalStorageDirectory();
+        final String dirPath = '${externalDir!.path}/MyAppImages';
+        await Directory(dirPath).create(recursive: true);
+
+        String filePath;
+        int counter = 1;
+        do {
+          filePath = '$dirPath/$userId${counter == 1 ? '' : '_$counter'}.jpg';
+          counter++;
+        } while (await File(filePath).exists());
+
+        File(image.path).copy(filePath).then((file) async {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('사진이 저장되었습니다: $filePath')),
+          );
+          // API 호출
+          await _uploadPhoto(userId!, filePath);
+          setState(() {
+            _imageFile = file; // 이미지 파일 갱신
+          });
+        });
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('카메라 또는 저장소 권한이 필요합니다.')),
+      );
+    }
+  }
+
+  Future<void> _uploadPhoto(String userId, String filePath) async {
+    // API 호출 예제
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse('http://34.47.88.29:8082/api/user/first-photo'),
     );
+    request.fields['userid'] = userId; // userId 추가
+    request.files.add(await http.MultipartFile.fromPath('photo', filePath));
+    var response = await request.send();
 
     if (response.statusCode == 200) {
-      final jsonResponse = jsonDecode(response.body);
-      setState(() {
-        userCoins = jsonResponse['coin'] ?? 0;
-      });
+      print('사진이 성공적으로 업로드되었습니다.');
+      // 첫 번째 사진 찍었다는 것을 false로 설정
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setBool('hasTakenFirstPhoto', false);
     } else {
-      print('Failed to load user coins: ${response.statusCode}');
+      print('사진 업로드에 실패했습니다.');
     }
+  }
+
+  Future<void> _loadImage() async {
+    final Directory? externalDir = await getExternalStorageDirectory();
+    final String dirPath = '${externalDir!.path}/MyAppImages';
+    final directory = Directory(dirPath);
+
+    if (userId != null) {
+      int counter = 1;
+      File? imageFile;
+      while (true) {
+        final filePath = '$dirPath/$userId${counter == 1 ? '' : '_$counter'}.jpg';
+        final file = File(filePath);
+        if (await file.exists()) {
+          imageFile = file;
+        } else {
+          break;
+        }
+        counter++;
+      }
+
+      setState(() {
+        _imageFile = imageFile;
+      });
+
+      if (_imageFile == null) {
+        _showPhotoDialog();
+      }
+    }
+  }
+
+  Future<void> _saveUserId(String userId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('userId', userId);
+  }
+
+  void _showPhotoDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('사진을 찍어주세요'),
+          content: Text('첫 이용자는 사진을 찍어주세요.'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('취소'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('사진 찍기'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _takePicture();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _showModeDialog() {
@@ -155,6 +322,18 @@ class _MainHomeState extends State<MainHome> {
           height: 32,
         ),
         centerTitle: true,
+        actions: [
+          if (_imageFile != null)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.file(
+                _imageFile!,
+                width: 50,
+                height: 50,
+                fit: BoxFit.cover,
+              ),
+            ),
+        ],
       ),
       body: Stack(
         children: [
@@ -369,15 +548,9 @@ class _MainHomeState extends State<MainHome> {
                             );
                           },
                         ),
-                        // calendar 버튼의 onPressed 함수 수정
                         IconButton(
                           icon: Image.asset('assets/images/calendar.png'),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => CalendarPage()),
-                            );
-                          },
+                          onPressed: () {},
                         ),
                         IconButton(
                           icon: Image.asset('assets/images/setting.png'),
@@ -389,9 +562,17 @@ class _MainHomeState extends State<MainHome> {
                   Positioned(
                     right: screenWidth * 0.001,
                     top: screenHeight * 0.09,
-                    child: IconButton(
-                      icon: Icon(isMuted ? Icons.volume_off : Icons.volume_up),
-                      onPressed: _toggleMute,
+                    child: Column(
+                      children: [
+                        IconButton(
+                          icon: Icon(isMuted ? Icons.volume_off : Icons.volume_up),
+                          onPressed: _toggleMute,
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.camera_alt),
+                          onPressed: _takePicture,
+                        ),
+                      ],
                     ),
                   ),
                 ],
