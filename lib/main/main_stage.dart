@@ -4,11 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:SmileHelper/shop/shop_main.dart';
-import 'package:SmileHelper/Service/AuthService.dart';
 import 'package:SmileHelper/quest/quest_test2.dart'; // QuestTest2 import
 import 'package:audioplayers/audioplayers.dart';
-
 import '../Service/AudioService.dart';
+import '../calendar/calendar.dart';
 
 class MainHome extends StatefulWidget {
   @override
@@ -370,9 +369,15 @@ class _MainHomeState extends State<MainHome> {
                             );
                           },
                         ),
+                        // calendar 버튼의 onPressed 함수 수정
                         IconButton(
                           icon: Image.asset('assets/images/calendar.png'),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => CalendarPage()),
+                            );
+                          },
                         ),
                         IconButton(
                           icon: Image.asset('assets/images/setting.png'),
