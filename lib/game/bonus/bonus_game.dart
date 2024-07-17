@@ -16,7 +16,7 @@ class BonusGame extends StatefulWidget {
 class _BonusGameState extends State<BonusGame> {
   final List<String> emotions = ['happy', 'sad', 'angry', 'neutral', 'panic'];
   late String selectedEmotion;
-  int countDown = 5;
+  int countDown = 3;
   bool isCapturing = false;
   String result = '';
   late CameraController _cameraController;
@@ -96,8 +96,11 @@ class _BonusGameState extends State<BonusGame> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Bonus Mode'),
-        backgroundColor: Color(0xFF207F66),
+        automaticallyImplyLeading: false, // 뒤로 가기 버튼 없애기
+        title: Image.asset(
+          'assets/images/Logo.png', // 로고 이미지 경로
+          height: 30, // 이미지 높이 조정
+        ),
       ),
       body: Container(
         color: Color(0xFF207F66),
@@ -121,7 +124,11 @@ class _BonusGameState extends State<BonusGame> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Make a "$selectedEmotion" face',
+                  'Bonus Game!!!',
+                  style: TextStyle(fontSize: 34, color: Color(0xFFFFF3F3)),
+                ),
+                Text(
+                  'Make a $selectedEmotion face',
                   style: TextStyle(fontSize: 24, color: Colors.white),
                 ),
                 SizedBox(height: 20),
@@ -143,14 +150,8 @@ class _BonusGameState extends State<BonusGame> {
                 if (_cameraController.value.isInitialized)
                   Container(
                     width: 300,
-                    height: 400, // 높이를 늘려 세로로 더 길게 만듭니다.
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: AspectRatio(
-                        aspectRatio: 3 / 4, // 세로로 긴 비율 설정
-                        child: CameraPreview(_cameraController),
-                      ),
-                    ),
+                    height: 300,
+                    child: CameraPreview(_cameraController),
                   ),
               ],
             ),

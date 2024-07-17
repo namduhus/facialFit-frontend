@@ -1,6 +1,7 @@
 import 'package:SmileHelper/global_binding.dart';
 import 'package:SmileHelper/game/camera_screen.dart';
 import 'package:SmileHelper/game/camera_view.dart';
+import 'package:SmileHelper/main/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:SmileHelper/survey.dart';
 import 'package:SmileHelper/register_main.dart';
@@ -28,8 +29,8 @@ Future<void> main() async {
   await initializeDateFormatting('ko_KR', ''); // 수정: 빈 문자열 사용
 
   runApp(MyApp(
-    //camera: firstCamera,
-  ));
+      //camera: firstCamera,
+      ));
 }
 
 class MyApp extends StatelessWidget {
@@ -55,7 +56,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: "Camera Application",
             home: child,
-            initialRoute: "/Login",
+            initialRoute: "/stagefail1",
             getPages: [
               GetPage(
                 name: '/CameraView',
@@ -73,17 +74,20 @@ class MyApp extends StatelessWidget {
               "/Register": (context) => RegisterMain(),
               "/Home": (context) => MainHome(),
               "/Shop": (context) => ShopMain(),
-              "/survey": (context) => Survey(registrationData: {},),
+              "/survey": (context) => Survey(
+                    registrationData: {},
+                  ),
               "/Quest": (context) => QuestTest2(),
               "/MyPage": (context) => MyPage(),
               "/Prolog": (context) => Prolog(),
               "/Story": (context) => StoryStage(),
-              "/Start": (context) => StoryStart(),
+              //"/Start": (context) => StoryStart(),
               "/CameraView": (context) => CameraView(),
               "/CameraScreen": (context) => CameraScreen(),
               "/stageclear1": (context) => StageClear(),
               "/stagefail1": (context) => StageFail(),
               "/Calendar": (context) => CalendarPage(),
+              "/Setting": (context) => Setting(),
               //"/CameraController": (context) => CameraController(camera, resolutionPreset),
             },
           );
