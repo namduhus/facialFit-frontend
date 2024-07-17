@@ -96,8 +96,11 @@ class _BonusGameState extends State<BonusGame> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Bonus Mode'),
-        backgroundColor: Color(0xFF207F66),
+        automaticallyImplyLeading: false, // 뒤로 가기 버튼 없애기
+        title: Image.asset(
+          'assets/images/Logo.png', // 로고 이미지 경로
+          height: 30, // 이미지 높이 조정
+        ),
       ),
       body: Container(
         color: Color(0xFF207F66),
@@ -120,6 +123,10 @@ class _BonusGameState extends State<BonusGame> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Text(
+                  'Bonus Game!!!',
+                  style: TextStyle(fontSize: 34, color: Color(0xFFFFF3F3)),
+                ),
                 Text(
                   'Make a $selectedEmotion face',
                   style: TextStyle(fontSize: 24, color: Colors.white),
