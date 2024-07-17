@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: "Camera Application",
             home: child,
-            initialRoute: "/Login",
+            initialRoute: "/stagefail1",
             getPages: [
               GetPage(
                 name: '/CameraView',

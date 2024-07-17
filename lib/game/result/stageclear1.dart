@@ -1,5 +1,8 @@
+import 'package:SmileHelper/main/main_stage.dart';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:SmileHelper/game/story/story_stage.dart'; // StoryStage import
+import 'package:get/get.dart'; // Get 패키지 import
 
 class StageClear extends StatefulWidget {
   @override
@@ -90,6 +93,32 @@ class _StageClearState extends State<StageClear> {
                 ],
               ),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center, // 가로로 중앙 정렬
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Get.to(StoryStage()); // StoryStage 페이지로 이동
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20), // 버튼의 패딩 설정
+                    textStyle: TextStyle(fontSize: 15), // 텍스트 크기 설정
+                  ),
+                  child: Text('Stage'),
+                ),
+                SizedBox(width: 20), // 간격 추가
+                ElevatedButton(
+                  onPressed: () {
+                    Get.offAll(MainHome()); // MainHome 페이지로 이동
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20), // 버튼의 패딩 설정
+                    textStyle: TextStyle(fontSize: 15), // 텍스트 크기 설정
+                  ),
+                  child: Text('Home'),
+                ),
+              ],
+            )
           ],
         ),
       ),
