@@ -1,6 +1,7 @@
 import 'package:SmileHelper/global_binding.dart';
 import 'package:SmileHelper/game/camera_screen.dart';
 import 'package:SmileHelper/game/camera_view.dart';
+import 'package:SmileHelper/main/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:SmileHelper/survey.dart';
 import 'package:SmileHelper/register_main.dart';
@@ -84,6 +85,7 @@ class MyApp extends StatelessWidget {
               "/stageclear1": (context) => StageClear(),
               "/stagefail1": (context) => StageFail(),
               "/Calendar": (context) => CalendarPage(),
+              "/Setting": (context) => Setting(),
               //"/CameraController": (context) => CameraController(camera, resolutionPreset),
             },
           );
