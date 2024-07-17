@@ -1,9 +1,12 @@
 // story_start.dart
 
 import 'package:flutter/material.dart';
-import 'package:SmileHelper/game/story/storyplay.dart'; // StoryPlay 페이지 import
+import 'package:SmileHelper/game/story/storyplay.dart';
+import 'package:get/get.dart'; // StoryPlay 페이지 import
 
 class StoryStart extends StatelessWidget {
+  const StoryStart({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,10 +60,11 @@ class StoryStart extends StatelessWidget {
                     top: 250,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(
+                        /*Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => StoryPlay()),
-                        );
+                        );*/
+                        Get.to(StoryPlay());
                       },
                       child: Container(
                         width: 200,

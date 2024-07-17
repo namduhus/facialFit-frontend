@@ -5,15 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:SmileHelper/game/camera_screen.dart';
 
 import 'package:SmileHelper/game/result/stageclear1.dart';
-import 'package:get/get.dart';
 
 class StoryPlay extends StatelessWidget {
   //final List<CameraDescription>? cameras;
 
   const StoryPlay({super.key});
 
-  //@override
-  //State<BonusPlay> createState() => PlayCamera();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +58,7 @@ class StoryPlay extends StatelessWidget {
                           left: 38,
                           top: 34,
                           child: Text(
-                            'Bonus Mode',
+                            'Story Mode',
                             style: TextStyle(
                               color: Color(0xFFFFF3F3),
                               fontSize: 51.53,
@@ -78,45 +75,14 @@ class StoryPlay extends StatelessWidget {
                           child: Container(
                             width: 430,
                             height: 705,
-                            /*decoration: ShapeDecoration(
-                              color: Color(0xFFFAF9E0),
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(width: 1),
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                            ),*/
-                            child:
-                                //Get.to(CameraView(), binding: GlobalBindings()),
-                                //Get.toNamed('/CameraScreen'),
-                                //Get.to(CameraScreen()),
-                                Stack(children: [
+
+                            child: Stack(children: [
                               ClipRRect(
                                   borderRadius: BorderRadius.circular(15),
                                   child: CameraScreen()),
                             ]), ///////////////////////////////////////////
                           ),
                         ),
-
-                        Positioned(
-                          left: 114,
-                          top: 253,
-                          child: Container(
-                            width: 250,
-                            height: 250,
-                            decoration: ShapeDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                    "https://via.placeholder.com/250x250"),
-                                fit: BoxFit.fill,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                            ),
-                          ),
-                        ),
-
-
 
                         Positioned(
                           left: 165,
@@ -150,7 +116,6 @@ class StoryPlay extends StatelessWidget {
                           ),
                         ),
 
-                        //////////////////////////////////////////////////////성공테스트///////////////////////////////////////////////
                         Positioned(
                           left: 400,
                           top: 300,

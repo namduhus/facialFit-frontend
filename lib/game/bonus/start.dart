@@ -3,11 +3,12 @@ import 'package:SmileHelper/game/camera_view.dart';
 import 'package:flutter/material.dart';
 
 import 'package:SmileHelper/game/bonus/bounsplay.dart';
-
 import 'package:camera/camera.dart';
 import 'package:get/get.dart';
 
 class BonusStart extends StatefulWidget {
+  BonusStart({super.key});
+
   @override
   State<BonusStart> createState() => _startCamera();
 }

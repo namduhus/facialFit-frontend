@@ -6,6 +6,8 @@ import 'dart:typed_data';
 import 'dart:async';
 import 'package:SmileHelper/game/controller/getPredict.dart';
 import 'package:SmileHelper/game/controller/mlkit.dart';
+import 'package:SmileHelper/game/result/stageclear1.dart';
+import 'package:SmileHelper/game/result/stagefail1.dart';
 import 'package:SmileHelper/main/main_stage.dart';
 import 'package:SmileHelper/quest/quest_test2.dart';
 import 'package:camera/camera.dart';
@@ -22,6 +24,7 @@ import 'package:path/path.dart';
 import 'package:path/path.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:math' as math;
+import 'package:permission_handler/permission_handler.dart';
 
 class ScanController extends GetxController {
   ScanController({required List<CameraDescription> cameras}) {
@@ -74,8 +77,15 @@ class ScanController extends GetxController {
   bool _isDisposed = false;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
+    /*if (await Permission.camera.request().isGranted) {
+      _initCamera();
+    } else {
+      Get.snackbar('Error', 'Camera permission not granted',
+          snackPosition: SnackPosition.BOTTOM);
+    }*/
+
     _initCamera();
   }
 
@@ -143,6 +153,32 @@ class ScanController extends GetxController {
   RxInt correct = RxInt(0);
 //틀린 개수
   RxInt wrong = RxInt(0);
+  var isSuccessImageVisible = false.obs; // 성공 이미지 표시 상태
+  var isFailImageVisible = false.obs; // 실패 이미지 표시 상태
+
+  var isImageProcessing = false.obs; // 이미지 처리 중 플래그
+  void _showSuccessImage() {
+    isSuccessImageVisible.value = true;
+    isImageProcessing.value = true;
+    Timer(Duration(seconds: 1), () {
+      isSuccessImageVisible.value = false;
+      isImageProcessing.value = false;
+      isSuccessImageVisible.value = true;
+      isImageProcessing.value = true;
+      isSuccessImageVisible.value = false;
+      isImageProcessing.value = false;
+    });
+  }
+
+  void _showFailImage() {
+    isFailImageVisible.value = true;
+    isImageProcessing.value = true;
+    Timer(Duration(seconds: 1), () {
+      isFailImageVisible.value = false;
+      isImageProcessing.value = false;
+    });
+  }
+
   // 다음 스테이지로 이동
   void _moveToNextStage() async {
     //종료조건
@@ -150,6 +186,15 @@ class ScanController extends GetxController {
       await _showPopup('사진이 3개가 됐어요 ');
       _showPopup(correct.value.toString());
       _showPopup(wrong.value.toString());
+
+      Timer(Duration(seconds: 1), () {
+        // 정답이 더 많으면 StageClear1 페이지로 이동, 그렇지 않으면 StageFail1 페이지로 이동
+        if (correct.value > wrong.value) {
+          Get.to(StageClear());
+        } else {
+          Get.to(StageFail());
+        }
+      });
 
       //종료하는척
       _isInitialized.value = false;
@@ -160,15 +205,18 @@ class ScanController extends GetxController {
       _currentStage = 0;
       dispose();
       //
-      Get.to(MainHome());
+      //Get.to(MainHome()); //임시
     } else {
       //실행조건
       _showPopup("사진이 아직 3개가 안됐어요");
-      if (_message.value == 'success') {
-        correct.value += 1;
-      } else if (_message.value == 'fail') {
-        wrong.value += 1;
-      }
+      _message.listen((val) {
+        if (_message.value == 'success') {
+          correct.value += 1;
+        } else if (_message.value == 'fail') {
+          wrong.value += 1;
+        }
+      });
+      update();
       Logger()
           .e("실행조건: ${correct.value}  ${wrong.value}   ${imageList.length}}");
       _currentStage += 1;
@@ -308,7 +356,9 @@ class ScanController extends GetxController {
       Logger().e('Error: select a camera first.');
       return null;
     }
-
+    if (isImageProcessing.value) {
+      return null; // 이미지가 표시 중이면 사진 찍지 않음
+    }
     if (cameraController.value.isTakingPicture) {
       // A capture is already pending, do nothing.
       return null;
@@ -459,8 +509,16 @@ class ScanController extends GetxController {
           bool isActionDetected = _validateStage(face);
           if (isActionDetected) {
             _showPopup('Success');
+            isSuccessImageVisible.value = true;
+            Future.delayed(Duration(seconds: 1), () {
+              isSuccessImageVisible.value = false;
+            });
           } else {
             _showPopup('Fail');
+            isFailImageVisible.value = true;
+            Future.delayed(Duration(seconds: 1), () {
+              isFailImageVisible.value = false;
+            });
           }
         }
       }
@@ -471,6 +529,9 @@ class ScanController extends GetxController {
     }
     _isBusy = false;
   }
+
+
+  //로직
 
   bool _isEyebrowRaised(Face face) {
     FaceContour? leftEyebrowTop = face.contours[FaceContourType.leftEyebrowTop];
