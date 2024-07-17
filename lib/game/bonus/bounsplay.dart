@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 
 class BounsPlay extends StatelessWidget {
+  const BounsPlay({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
