@@ -27,8 +27,8 @@ Future<void> main() async {
   await initializeDateFormatting('ko_KR', ''); // 수정: 빈 문자열 사용
 
   runApp(MyApp(
-    //camera: firstCamera,
-  ));
+      //camera: firstCamera,
+      ));
 }
 
 class MyApp extends StatelessWidget {
@@ -71,12 +71,14 @@ class MyApp extends StatelessWidget {
               "/Register": (context) => RegisterMain(),
               "/Home": (context) => MainHome(),
               "/Shop": (context) => ShopMain(),
-              "/survey": (context) => Survey(registrationData: {},),
+              "/survey": (context) => Survey(
+                    registrationData: {},
+                  ),
               "/Quest": (context) => QuestTest2(),
               "/MyPage": (context) => MyPage(),
               "/Prolog": (context) => Prolog(),
               "/Story": (context) => StoryStage(),
-              "/Start": (context) => StoryStart(),
+              //"/Start": (context) => StoryStart(),
               "/CameraView": (context) => CameraView(),
               "/CameraScreen": (context) => CameraScreen(),
               "/stageclear1": (context) => StageClear(),

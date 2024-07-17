@@ -1,6 +1,8 @@
+import 'package:SmileHelper/game/controller/stage_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:SmileHelper/main/main_stage.dart'; // MainHome import
-import 'package:SmileHelper/game/story/start.dart'; // StartPage import
+import 'package:SmileHelper/game/story/start.dart';
+import 'package:get/get.dart'; // StartPage import
 
 class StoryStage extends StatefulWidget {
   @override
@@ -8,6 +10,7 @@ class StoryStage extends StatefulWidget {
 }
 
 class _StoryStageState extends State<StoryStage> {
+  final StageController stageController = Get.put(StageController());
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -102,9 +105,11 @@ class _StoryStageState extends State<StoryStage> {
               top: screenHeight * 0.1,
               child: ElevatedButton(
                 onPressed: () {
+                  stageController.setStage(1);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => StoryStart()),
+                    MaterialPageRoute(
+                        builder: (context) => StoryStart(stage: 'Stage 1')),
                   );
                 },
                 child: Text('Stage 1'),
@@ -114,7 +119,14 @@ class _StoryStageState extends State<StoryStage> {
               right: screenWidth * 0.25,
               top: screenHeight * 0.22,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  stageController.setStage(2);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => StoryStart(stage: 'Stage 2')),
+                  );
+                },
                 child: Text('Stage 2'),
               ),
             ),
@@ -122,7 +134,10 @@ class _StoryStageState extends State<StoryStage> {
               left: screenWidth * 0.25,
               top: screenHeight * 0.33,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  stageController.setStage(3);
+                  Get.to(StoryStart(stage: 'stage 3'));
+                },
                 child: Text('Stage 3'),
               ),
             ),
@@ -130,7 +145,10 @@ class _StoryStageState extends State<StoryStage> {
               right: screenWidth * 0.25,
               top: screenHeight * 0.43,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  stageController.setStage(4);
+                  Get.to(StoryStart(stage: 'stage 4'));
+                },
                 child: Text('Stage 4'),
               ),
             ),
@@ -138,7 +156,10 @@ class _StoryStageState extends State<StoryStage> {
               left: screenWidth * 0.25,
               top: screenHeight * 0.53,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  stageController.setStage(5);
+                  Get.to(StoryStart(stage: 'stage 5'));
+                },
                 child: Text('Stage 5'),
               ),
             ),
@@ -146,7 +167,10 @@ class _StoryStageState extends State<StoryStage> {
               top: screenHeight * 0.65,
               left: screenWidth * 0.5 - 50, // 중앙 정렬
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  stageController.setStage(6);
+                  Get.to(StoryStart(stage: 'stage 6'));
+                },
                 child: Text('Stage 6'),
               ),
             ),

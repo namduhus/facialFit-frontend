@@ -17,13 +17,8 @@ class MessageView extends GetView<ScanController> {
 
       return Stack(
         children: [
-          Positioned(
-            top: 50,
-            left: 20,
-            child: Text(
-              controller.currentStage,
-              style: TextStyle(fontSize: 24, color: Colors.white),
-            ),
+          Center(
+            child: Container(), //컨트롤러이미지 출력m
           ),
           _buildImageWidget(controller),
         ],

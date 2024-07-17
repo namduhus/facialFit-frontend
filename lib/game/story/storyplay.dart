@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:SmileHelper/game/camera_screen.dart';
 
 import 'package:SmileHelper/game/result/stageclear1.dart';
+import 'package:get/get.dart';
 
 class StoryPlay extends StatelessWidget {
   //final List<CameraDescription>? cameras;
@@ -88,7 +89,7 @@ class StoryPlay extends StatelessWidget {
                           left: 165,
                           top: 645,
                           child: Text(
-                            '사용자 얼굴',
+                            Get.arguments, //'사용자 얼굴',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 30,
