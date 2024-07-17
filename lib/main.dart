@@ -1,6 +1,7 @@
 import 'package:SmileHelper/global_binding.dart';
 import 'package:SmileHelper/game/camera_screen.dart';
 import 'package:SmileHelper/game/camera_view.dart';
+import 'package:SmileHelper/main/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:SmileHelper/survey.dart';
 import 'package:SmileHelper/register_main.dart';
@@ -21,6 +22,7 @@ import 'game/result/stagefail1.dart';
 import 'package:SmileHelper/game/story/start.dart';
 import 'package:SmileHelper/game/story/story_stage.dart';
 import 'package:SmileHelper/game/story/prolog.dart';
+import 'package:SmileHelper/game/bonus/bonus_game.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,7 +56,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: "Camera Application",
             home: child,
-            initialRoute: "/Login",
+            initialRoute: "/stagefail1",
             getPages: [
               GetPage(
                 name: '/CameraView',
@@ -65,6 +67,7 @@ class MyApp extends StatelessWidget {
                 page: () => CameraScreen(),
                 transition: Transition.zoom,
               ),
+              GetPage(name: '/bonus', page: () => BonusGame()),
             ],
             routes: {
               "/Login": (context) => LoginMain(),
@@ -84,6 +87,7 @@ class MyApp extends StatelessWidget {
               "/stageclear1": (context) => StageClear(),
               "/stagefail1": (context) => StageFail(),
               "/Calendar": (context) => CalendarPage(),
+              "/Setting": (context) => Setting(),
               //"/CameraController": (context) => CameraController(camera, resolutionPreset),
             },
           );

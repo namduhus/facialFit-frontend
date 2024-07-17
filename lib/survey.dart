@@ -99,7 +99,7 @@ class SurveyState extends State<Survey> {
                     ),
                     SizedBox(height: 35),
                     _buildQuestion(
-                      '1. Are you a facial paralysis patient?',
+                      '1. Are you a patient diagnosed with facial paralysis?',
                       'Yes',
                       'No',
                       answer1,
@@ -113,7 +113,7 @@ class SurveyState extends State<Survey> {
                       },
                     ),
                     _buildQuestion(
-                      '2. Do you have any symptoms of muscle weakness and asymmetry in your face?',
+                      '2. Do you notice any weakness or unevenness in your facial muscles?',
                       'Yes',
                       'No',
                       answer2,
@@ -127,7 +127,7 @@ class SurveyState extends State<Survey> {
                       },
                     ),
                     _buildQuestion(
-                      '3. Can you close your eyes comfortably?',
+                      '3. Can you comfortably close your eyes?',
                       'Yes',
                       'No',
                       answer3,
@@ -141,7 +141,7 @@ class SurveyState extends State<Survey> {
                       },
                     ),
                     _buildQuestion(
-                      '4. Can you open your mouth?',
+                      '4. Can you open your mouth without difficulty?',
                       'Yes',
                       'No',
                       answer4,
@@ -155,7 +155,7 @@ class SurveyState extends State<Survey> {
                       },
                     ),
                     _buildQuestion(
-                      "5. Doesn't it move when you are expressionless?",
+                      "5. Is there any noticeable lack of movement or drooping when your face is at rest?",
                       'Yes',
                       'No',
                       answer5,
@@ -169,7 +169,7 @@ class SurveyState extends State<Survey> {
                       },
                     ),
                     _buildQuestion(
-                      "6. Doesn't your half face move at all?",
+                      "6. Does one side of your face fail to move at all?",
                       'Yes',
                       'No',
                       answer6,

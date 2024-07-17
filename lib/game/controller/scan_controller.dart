@@ -513,6 +513,9 @@ class ScanController extends GetxController {
     _isBusy = false;
   }
 
+
+  //로직
+
   bool _isEyebrowRaised(Face face) {
     FaceContour? leftEyebrowTop = face.contours[FaceContourType.leftEyebrowTop];
     FaceContour? leftEyebrowBottom =

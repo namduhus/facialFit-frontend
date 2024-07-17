@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:SmileHelper/main/mypage.dart';
+import 'package:SmileHelper/main/setting.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:SmileHelper/shop/shop_main.dart';
@@ -14,7 +14,9 @@ import 'package:permission_handler/permission_handler.dart';
 import '../calendar/calendar.dart';
 import '../Service/AudioService.dart';
 import 'package:SmileHelper/game/story/prolog.dart'; // Prolog import
-import 'package:SmileHelper/game/bonus/start.dart'; // BonusStartPage import
+import 'package:SmileHelper/game/bonus/bonus_game.dart';
+import 'package:SmileHelper/Service/MlkitService.dart';
+import 'package:SmileHelper/game/mlkit/file_utils.dart'; // 좌표 저장 함수가 있는 파일
 
 class MainHome extends StatefulWidget {
   @override
@@ -160,6 +162,10 @@ class _MainHomeState extends State<MainHome> {
           setState(() {
             _imageFile = file; // 이미지 파일 갱신
           });
+          // 랜드마크 디렉토리 설정
+          final String newDirPath = '${externalDir!.path}/MyAppImages/Landmarks';
+          await Directory(newDirPath).create(recursive: true);
+          await _processAndSaveLandmarks(file, newDirPath); // 추가된 코드: newDirPath 전달
         });
       }
     } else {
@@ -219,7 +225,7 @@ class _MainHomeState extends State<MainHome> {
     }
   }
 
-  Future<void> _saveUserId(String userId) async {
+  Future _saveUserId(String userId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('userId', userId);
   }
@@ -231,7 +237,7 @@ class _MainHomeState extends State<MainHome> {
         return AlertDialog(
           title: Text('사진을 찍어주세요'),
           content: Text('첫 이용자는 사진을 찍어주세요.'),
-          actions: <Widget>[
+          actions: [
             TextButton(
               child: Text('취소'),
               onPressed: () {
@@ -261,7 +267,7 @@ class _MainHomeState extends State<MainHome> {
             width: double.maxFinite,
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
+              children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFFFAF9E0),
@@ -277,7 +283,7 @@ class _MainHomeState extends State<MainHome> {
                     );
                   },
                   child:
-                      Text('Story Mode', style: TextStyle(color: Colors.black)),
+                  Text('Story Mode', style: TextStyle(color: Colors.black)),
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
@@ -287,17 +293,9 @@ class _MainHomeState extends State<MainHome> {
                     textStyle: TextStyle(fontSize: 18),
                   ),
                   onPressed: () {
-                    Navigator.of(context).pop();
-                    /*
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => BonusStart()),
-                      
-                    );*/
-                    Get.to(BonusStart());
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => BonusGame()));
                   },
-                  child:
-                      Text('Bonus Mode', style: TextStyle(color: Colors.black)),
+                  child: Text('Bonus Mode', style: TextStyle(color: Colors.black)),
                 ),
               ],
             ),
@@ -326,11 +324,26 @@ class _MainHomeState extends State<MainHome> {
     });
   }
 
+  Future<void> _processAndSaveLandmarks(File imageFile, String dirPath) async {
+    final faceData = await detectFaceLandmarks(imageFile);
+    if (faceData.isNotEmpty) {
+      final fileName = imageFile.path.split('/').last.split('.').first;
+      final landmarksFilePath = '$dirPath/$fileName.txt';
+      await saveLandmarksToFile(faceData, landmarksFilePath);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('랜드마크 및 컨투어 좌표가 저장되었습니다: $landmarksFilePath')),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('얼굴을 인식하지 못했습니다.')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false, // 뒤로 가기 버튼 없애기
@@ -586,7 +599,13 @@ class _MainHomeState extends State<MainHome> {
                         ),
                         IconButton(
                           icon: Image.asset('assets/images/setting.png'),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Setting()),
+                            );
+                          },
                         ),
                       ],
                     ),
