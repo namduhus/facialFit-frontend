@@ -1,7 +1,8 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 
-Future<List<FaceLandmark>> detectFaceLandmarks(File imageFile) async {
+Future<Map<String, List<Point<int>>>> detectFaceLandmarks(File imageFile) async {
   final inputImage = InputImage.fromFile(imageFile);
   final faceDetector = FaceDetector(
     options: FaceDetectorOptions(
@@ -13,21 +14,28 @@ Future<List<FaceLandmark>> detectFaceLandmarks(File imageFile) async {
   );
 
   final List<Face> faces = await faceDetector.processImage(inputImage);
+  final Map<String, List<Point<int>>> faceData = {};
 
   if (faces.isNotEmpty) {
-    // 첫 번째 얼굴의 랜드마크만 사용 (필요시 여러 얼굴에 대해 처리 가능)
-    final landmarks = <FaceLandmark>[];
     final face = faces.first;
 
+    // 랜드마크 저장
+    faceData['landmarks'] = [];
     FaceLandmarkType.values.forEach((type) {
       final landmark = face.landmarks[type];
       if (landmark != null) {
-        landmarks.add(landmark);
+        faceData['landmarks']!.add(landmark.position);
       }
     });
 
-    return landmarks;
-  } else {
-    return [];
+    // 컨투어 저장
+    FaceContourType.values.forEach((type) {
+      final contour = face.contours[type];
+      if (contour != null) {
+        faceData[type.name] = contour.points;
+      }
+    });
   }
+
+  return faceData;
 }

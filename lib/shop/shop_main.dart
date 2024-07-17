@@ -17,10 +17,12 @@ class ShopState extends State<ShopMain> {
   List<bool> selectedItems = List.generate(9, (index) => false);
   List<int> itemQuantities = List.generate(9, (index) => 0); // 각 아이템의 수량
   List<String> itemImages = List.generate(9, (index) => ''); // 각 아이템의 이미지 경로
-  List<String> itemPriceImages = List.generate(9, (index) => ''); // 각 아이템의 가격 이미지 경로
+  List<String> itemPriceImages =
+      List.generate(9, (index) => ''); // 각 아이템의 가격 이미지 경로
   int userCoins = 0; // 초기값 설정
   String userId = ''; // 로그인 ID 초기값
   final AuthService authService = AuthService(); // AuthService 인스턴스 생성
+  bool isLoading = true; // 로딩 상태를 나타내는 변수
 
   // API에서 사용자 코인 값을 가져오는 함수
   Future<void> _fetchUserCoins() async {
@@ -60,7 +62,8 @@ class ShopState extends State<ShopMain> {
             userCoins = jsonResponse['coin'] ?? 0;
           });
         } else {
-          print('Failed to load user coins after token refresh: ${retryResponse.statusCode}');
+          print(
+              'Failed to load user coins after token refresh: ${retryResponse.statusCode}');
           print('Response body: ${retryResponse.body}');
         }
       } else {
@@ -98,14 +101,21 @@ class ShopState extends State<ShopMain> {
                 : "assets/images/Soldout.png";
             itemPriceImages[i] = "assets/images/price${(i ~/ 3) + 1}.png";
           }
+          isLoading = false; // 데이터 로드가 완료되면 로딩 상태 해제
         });
       } else {
         print('Failed to load item quantities: ${response.statusCode}');
         print('Response body: ${response.body}');
+        setState(() {
+          isLoading = false; // 에러가 발생해도 로딩 상태 해제
+        });
       }
     } catch (e) {
       // 예외 처리
       print('Error fetching item quantities: $e');
+      setState(() {
+        isLoading = false; // 예외가 발생해도 로딩 상태 해제
+      });
     }
   }
 
@@ -146,7 +156,8 @@ class ShopState extends State<ShopMain> {
     String itemIds = purchasedItems.join(',');
 
     // URL 쿼리 매개변수로 전달
-    final url = Uri.parse('http://34.47.88.29:8082/api/purchase/purchase?id=$userId&itemId=$itemIds');
+    final url = Uri.parse(
+        'http://34.47.88.29:8082/api/purchase/purchase?id=$userId&itemId=$itemIds');
     try {
       final response = await http.post(
         url,
@@ -161,10 +172,12 @@ class ShopState extends State<ShopMain> {
         final jsonResponse = jsonDecode(response.body);
         setState(() {
           userCoins = jsonResponse['remainingCoins'] ?? userCoins;
-          selectedItems = List.generate(9, (index) => false); // Clear selected items
+          selectedItems =
+              List.generate(9, (index) => false); // Clear selected items
         });
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Purchased items: ${purchasedItems.join(', ')}')),
+          SnackBar(
+              content: Text('Purchased items: ${purchasedItems.join(', ')}')),
         );
         // 구매 후 코인과 아이템 수량을 다시 가져옴
         await _fetchUserCoins();
@@ -172,10 +185,13 @@ class ShopState extends State<ShopMain> {
       } else {
         // 서버 응답 본문에 있는 에러 메시지 출력
         final errorResponse = jsonDecode(response.body);
-        print('Failed to purchase items: ${response.statusCode} - ${errorResponse['message']}');
+        print(
+            'Failed to purchase items: ${response.statusCode} - ${errorResponse['message']}');
         print('Response body: ${response.body}');
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to purchase items: ${errorResponse['message']}')),
+          SnackBar(
+              content: Text(
+                  'Failed to purchase items: ${errorResponse['message']}')),
         );
       }
     } catch (e) {
@@ -213,7 +229,8 @@ class ShopState extends State<ShopMain> {
         centerTitle: true,
       ),
       body: Container(
-        color: Color(0xFF207F66), // 배경색 설정
+        color: Color(0xFF207F66),
+        // 배경색 설정
         child: Center(
           child: Container(
             width: 424,
@@ -241,7 +258,8 @@ class ShopState extends State<ShopMain> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center, // 수정된 부분
                     children: [
-                      Container( // 추가된 부분
+                      Container(
+                        // 추가된 부분
                         margin: EdgeInsets.only(bottom: 10), // 원하는 만큼의 마진 추가
                         child: Image.asset(
                           "assets/images/coin.png", // 코인 이미지 경로
@@ -251,7 +269,8 @@ class ShopState extends State<ShopMain> {
                         ),
                       ),
                       SizedBox(width: 0),
-                      Container( // 추가된 부분
+                      Container(
+                        // 추가된 부분
                         margin: EdgeInsets.only(bottom: 8), // 원하는 만큼의 마진 추가
                         child: Text(
                           '$userCoins', // 사용자 코인 소지량
@@ -262,7 +281,8 @@ class ShopState extends State<ShopMain> {
                           ),
                         ),
                       ),
-                      SizedBox(width: 40), // 코인과 Shop 로고 사이 간격 조정
+                      SizedBox(width: 40),
+                      // 코인과 Shop 로고 사이 간격 조정
                       Text(
                         'Shop',
                         style: TextStyle(
@@ -280,30 +300,36 @@ class ShopState extends State<ShopMain> {
                     height: 0.3,
                   ),
                   Expanded(
-                    child: GridView.builder(
-                      padding: const EdgeInsets.all(40),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3, // 3 items per row
-                        crossAxisSpacing: 10.0,
-                        mainAxisSpacing: 10.0,
-                      ),
-                      itemCount: 9,
-                      itemBuilder: (context, index) {
-                        return ShopItem(
-                          imagePath: itemImages[index],
-                          itemName: 'Item ${index + 1}',
-                          itemPriceImage: itemPriceImages[index],
-                          isSelected: selectedItems[index],
-                          onTap: itemQuantities[index] > 0
-                              ? () {
-                            setState(() {
-                              selectedItems[index] = !selectedItems[index];
-                            });
-                          }
-                              : null, // 수량이 0인 경우 선택 불가능
-                        );
-                      },
-                    ),
+                    child: isLoading // 로딩 상태에 따라 다른 위젯을 표시
+                        ? Center(
+                            child:
+                                CircularProgressIndicator()) // 로딩 중일 때 로딩 인디케이터
+                        : GridView.builder(
+                            padding: const EdgeInsets.all(40),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3, // 3 items per row
+                              crossAxisSpacing: 10.0,
+                              mainAxisSpacing: 10.0,
+                            ),
+                            itemCount: 9,
+                            itemBuilder: (context, index) {
+                              return ShopItem(
+                                imagePath: itemImages[index],
+                                itemName: 'Item ${index + 1}',
+                                itemPriceImage: itemPriceImages[index],
+                                isSelected: selectedItems[index],
+                                onTap: itemQuantities[index] > 0
+                                    ? () {
+                                        setState(() {
+                                          selectedItems[index] =
+                                              !selectedItems[index];
+                                        });
+                                      }
+                                    : null, // 수량이 0인 경우 선택 불가능
+                              );
+                            },
+                          ),
                   ),
                   SizedBox(height: 5),
                   ElevatedButton(
@@ -375,7 +401,8 @@ class ShopItem extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: ShapeDecoration(
-          color: isSelected ? Colors.amber : Color(0xFFFAF9E0), // 아이템 선택 시 강조 색상
+          color: isSelected ? Colors.amber : Color(0xFFFAF9E0),
+          // 아이템 선택 시 강조 색상
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),

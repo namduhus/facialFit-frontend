@@ -324,13 +324,13 @@ class _MainHomeState extends State<MainHome> {
   }
 
   Future<void> _processAndSaveLandmarks(File imageFile, String dirPath) async {
-    final landmarks = await detectFaceLandmarks(imageFile);
-    if (landmarks.isNotEmpty) {
+    final faceData = await detectFaceLandmarks(imageFile);
+    if (faceData.isNotEmpty) {
       final fileName = imageFile.path.split('/').last.split('.').first;
       final landmarksFilePath = '$dirPath/$fileName.txt';
-      await saveLandmarksToFile(landmarks, landmarksFilePath);
+      await saveLandmarksToFile(faceData, landmarksFilePath);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('랜드마크 좌표가 저장되었습니다: $landmarksFilePath')),
+        SnackBar(content: Text('랜드마크 및 컨투어 좌표가 저장되었습니다: $landmarksFilePath')),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

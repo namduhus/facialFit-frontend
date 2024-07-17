@@ -15,12 +15,12 @@ class CalendarPage extends StatefulWidget {
   @override
   State<CalendarPage> createState() => _CalendarPageState();
 }
-
 class _CalendarPageState extends State<CalendarPage> {
   late final ValueNotifier<List> _selectedEvents;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
+  bool _isLoading = true; // 로딩 상태를 나타내는 변수
 
   @override
   void initState() {
@@ -31,12 +31,22 @@ class _CalendarPageState extends State<CalendarPage> {
   }
 
   Future<void> _loadEventsIfNeeded() async {
+    setState(() {
+      _isLoading = true; // 로딩 상태 설정
+    });
+
     final eventsProvider = context.read<EventsProvider>();
-    if (eventsProvider.getEvents().isEmpty) {
+    if (eventsProvider
+        .getEvents()
+        .isEmpty) {
       await _fetchUserEvents();
     } else {
       _selectedEvents.value = _getEventsForDay(_selectedDay!);
     }
+
+    setState(() {
+      _isLoading = false; // 로딩 상태 해제
+    });
   }
 
   Future<void> _fetchUserEvents() async {
@@ -82,7 +92,7 @@ class _CalendarPageState extends State<CalendarPage> {
   List _getEventsForDay(DateTime day) {
     String dayT = DateFormat('yy/MM/dd').format(day);
     Map<String, List<Map<String, dynamic>>> events =
-        context.read<EventsProvider>().getEvents();
+    context.read<EventsProvider>().getEvents();
     return events[dayT] ?? [];
   }
 
@@ -104,7 +114,9 @@ class _CalendarPageState extends State<CalendarPage> {
         elevation: 0,
       ),
       body: SafeArea(
-        child: Column(
+        child: _isLoading // 로딩 상태에 따라 다른 위젯을 표시
+            ? Center(child: CircularProgressIndicator()) // 로딩 중일 때 로딩 인디케이터
+            : Column(
           children: [
             SizedBox(height: 10.h),
             Card(
@@ -170,7 +182,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   markerBuilder: (context, day, events) {
                     if (events.isNotEmpty) {
                       List<Map<String, dynamic>> iconEvents =
-                          List<Map<String, dynamic>>.from(events);
+                      List<Map<String, dynamic>>.from(events);
                       return ListView.builder(
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
@@ -181,7 +193,7 @@ class _CalendarPageState extends State<CalendarPage> {
                             return Container(
                               margin: EdgeInsets.only(top: 40.h),
                               child: Image.asset(
-                                'assets/images/011-unicorn.png',
+                                'assets/images/calendar_check.png',
                                 width: 20.sp,
                                 height: 20.sp,
                               ),
@@ -190,7 +202,7 @@ class _CalendarPageState extends State<CalendarPage> {
                             return Container(
                               margin: EdgeInsets.only(top: 40.h),
                               child: Image.asset(
-                                'assets/images/018-unicorn.png',
+                                'assets/images/calendar_story_mode.png',
                                 width: 20.sp,
                                 height: 20.sp,
                               ),
@@ -199,7 +211,7 @@ class _CalendarPageState extends State<CalendarPage> {
                             return Container(
                               margin: EdgeInsets.only(top: 40.h),
                               child: Image.asset(
-                                'assets/images/037-cat.png',
+                                'assets/images/calendar_bonus_mode.png',
                                 width: 20.sp,
                                 height: 20.sp,
                               ),
@@ -251,9 +263,9 @@ class _CalendarPageState extends State<CalendarPage> {
                       if (event_icon_index['iconIndex'] == 1) {
                         description = 'Attendance';
                       } else if (event_icon_index['iconIndex'] == 2) {
-                        description = 'Bonus Mode Clear';
-                      } else if (event_icon_index['iconIndex'] == 3) {
                         description = 'Story Mode Clear';
+                      } else if (event_icon_index['iconIndex'] == 3) {
+                        description = 'Bonus Mode Clear';
                       }
                       return Container(
                         margin: const EdgeInsets.symmetric(
@@ -267,23 +279,22 @@ class _CalendarPageState extends State<CalendarPage> {
                         child: ListTile(
                           title: Text(description),
                           trailing: event_icon_index['iconIndex'] == 1
-                              ? Image.asset(
-                                  'assets/images/011-unicorn.png',
-                                  width: 20.sp,
-                                  height: 20.sp,
-                                )
-                              : event_icon_index['iconIndex'] == 2
-                                  ? Image.asset(
-                                      'assets/images/018-unicorn.png',
-                                      width: 20.sp,
-                                      height: 20.sp,
-                                    )
-                                  : Image.asset(
-                                      'assets/images/037-cat.png',
-                                      width: 20.sp,
-                                      height: 20.sp,
-                                    ),
-                        ),
+                        ? Image.asset(
+                        'assets/images/calendar_check.png',
+                          width: 20.sp,
+                          height: 20.sp,
+                        )
+                            : event_icon_index['iconIndex'] == 2
+                      ? Image.asset(
+                      'assets/images/calendar_story_mode.png',
+                        width: 20.sp,
+                        height: 20.sp,
+                      ): Image.asset(
+                      'assets/images/calendar_bonus_mode.png',
+                      width: 20.sp,
+                      height: 20.sp,
+                      ),
+                      ),
                       );
                     },
                   );
