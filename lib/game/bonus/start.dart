@@ -2,7 +2,7 @@ import 'package:SmileHelper/game/camera_screen.dart';
 import 'package:SmileHelper/game/camera_view.dart';
 import 'package:flutter/material.dart';
 
-import 'package:SmileHelper/game/bonus/play.dart';
+import 'package:SmileHelper/game/bonus/bounsplay.dart';
 
 import 'package:camera/camera.dart';
 import 'package:get/get.dart';
@@ -134,7 +134,7 @@ class _startCamera extends State<BonusStart> {
                             onTap: () async {
                               await //Get.toNamed('/CameraScreen');
 
-                                  Get.to(() => BonusPlay());
+                                  Get.to(() => BounsPlay());
 
                               /*
                               availableCameras()

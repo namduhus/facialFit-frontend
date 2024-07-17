@@ -7,10 +7,10 @@ import 'package:SmileHelper/game/camera_screen.dart';
 import 'package:SmileHelper/game/result/stageclear1.dart';
 import 'package:get/get.dart';
 
-class BonusPlay extends StatelessWidget {
+class StoryPlay extends StatelessWidget {
   //final List<CameraDescription>? cameras;
 
-  const BonusPlay({super.key});
+  const StoryPlay({super.key});
 
   //@override
   //State<BonusPlay> createState() => PlayCamera();

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:SmileHelper/main/mypage.dart';
+import 'package:SmileHelper/main/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,6 +14,7 @@ import 'package:permission_handler/permission_handler.dart';
 import '../calendar/calendar.dart';
 import '../Service/AudioService.dart';
 import 'package:SmileHelper/game/story/prolog.dart'; // Prolog import
+import 'package:SmileHelper/game/bonus/start.dart'; // BonusStartPage import
 
 class MainHome extends StatefulWidget {
   @override
@@ -283,7 +285,10 @@ class _MainHomeState extends State<MainHome> {
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
-                    // Implement your Bonus Mode functionality here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => BonusStart()),
+                    );
                   },
                   child: Text('Bonus Mode', style: TextStyle(color: Colors.black)),
                 ),
@@ -566,7 +571,13 @@ class _MainHomeState extends State<MainHome> {
                         ),
                         IconButton(
                           icon: Image.asset('assets/images/setting.png'),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Setting()),
+                            );
+                          },
                         ),
                       ],
                     ),
