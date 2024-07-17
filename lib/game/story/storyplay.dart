@@ -54,7 +54,6 @@ class StoryPlay extends StatelessWidget {
                             ),
                           ),
                         ),
-
                         Positioned(
                           left: 38,
                           top: 34,
@@ -69,22 +68,19 @@ class StoryPlay extends StatelessWidget {
                             ),
                           ),
                         ),
-/////
                         Positioned(
                           left: 23,
                           top: 107,
                           child: Container(
                             width: 430,
                             height: 705,
-
                             child: Stack(children: [
                               ClipRRect(
                                   borderRadius: BorderRadius.circular(15),
                                   child: CameraScreen()),
-                            ]), ///////////////////////////////////////////
+                            ]),
                           ),
                         ),
-
                         Positioned(
                           left: 165,
                           top: 645,
@@ -96,55 +92,6 @@ class StoryPlay extends StatelessWidget {
                               fontFamily: 'Inter',
                               fontWeight: FontWeight.w400,
                               height: 0,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          left: 165,
-                          top: 645,
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              '123456초',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 30,
-                                fontFamily: 'Inter',
-                                fontWeight: FontWeight.w400,
-                                height: 0,
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        Positioned(
-                          left: 400,
-                          top: 300,
-                          child: InkWell(
-                            onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => StageClear())),
-                            child: Transform(
-                              transform: Matrix4.identity()
-                                ..translate(0.0, 0.0)
-                                ..rotateZ(0),
-                              child: Container(
-                                width: 49,
-                                height: 44,
-                                decoration: ShapeDecoration(
-                                  color: Color(0xFF516DFF),
-                                  shape: StarBorder.polygon(
-                                    side: BorderSide(
-                                        width: 1, color: Color(0xFF6B6060)),
-                                    sides: 3,
-                                  ),
-                                ),
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Text('성공테스트'),
-                                ),
-                              ),
                             ),
                           ),
                         ),
