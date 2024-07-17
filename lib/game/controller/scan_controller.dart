@@ -52,12 +52,13 @@ class ScanController extends GetxController {
 
   int _currentStage = 0;
   final List<String> _stages = [
-    '웃기',
-    '입 벌리기',
-    '눈 감기',
+    '입 오므리기(휘파람)',
     '눈썹 올리기',
     '볼 부풀리기',
     '눈 찡그리기'
+    '웃기',
+    '입 벌리기',
+    '눈 감기'
   ];
   Timer? _stageTimer;
 
@@ -106,12 +107,14 @@ class ScanController extends GetxController {
   bool _validateStage(Face face) {
     switch (_currentStage) {
       case 0:
-        return face.smilingProbability != null &&
-            face.smilingProbability! > 0.8;
+        //휘파람
+        return _isLipsWhistling(face);
       case 1:
-        return _isMouthOpen(face);
+        //눈썹 올리기
+        return _isEyebrowRaised(face);
       case 2:
-        return _isEyeClosed(face);
+        //볼 부풀리기
+        return _isCheekPuffed(face);
       default:
         return false;
     }
@@ -533,57 +536,47 @@ class ScanController extends GetxController {
 
   //로직
 
+  //눈썹 올리기
   bool _isEyebrowRaised(Face face) {
     FaceContour? leftEyebrowTop = face.contours[FaceContourType.leftEyebrowTop];
-    FaceContour? leftEyebrowBottom =
-        face.contours[FaceContourType.leftEyebrowBottom];
-    FaceContour? rightEyebrowTop =
-        face.contours[FaceContourType.rightEyebrowTop];
-    FaceContour? rightEyebrowBottom =
-        face.contours[FaceContourType.rightEyebrowBottom];
+    FaceContour? leftEye = face.contours[FaceContourType.leftEye];
+    FaceContour? rightEyebrowTop = face.contours[FaceContourType.rightEyebrowTop];
+    FaceContour? rightEye = face.contours[FaceContourType.rightEye];
 
-    if (leftEyebrowTop != null &&
-        leftEyebrowBottom != null &&
-        rightEyebrowTop != null &&
-        rightEyebrowBottom != null) {
-      double leftEyebrowTopY = leftEyebrowTop.points
-              .map((p) => p.y.toDouble())
-              .reduce((a, b) => a + b) /
-          leftEyebrowTop.points.length;
-      double leftEyebrowBottomY = leftEyebrowBottom.points
-              .map((p) => p.y.toDouble())
-              .reduce((a, b) => a + b) /
-          leftEyebrowBottom.points.length;
-      double rightEyebrowTopY = rightEyebrowTop.points
-              .map((p) => p.y.toDouble())
-              .reduce((a, b) => a + b) /
-          rightEyebrowTop.points.length;
-      double rightEyebrowBottomY = rightEyebrowBottom.points
-              .map((p) => p.y.toDouble())
-              .reduce((a, b) => a + b) /
-          rightEyebrowBottom.points.length;
+    if (leftEyebrowTop != null && leftEye != null && rightEyebrowTop != null && rightEye != null) {
+      // 왼쪽 눈썹의 평균 y 좌표를 계산합니다
+      double leftEyebrowY = leftEyebrowTop.points.map((p) => p.y.toDouble()).reduce((a, b) => a + b) / leftEyebrowTop.points.length;
 
-      double leftEyebrowRaise = leftEyebrowBottomY - leftEyebrowTopY;
-      double rightEyebrowRaise = rightEyebrowBottomY - rightEyebrowTopY;
+      // 오른쪽 눈썹의 평균 y 좌표를 계산합니다
+      double rightEyebrowY = rightEyebrowTop.points.map((p) => p.y.toDouble()).reduce((a, b) => a + b) / rightEyebrowTop.points.length;
 
-      print('Left Eyebrow Top: $leftEyebrowTopY');
-      print('Left Eyebrow Bottom: $leftEyebrowBottomY');
-      print('Right Eyebrow Top: $rightEyebrowTopY');
-      print('Right Eyebrow Bottom: $rightEyebrowBottomY');
-      print('Left Eyebrow Raise: $leftEyebrowRaise');
-      print('Right Eyebrow Raise: $rightEyebrowRaise');
+      // 왼쪽 눈의 평균 y 좌표를 계산합니다
+      double leftEyeY = leftEye.points.map((p) => p.y.toDouble()).reduce((a, b) => a + b) / leftEye.points.length;
 
-      // 임계값 조정
-      double threshold = 30.0; // 눈썹 올리는 임계값
+      // 오른쪽 눈의 평균 y 좌표를 계산합니다
+      double rightEyeY = rightEye.points.map((p) => p.y.toDouble()).reduce((a, b) => a + b) / rightEye.points.length;
 
-      bool isLeftEyebrowRaised = leftEyebrowRaise > threshold;
-      bool isRightEyebrowRaised = rightEyebrowRaise > threshold;
+      // 눈썹과 눈 사이의 거리를 계산합니다
+      double leftEyebrowEyeDistance = leftEyeY - leftEyebrowY;
+      double rightEyebrowEyeDistance = rightEyeY - rightEyebrowY;
 
-      return isLeftEyebrowRaised || isRightEyebrowRaised;
+      // 얼굴 높이에 대한 상대적 거리를 계산합니다
+      double relativeLeftDistance = leftEyebrowEyeDistance / face.boundingBox.height;
+      double relativeRightDistance = rightEyebrowEyeDistance / face.boundingBox.height;
+
+      // 임계값 설정
+      double threshold = 0.09; // 얼굴 높이의 9%를 임계값으로 설정
+
+      print('Left Eyebrow-Eye Distance: $relativeLeftDistance');
+      print('Right Eyebrow-Eye Distance: $relativeRightDistance');
+
+      return (relativeLeftDistance > threshold) && (relativeRightDistance > threshold )
+          &&((relativeLeftDistance-relativeRightDistance).abs()<0.004);
     }
     return false;
   }
 
+  // 눈 감기
   bool _isEyeClosed(Face face) {
     final double? leftEyeOpen = face.leftEyeOpenProbability;
     final double? rightEyeOpen = face.rightEyeOpenProbability;
@@ -598,23 +591,43 @@ class ScanController extends GetxController {
         rightEyeOpen < 0.2; // 임계값 설정
   }
 
+  //볼 부풀리기
   bool _isCheekPuffed(Face face) {
     FaceContour? leftCheek = face.contours[FaceContourType.leftCheek];
     FaceContour? rightCheek = face.contours[FaceContourType.rightCheek];
+    FaceContour? noseBridge = face.contours[FaceContourType.noseBridge];
 
-    if (leftCheek != null && rightCheek != null) {
-      double leftCheekArea = _calculateContourArea(leftCheek.points);
-      double rightCheekArea = _calculateContourArea(rightCheek.points);
+    if (leftCheek != null && rightCheek != null && noseBridge != null) {
+      // 양 볼의 가장 바깥쪽 점을 찾습니다
+      Point<int> leftOuterPoint = leftCheek.points.reduce((curr, next) => curr.x < next.x ? curr : next);
+      Point<int> rightOuterPoint = rightCheek.points.reduce((curr, next) => curr.x > next.x ? curr : next);
 
-      // 로그로 출력
-      print('Left Cheek Area: $leftCheekArea');
-      print('Right Cheek Area: $rightCheekArea');
+      // 코의 중앙점을 찾습니다
+      Point<int> noseCenter = noseBridge.points[noseBridge.points.length ~/ 2];
 
-      return leftCheekArea > 1000 && rightCheekArea > 1000; // 임계값 설정
+      // 볼의 너비를 계산합니다
+      double cheekWidth = (rightOuterPoint.x - leftOuterPoint.x).abs().toDouble();
+
+      // 코에서 양 볼까지의 거리를 계산합니다
+      double leftCheekDistance = (noseCenter.x - leftOuterPoint.x).abs().toDouble();
+      double rightCheekDistance = (rightOuterPoint.x - noseCenter.x).abs().toDouble();
+
+      // 볼의 대칭성을 확인합니다
+      double cheekSymmetry = (leftCheekDistance - rightCheekDistance).abs() / cheekWidth;
+
+      // 임계값 설정
+      double widthThreshold = 0.41; // 얼굴 너비 대비 볼 너비의 임계값
+      double symmetryThreshold = 0.1; // 볼 대칭성의 임계값
+
+      print('Cheek Width: $cheekWidth');
+      print('Face Width: ${face.boundingBox.width}');
+      print('Cheek Symmetry: $cheekSymmetry');
+
+      return (cheekWidth / face.boundingBox.width < widthThreshold) && (cheekSymmetry < symmetryThreshold);
     }
     return false;
   }
-
+/*
   double _calculateContourArea(List<Point<int>> points) {
     // 다각형 면적 계산 (shoelace formula)
     double area = 0;
@@ -626,7 +639,40 @@ class ScanController extends GetxController {
     area = area.abs() / 2.0;
     return area;
   }
+*/
 
+  //입 오므리기
+  bool _isLipsWhistling(Face face) {
+    FaceLandmark? leftMouth = face.landmarks[FaceLandmarkType.leftMouth];
+    FaceLandmark? rightMouth = face.landmarks[FaceLandmarkType.rightMouth];
+    FaceLandmark? upperLip = face.landmarks[FaceLandmarkType.noseBase];
+    FaceLandmark? lowerLip = face.landmarks[FaceLandmarkType.bottomMouth];
+
+    if (leftMouth != null && rightMouth != null && upperLip != null && lowerLip != null) {
+      // 입 너비 계산
+      double mouthWidth = (rightMouth.position.x - leftMouth.position.x).abs().toDouble();
+
+      // 입 높이 계산
+      double mouthHeight = (lowerLip.position.y - upperLip.position.y).abs().toDouble();
+
+      // 입 모양 비율 계산 (높이/너비) - 값이 커질수록 입을 오무림
+      double mouthRatio = mouthHeight / mouthWidth;
+
+      print('Mouth Width: $mouthWidth');
+      print('Mouth Height: $mouthHeight');
+      print('Mouth Ratio: $mouthRatio');
+
+      // 임계값 설정
+      double widthThreshold = 210;  // 입 너비 임계값 - 로그 보고 조정해야함
+      double ratioThreshold = 0.8;  // 입 오무리기 비율 - 낮을수록 난이도 내려감
+
+      // 입 너비가 줄어들고, 동그랗게 변할 때 휘파람 모양으로 판단
+      return mouthWidth < widthThreshold && mouthRatio > ratioThreshold;
+    }
+    return false;
+  }
+
+  //입 벌리기
   bool _isMouthOpen(Face face) {
     FaceLandmark? leftMouth = face.landmarks[FaceLandmarkType.leftMouth];
     FaceLandmark? rightMouth = face.landmarks[FaceLandmarkType.rightMouth];
