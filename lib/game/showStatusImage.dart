@@ -12,20 +12,26 @@ class Showstatusimage extends GetView<ScanController> {
         child: Stack(
           children: [
             controller.isSuccessImageVisible.value
-                ? SizedBox(
-                    width: 250,
-                    height: 250,
-                    child: Image.asset(
-                      'assets/images/birth.png', //gifs/smile1.gif
-                    ))
+                ? Align(
+                    alignment: Alignment.center,
+                    child: SizedBox(
+                        width: 250,
+                        height: 250,
+                        child: Image.asset(
+                          'assets/gifs/smile1.gif', //gifs/smile1.gif
+                        )),
+                  )
                 : Container(),
 
             // 실패 이미지 오버레이
             controller.isFailImageVisible.value
-                ? SizedBox(
-                    width: 250,
-                    height: 250,
-                    child: Image.asset('assets/images/sad.png')) //gifs/sad.gif
+                ? Align(
+                    alignment: Alignment.center,
+                    child: SizedBox(
+                        width: 250,
+                        height: 250,
+                        child: Image.asset('assets/gifs/sad1.gif')),
+                  ) //gifs/sad.gif
                 : Container(),
           ],
         ),

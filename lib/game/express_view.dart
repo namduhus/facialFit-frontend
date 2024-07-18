@@ -13,7 +13,8 @@ class ExpressView extends GetView<ScanController> {
     return GetX<ScanController>(initState: (state) {
       controller.onInit();
     }, builder: (controller) {
-      switch (controller.currentExpression) {
+      Logger().e('express_view: ${controller.currentExpression}');
+      switch (controller.currExp.value) {
         case '눈썹 올리기':
           return Container(
             width: 125,
