@@ -86,48 +86,6 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
                   _buildHeader(width, height),
                   _buildUserInfo(width, height),
                   _buildButtons(width, height),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => ShopMain()),
-                          );
-                        },
-                        child: Text('Shop'),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => MainHome()),
-                          );
-                        },
-                        child: Text('Main'),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => StatisticsPage()),
-                          );
-                        },
-                        child: Text('Statistics'),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -214,6 +172,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
         children: [
           _buildElevatedButton('Shop', ShopMain(), width, height),
           _buildElevatedButton('Main', MainHome(), width, height),
+          _buildElevatedButton('Statistics', StatisticsPage(), width, height),
         ],
       ),
     );
@@ -256,7 +215,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Color(0xFF8B4513),
-            padding: EdgeInsets.symmetric(horizontal: 55, vertical: 15),
+            padding: EdgeInsets.symmetric(horizontal: 28, vertical: 15),
             textStyle: TextStyle(fontSize: 24),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
