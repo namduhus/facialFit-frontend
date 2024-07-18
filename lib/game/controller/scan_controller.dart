@@ -121,13 +121,13 @@ class ScanController extends GetxController {
     switch (_currentStage) {
       case 0:
         //휘파람
-        return _isLipsWhistling(face);
+        return _isFrowning(face);
       case 1:
         //눈썹 올리기
-        return _isEyebrowRaised(face);
+        return _isFrowning(face);
       case 2:
         //볼 부풀리기
-        return _isCheekPuffed(face);
+        return _isFrowning(face);
       default:
         return false;
     }
@@ -223,7 +223,7 @@ class ScanController extends GetxController {
         _getRequiredImagesForStage(stageController.currentStage.value);
 
     //종료조건
-    if (imageList.length >= requiredImages) {
+    if (imageList.length > requiredImages) {
       await _showPopup('사진이 $requiredImages개가 됐어요 ');
       _showPopup(correct.value.toString());
       _showPopup(wrong.value.toString());
@@ -514,7 +514,7 @@ class ScanController extends GetxController {
   }
 
 
-  //로직
+  //로직-------------------------------------------------------------------------
 
   //눈썹 올리기
   bool _isEyebrowRaised(Face face) {
@@ -698,6 +698,64 @@ class ScanController extends GetxController {
     return false;
   }
 
+  //놀람
+  bool _isSurprise(Face face) {
+    return _isEyebrowRaised(face) && _isMouthOpen(face);
+  }
+
+  //찡그리기
+  bool _isFrowning(Face face) {
+    FaceContour? leftEyebrowTop = face.contours[FaceContourType.leftEyebrowTop];
+    FaceContour? rightEyebrowTop = face.contours[FaceContourType.rightEyebrowTop];
+    FaceContour? leftEye = face.contours[FaceContourType.leftEye];
+    FaceContour? rightEye = face.contours[FaceContourType.rightEye];
+
+    if (leftEyebrowTop != null && rightEyebrowTop != null &&
+        leftEye != null && rightEye != null) {
+
+      // 1. 눈썹 위치 계산
+      double leftEyebrowY = leftEyebrowTop.points.map((p) => p.y.toDouble()).reduce((a, b) => a + b) / leftEyebrowTop.points.length;
+      double rightEyebrowY = rightEyebrowTop.points.map((p) => p.y.toDouble()).reduce((a, b) => a + b) / rightEyebrowTop.points.length;
+
+      // 2. 눈 크기 계산
+      double leftEyeHeight = leftEye.points.map((p) => p.y.toDouble()).reduce((a, b) => a > b ? a : b) -
+          leftEye.points.map((p) => p.y.toDouble()).reduce((a, b) => a < b ? a : b);
+      double rightEyeHeight = rightEye.points.map((p) => p.y.toDouble()).reduce((a, b) => a > b ? a : b) -
+          rightEye.points.map((p) => p.y.toDouble()).reduce((a, b) => a < b ? a : b);
+
+      // 3. 얼굴 전체 높이에 대한 눈썹 위치의 비율 계산
+      double faceHeight = face.boundingBox.height.toDouble();
+      double faceTop = face.boundingBox.top.toDouble();
+      double leftEyebrowPositionRatio = (leftEyebrowY - faceTop) / faceHeight;
+      double rightEyebrowPositionRatio = (rightEyebrowY - faceTop) / faceHeight;
+
+      // 4. 눈 크기의 비율 계산
+      double leftEyeHeightRatio = leftEyeHeight / faceHeight;
+      double rightEyeHeightRatio = rightEyeHeight / faceHeight;
+
+      // 임계값 설정
+      double eyebrowPositionThreshold = 0.24; // 눈썹이 내려온 비율
+      double eyeHeightThreshold = 0.041; // 눈 크기
+
+      print('Left Eyebrow Position Ratio: $leftEyebrowPositionRatio');
+      print('Right Eyebrow Position Ratio: $rightEyebrowPositionRatio');
+      print('Left Eye Height Ratio: $leftEyeHeightRatio');
+      print('Right Eye Height Ratio: $rightEyeHeightRatio');
+
+      // 찡그림 판단
+      bool eyebrowsLowered = (leftEyebrowPositionRatio > eyebrowPositionThreshold) &&
+          (rightEyebrowPositionRatio > eyebrowPositionThreshold);
+      bool eyesNarrowed = (leftEyeHeightRatio < eyeHeightThreshold) &&
+          (rightEyeHeightRatio < eyeHeightThreshold);
+
+      return eyebrowsLowered && eyesNarrowed;
+    }
+    return false;
+  }
+
+
+  //----------------------------------------------------------------------------
+
   bool _showPopup(String message) {
     _message.value = message;
     Get.snackbar(
@@ -712,6 +770,8 @@ class ScanController extends GetxController {
   RxList<Map<FaceContourType, FaceContour?>> contour = RxList([]);
   RxList<Rect> boundingBox = RxList([]);
 }
+
+
 
 class FacePainter extends CustomPainter {
   @override
