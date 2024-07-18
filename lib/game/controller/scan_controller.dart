@@ -61,10 +61,10 @@ class ScanController extends GetxController {
   final List<List<String>> _stages = [
     ['웃음'], // 1단계
     ['웃음', '입 벌리기'], // 2단계
-    ['웃음', '입 벌리기', '찡그리기'], // 3단계
-    ['눈썹 들어올리기', '볼 부풀리기', '입 벌리기', '찡그리기'], // 4단계
-    ['입 벌리기', '눈 웃음', '놀람', '눈 감기', '볼 부풀리기'], // 5단계
-    ['웃기', '볼 부풀리기', '눈 찡그리기', '입 벌리기', '눈 감기', '놀람'] // 6단계
+    ['웃음', '입 오므리기', '찡그리기'], // 3단계
+    ['눈썹 올리기', '볼 부풀리기', '입 벌리기', '찡그리기'], // 4단계
+    ['입 오므리기', '웃음', '놀람', '눈 감기', '볼 부풀리기'], // 5단계
+    ['웃기', '볼 부풀리기', '찡그리기', '눈썹 올리기', '눈 감기', '놀람'] // 6단계
   ];
 
   void _selectSequentialExpression() {
@@ -81,14 +81,15 @@ class ScanController extends GetxController {
     var expressions = _stages[stageController.currentStage.value - 1];
     if (expressions != null) {
       currentExpression = expressions[Random().nextInt(expressions.length)];
+      currExp.value = currentExpression;
     }
   }
 
   Timer? _stageTimer;
 
   //String get currentStage =>      '스테이지 ${stageController.currentStage.value}: ${_stages[stageController.currentStage.value - 1].join(', ')}';
-  late String currentExpression; // 현재 스테이지에서 랜덤으로 선택된 표정
-
+  String currentExpression = ''; // 현재 스테이지에서 랜덤으로 선택된 표정
+  RxString currExp = ''.obs;
   bool get canProcess => _canProcess;
 
   bool get isBusy => _isBusy;
@@ -130,31 +131,63 @@ class ScanController extends GetxController {
   // 유효성 검사 함수
   bool _validateStage(Face face) {
     //조건추가
-    switch (_currentStage) {
-      case 0:
+    switch (currentExpression) {
+      case '입 오므리기':
         //휘파람
-        return _isFrowning(face);
-      case 1:
+        if (_isFrowning(face)) {
+          _message.value = '입 오므리기';
+          return true;
+        }
+        return false;
+      case '눈썹 올리기':
         //눈썹 올리기
-        return _isFrowning(face);
-      case 2:
+        if (_isFrowning(face)) {
+          _message.value = '눈썹 올리기';
+          return true;
+        }
+        return false;
+      case '볼 부풀리기':
         //볼 부풀리기
-        return _isCheekPuffed(face);
-      case 3:
+        if (_isCheekPuffed(face)) {
+          _message.value = '볼 부풀리기';
+          return true;
+        }
+        return false;
+      case '눈 감기':
         //눈 감기
-        return _isEyeClosed(face);
-      case 4:
+        if (_isEyeClosed(face)) {
+          _message.value = '눈 감기';
+          return true;
+        }
+        return (false);
+      case '입 벌리기':
         //입 벌리기
-        return _isMouthOpen(face);
-      case 5:
+        if (_isMouthOpen(face)) {
+          _message.value = '입 벌리기';
+          return true;
+        }
+        return (false);
+      case '놀람':
         //놀람
-        return _isSurprised(face);
-      case 6:
+        if (_isSurprise(face)) {
+          _message.value = '놀람';
+          return true;
+        }
+        return (false);
+      case '웃음':
         //웃음
-        return _isSmile(face);
-      case 7:
+        if (_isSmile(face)) {
+          _message.value = '웃음';
+          return true;
+        }
+        return (false);
+      case '찡그리기':
         //찡그리기
-        return _isFrowning(face);
+        if (_isFrowning(face)) {
+          _message.value = '찡그리기';
+          return true;
+        }
+        return (false);
       default:
         return false;
     }
@@ -168,15 +201,15 @@ class ScanController extends GetxController {
       _stageTimer!.cancel();
     }
     // 표정을 랜덤으로 선택
-    //_selectRandomExpression();
+    _selectRandomExpression();
     //표정을 순서대로 선택
-    _selectSequentialExpression();
+    //_selectSequentialExpression();
     // 현재 스테이지 메시지 표시
     _showPopup('현재 스테이지: $currentStage, 표정: $currentExpression');
     // 각 스테이지에 맞는 사진 촬영 횟수 조정
     int requiredImages =
         _getRequiredImagesForStage(stageController.currentStage.value);
-
+    Logger().e('message: $requiredImages');
 // 10초 카운트 뒤에 사진 촬영 및 스테이지 이동
     _countdown.value = 10;
     _stageTimer = Timer.periodic(Duration(seconds: 1), (timer) {
@@ -221,22 +254,26 @@ class ScanController extends GetxController {
     isSuccessImageVisible.value = true;
     isImageProcessing.value = true;
     Timer(Duration(seconds: 1), () {
-      isSuccessImageVisible.value = false;
+      /*isSuccessImageVisible.value = false;
       isImageProcessing.value = false;
       isSuccessImageVisible.value = true;
       isImageProcessing.value = true;
       isSuccessImageVisible.value = false;
-      isImageProcessing.value = false;
+      isImageProcessing.value = false;*/
     });
+    isSuccessImageVisible.value = false;
+    isImageProcessing.value = false;
   }
 
   void _showFailImage() {
     isFailImageVisible.value = true;
     isImageProcessing.value = true;
     Timer(Duration(seconds: 1), () {
-      isFailImageVisible.value = false;
-      isImageProcessing.value = false;
+      /*isFailImageVisible.value = false;
+      isImageProcessing.value = false;*/
     });
+    isFailImageVisible.value = false;
+    isImageProcessing.value = false;
   }
 
 // 각 스테이지에 필요한 사진 촬영 횟수를 반환하는 함수
@@ -260,20 +297,28 @@ class ScanController extends GetxController {
   void _moveToNextStage() async {
     int requiredImages =
         _getRequiredImagesForStage(stageController.currentStage.value);
-
+    Logger().e(
+        '로그로그: ${imageList.length} > ${requiredImages}   ${imageList.length > requiredImages}');
     //종료조건
-    if (imageList.length > requiredImages) {
+    if (imageList.length >= requiredImages) {
+      //1<1
       await _showPopup('사진이 $requiredImages개가 됐어요 ');
       _showPopup(correct.value.toString());
       _showPopup(wrong.value.toString());
-
+      Logger().e('종료조건');
       Timer(Duration(seconds: 1), () {
         // 정답이 더 많으면 StageClear1 페이지로 이동, 그렇지 않으면 StageFail1 페이지로 이동
+        Logger().e('정답이 많을 경우');
+
         if (correct.value >= wrong.value) {
           //같을경우 통과?하는
           //if (correct.value > wrong.value) { //값이 2씩 올라가긴한다
+          Logger().e('성공이동');
+
           Get.to(StageClear());
         } else {
+          Logger().e('실패이동');
+
           Get.to(StageFail());
         }
       });
@@ -291,14 +336,16 @@ class ScanController extends GetxController {
       //실행조건
       //_showPopup("사진이 아직 3개가 안됐어요");
       if (_message.value == 'success') {
+        Logger().e("성공");
         _showSuccessImage();
       } else if (_message.value == 'fail') {
         _showFailImage();
+        Logger().e("실패");
       }
 
       Logger()
           .e("실행조건: ${correct.value}  ${wrong.value}   ${imageList.length}}");
-      _currentStage += 1;
+      _currentStage++;
       _startStage();
     }
   }
@@ -524,6 +571,7 @@ class ScanController extends GetxController {
           });
 
           bool isActionDetected = _validateStage(face);
+          Logger().e('isactiondetected: $isActionDetected');
           if (isActionDetected) {
             _showPopup('Success');
             isSuccessImageVisible.value = true;
@@ -545,9 +593,6 @@ class ScanController extends GetxController {
         }
       }
       _text = text;
-      _customPaint = CustomPaint(
-        painter: FacePainter(),
-      );
     }
     _isBusy = false;
   }
@@ -682,6 +727,11 @@ class ScanController extends GetxController {
     return area;
   }
 */
+//웃음
+
+  bool _isSmile(Face face) {
+    return (face.smilingProbability! > 0.6) ? true : false;
+  }
 
   //입 오므리기
   bool _isLipsWhistling(Face face) {
@@ -852,33 +902,4 @@ class ScanController extends GetxController {
 
   RxList<Map<FaceContourType, FaceContour?>> contour = RxList([]);
   RxList<Rect> boundingBox = RxList([]);
-}
-
-class FacePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    // TODO: implement paint
-    final radius = math.min(size.width, size.height) / 2;
-    final center = Offset(size.width / 2, size.height / 2);
-    // Draw the body
-    final paint = Paint()..color = Colors.yellow;
-    canvas.drawCircle(center, radius, paint);
-    // Draw the mouth
-    final smilePaint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 10;
-    canvas.drawArc(Rect.fromCircle(center: center, radius: radius / 2), 0,
-        math.pi, false, smilePaint);
-    // Draw the eyes
-    canvas.drawCircle(
-        Offset(center.dx - radius / 2, center.dy - radius / 2), 10, Paint());
-    canvas.drawCircle(
-        Offset(center.dx + radius / 2, center.dy - radius / 2), 10, Paint());
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    // TODO: implement shouldRepaint
-    throw UnimplementedError();
-  }
 }
