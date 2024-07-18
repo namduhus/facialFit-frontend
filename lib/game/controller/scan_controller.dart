@@ -148,7 +148,7 @@ class ScanController extends GetxController {
         return _isMouthOpen(face);
       case 5:
         //놀람
-        return _isSurprised(face);
+        return _isSurprise(face);
       case 6:
         //웃음
         return _isSmile(face);
@@ -524,6 +524,7 @@ class ScanController extends GetxController {
           });
 
           bool isActionDetected = _validateStage(face);
+          Logger().e('isactiondetected: $isActionDetected');
           if (isActionDetected) {
             _showPopup('Success');
             isSuccessImageVisible.value = true;
@@ -545,9 +546,6 @@ class ScanController extends GetxController {
         }
       }
       _text = text;
-      _customPaint = CustomPaint(
-        painter: FacePainter(),
-      );
     }
     _isBusy = false;
   }
@@ -682,6 +680,11 @@ class ScanController extends GetxController {
     return area;
   }
 */
+//웃음
+
+  bool _isSmile(Face face) {
+    return (face.smilingProbability! > 0.6) ? true : false;
+  }
 
   //입 오므리기
   bool _isLipsWhistling(Face face) {
@@ -852,33 +855,4 @@ class ScanController extends GetxController {
 
   RxList<Map<FaceContourType, FaceContour?>> contour = RxList([]);
   RxList<Rect> boundingBox = RxList([]);
-}
-
-class FacePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    // TODO: implement paint
-    final radius = math.min(size.width, size.height) / 2;
-    final center = Offset(size.width / 2, size.height / 2);
-    // Draw the body
-    final paint = Paint()..color = Colors.yellow;
-    canvas.drawCircle(center, radius, paint);
-    // Draw the mouth
-    final smilePaint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 10;
-    canvas.drawArc(Rect.fromCircle(center: center, radius: radius / 2), 0,
-        math.pi, false, smilePaint);
-    // Draw the eyes
-    canvas.drawCircle(
-        Offset(center.dx - radius / 2, center.dy - radius / 2), 10, Paint());
-    canvas.drawCircle(
-        Offset(center.dx + radius / 2, center.dy - radius / 2), 10, Paint());
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    // TODO: implement shouldRepaint
-    throw UnimplementedError();
-  }
 }

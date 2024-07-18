@@ -21,7 +21,7 @@ class Countdown extends GetView<ScanController> {
             alignment: Alignment.topLeft,
             child: Text(
               controller.countdown.value.toString(), //'countdown',
-              style: TextStyle(fontSize: 200),
+              style: TextStyle(fontSize: 20),
             )),
       ); //지금은 그냥 글자만
     });
