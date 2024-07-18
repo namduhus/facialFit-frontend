@@ -394,9 +394,8 @@ class QuestTest2State extends State<QuestTest2> {
       child: Container(
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xFF87CEEB), Color(0xFFFFFFFF)],
-        ),// 퀘스트 폼 배경색 설정
+            color:Color(0xFFF5DEB3),
+        // 퀘스트 폼 배경색 설정
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(

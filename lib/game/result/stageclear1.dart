@@ -37,7 +37,7 @@ class _StageClearState extends State<StageClear> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF207F66),
+      backgroundColor: Color(0xFF8B4513),
       appBar: AppBar(
         automaticallyImplyLeading: false, // 뒤로 가기 버튼 없애기
         title: Image.asset(
@@ -56,12 +56,12 @@ class _StageClearState extends State<StageClear> {
             Container(
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: Color(0xFF207F66),
+                color: Color(0xFF8B4513),
               ),
               child: Text(
-                '1 Stage!!!',
+                '1 Stage!!',
                 style: TextStyle(
-                  fontSize: 50,
+                  fontSize: 40,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
@@ -71,7 +71,6 @@ class _StageClearState extends State<StageClear> {
               padding: EdgeInsets.all(16.0),
               margin: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: Color(0xFFFAF9E0),
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: Column(
@@ -83,12 +82,12 @@ class _StageClearState extends State<StageClear> {
                     width: 350, // 원하는 너비로 조절
                     height: 150, // 이미지의 높이 조절
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 15),
                   Image.asset(
-                    'assets/images/clapping.png',
+                    'assets/gifs/clapping.gif',
                     fit: BoxFit.contain,
                     width: 500, // 이미지의 너비 조절
-                    height: 200, // 이미지의 높이 조절
+                    height: 150, // 이미지의 높이 조절
                   ),
                 ],
               ),

@@ -21,7 +21,7 @@ class StoryStart extends StatelessWidget {
               child: Stack(
                 children: [
                   Positioned(
-                    left: 120,
+                    left: 110,
                     top: 40,
                     child: Text(
                       stage, //여기서 이전에 클릭한 단계 표시
@@ -49,7 +49,7 @@ class StoryStart extends StatelessWidget {
                         width: 200,
                         height: 200,
                         decoration: BoxDecoration(
-                          color: Color(0xFF87CEEB),
+                          color: Color(0xFF8B4513),
                           shape: BoxShape.circle,
                         ),
                         child: Center(
@@ -71,7 +71,7 @@ class StoryStart extends StatelessWidget {
                     top: 550,
                     child: SizedBox(
                       width: 400,
-                      height: 120,
+                      height: 130,
                       child: Text(
                         'Explanation: You’ll get a random challenge. Hold the expression for 10 seconds. We’ll snap one photo at a time.',
                         style: TextStyle(

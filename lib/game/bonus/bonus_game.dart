@@ -129,8 +129,8 @@ class _BonusGameState extends State<BonusGame> {
               SizedBox(height: 20),
               if (_cameraController.value.isInitialized)
                 Container(
-                  width: 300,
-                  height: 300,
+                  width: 320,
+                  height: 480,
                   child: CameraPreview(_cameraController),
                 ),
             ],

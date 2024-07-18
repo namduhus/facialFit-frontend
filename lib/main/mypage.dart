@@ -79,7 +79,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
               ],
             ),
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(15.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -102,8 +102,8 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
       decoration: BoxDecoration(
         color: Color(0xFF8B4513), // 배경색을 갈색으로 변경
         borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(30),
-          bottomRight: Radius.circular(30),
+          bottomLeft: Radius.circular(15),
+          bottomRight: Radius.circular(15),
         ),
         boxShadow: [
           BoxShadow(
@@ -117,12 +117,12 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
         children: [
           Icon(
             Icons.account_circle,
-            size: height * 0.08,
+            size: height * 0.07,
             color: Colors.white,
           ),
-          SizedBox(height: height * 0.01),
+          SizedBox(height: height * 0.011),
           Text(
-            'Player Profile',
+            'PlayerProfile',
             style: TextStyle(
               fontSize: height * 0.03,
               fontWeight: FontWeight.w600,
@@ -180,21 +180,21 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
 
   Widget _buildInfoItem(String label, String value) {
     return Container(
-      padding: EdgeInsets.all(5.0),
+      padding: EdgeInsets.all(15.0),
       margin: EdgeInsets.symmetric(vertical: 5.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             '$label:',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF8B4513)),
+            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF8B4513)),
           ),
           Shimmer.fromColors(
             baseColor: Color(0xFF8B4513),
             highlightColor: Color(0xFFD2691E),
             child: Text(
               value,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
             ),
           ),
         ],
@@ -215,8 +215,8 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Color(0xFF8B4513),
-            padding: EdgeInsets.symmetric(horizontal: 28, vertical: 15),
-            textStyle: TextStyle(fontSize: 24),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            textStyle: TextStyle(fontSize: 20),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
@@ -225,7 +225,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
             text,
             style: TextStyle(
               color: Colors.white,
-              fontSize: 18,
+              fontSize: 10,
               fontWeight: FontWeight.bold,
             ),
           ),
