@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'package:camera/camera.dart';
 import 'package:SmileHelper/game/result/stageclear1.dart';
 import 'package:SmileHelper/game/result/stagefail1.dart';
+import 'package:SmileHelper/css/screen.dart'; // BaseScreen import
 
 class BonusGame extends StatefulWidget {
   @override
@@ -94,67 +95,45 @@ class _BonusGameState extends State<BonusGame> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false, // 뒤로 가기 버튼 없애기
-        title: Image.asset(
-          'assets/images/Logo.png', // 로고 이미지 경로
-          height: 30, // 이미지 높이 조정
-        ),
-      ),
-      body: Container(
-        color: Color(0xFF207F66),
-        child: Center(
-          child: Container(
-            width: 424,
-            height: 805,
-            decoration: BoxDecoration(
-              color: Color(0xFF48AA7B),
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                  color: Color(0x3F000000),
-                  blurRadius: 4,
-                  offset: Offset(0, 4),
-                  spreadRadius: 0,
-                ),
-              ],
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Bonus Game!!!',
-                  style: TextStyle(fontSize: 34, color: Color(0xFFFFF3F3)),
-                ),
-                Text(
-                  'Make a $selectedEmotion face',
-                  style: TextStyle(fontSize: 24, color: Colors.white),
-                ),
-                SizedBox(height: 20),
-                if (!isCapturing)
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFFAF9E0),
-                      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                      textStyle: TextStyle(fontSize: 18),
-                    ),
-                    onPressed: startGame,
-                    child: Text('Start', style: TextStyle(color: Colors.black)),
-                  )
-                else if (countDown > 0)
-                  Text('$countDown', style: TextStyle(fontSize: 48, color: Colors.white))
-                else
-                  Text(result, style: TextStyle(fontSize: 24, color: Colors.white)),
-                SizedBox(height: 20),
-                if (_cameraController.value.isInitialized)
-                  Container(
-                    width: 300,
-                    height: 300,
-                    child: CameraPreview(_cameraController),
+    return BaseScreen(
+      child: Center(
+        child: Container(
+          width: 424,
+          height: 805,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Bonus Game!!!',
+                style: TextStyle(fontSize: 34, color: Color(0xFFFFF3F3)),
+              ),
+              Text(
+                'Make a $selectedEmotion face',
+                style: TextStyle(fontSize: 24, color: Colors.white),
+              ),
+              SizedBox(height: 20),
+              if (!isCapturing)
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFFFAF9E0),
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                    textStyle: TextStyle(fontSize: 18),
                   ),
-              ],
-            ),
+                  onPressed: startGame,
+                  child: Text('Start', style: TextStyle(color: Colors.black)),
+                )
+              else if (countDown > 0)
+                Text('$countDown', style: TextStyle(fontSize: 48, color: Colors.white))
+              else
+                Text(result, style: TextStyle(fontSize: 24, color: Colors.white)),
+              SizedBox(height: 20),
+              if (_cameraController.value.isInitialized)
+                Container(
+                  width: 300,
+                  height: 300,
+                  child: CameraPreview(_cameraController),
+                ),
+            ],
           ),
         ),
       ),

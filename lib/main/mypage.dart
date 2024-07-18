@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:SmileHelper/shop/shop_main.dart';
 import 'package:SmileHelper/main/main_stage.dart'; // MainStage import
-// import 'package:SmileHelper/etc/statistics.dart'; // Statistics import
+import 'package:SmileHelper/css/screen.dart'; // BaseScreen import
 
 class MyPage extends StatefulWidget {
   @override
@@ -53,20 +53,8 @@ class _MyPageState extends State<MyPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFF207F66),
-      appBar: AppBar(
-        automaticallyImplyLeading: false, // 뒤로 가기 버튼 없애기
-        title: Image.asset(
-          'assets/images/Logo.png',
-          fit: BoxFit.contain,
-          height: 32,
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
-      body: SingleChildScrollView(
+    return BaseScreen(
+      child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
@@ -85,11 +73,6 @@ class _MyPageState extends State<MyPage> {
               child: Container(
                 padding: EdgeInsets.all(16.0),
                 margin: EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  color: Color(0xFFFAF9E0),
-                  borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(color: Colors.white, width: 2),
-                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -105,7 +88,6 @@ class _MyPageState extends State<MyPage> {
               ),
             ),
             Container(
-              color: Color(0xFF207F66),
               padding: EdgeInsets.symmetric(vertical: 20.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -165,19 +147,6 @@ class _MyPageState extends State<MyPage> {
     return Container(
       padding: EdgeInsets.all(8.0),
       margin: EdgeInsets.symmetric(vertical: 5.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Colors.white, width: 2),
-        borderRadius: BorderRadius.circular(15.0),
-        boxShadow: [
-          BoxShadow(
-            color: Color(0x3F000000),
-            blurRadius: 4,
-            offset: Offset(0, 4),
-            spreadRadius: 0,
-          ),
-        ],
-      ),
       child: Text(
         text,
         style: TextStyle(fontSize: 18, color: Colors.black),

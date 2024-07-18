@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:SmileHelper/Service/AuthService.dart';
 import 'package:SmileHelper/main/main_stage.dart';
+import 'package:SmileHelper/css/screen.dart'; // BaseScreen import
 
 class QuestTest2 extends StatefulWidget {
   const QuestTest2({super.key});
@@ -275,117 +276,100 @@ class QuestTest2State extends State<QuestTest2> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: Color(0xFF207F66), // 배경색 설정
-        child: Center(
-          child: Container(
-            width: 424,
-            height: 855,
-            decoration: ShapeDecoration(
-              color: Color(0xFF48AA7B), // 덮어놓는 색상 설정
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-              shadows: [
-                BoxShadow(
-                  color: Color(0x3F000000),
-                  blurRadius: 4,
-                  offset: Offset(0, 4),
-                  spreadRadius: 0,
+    return BaseScreen(
+      child: Center(
+        child: Container(
+          width: 424,
+          height: 855,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/coin.png", // 코인 이미지 경로
+                      width: 30,
+                      height: 30,
+                      fit: BoxFit.contain,
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      '$userCoins', // 사용자 코인 소지량
+                      style: TextStyle(
+                        color: Color(0xFFFFF3F3),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(width: 80), // 코인과 Quest 로고 사이 간격 조정
+                    Text(
+                      'Quest',
+                      style: TextStyle(
+                        color: Color(0xFFFFF3F3),
+                        fontSize: 30, // 폰트 크기 조정
+                        fontFamily: 'ABeeZee',
+                        fontWeight: FontWeight.w400,
+                        height: 0.5,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: _fetchIncompleteQuests,
+                  child: Text('Incomplete Quests'),
+                ),
+                ElevatedButton(
+                  onPressed: _showCompletedQuestsDialog,
+                  child: Text('Completed Quests'),
+                ),
+                SizedBox(height: 20),
+                Expanded(
+                  child: ListView(
+                    children: [
+                      ...incompleteQuests.map((quest) => _buildQuestItem(quest, false)),
+                      // Completed quests are shown in a dialog
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                        child: ElevatedButton(
+                          onPressed: _navigateToShop,
+                          child: Text('Shop'),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                        child: ElevatedButton(
+                          onPressed: _navigateToHome,
+                          child: Text('Home'),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 1.0),
+                        child: ElevatedButton(
+                          onPressed: _navigateToStatistics,
+                          child: Text('MyPage'),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/images/coin.png", // 코인 이미지 경로
-                        width: 30,
-                        height: 30,
-                        fit: BoxFit.contain,
-                      ),
-                      SizedBox(width: 10),
-                      Text(
-                        '$userCoins', // 사용자 코인 소지량
-                        style: TextStyle(
-                          color: Color(0xFFFFF3F3),
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(width: 35), // 코인과 Quest 로고 사이 간격 조정
-                      Text(
-                        'Quest',
-                        style: TextStyle(
-                          color: Color(0xFFFFF3F3),
-                          fontSize:30,// 폰트 크기 조정
-                          fontFamily: 'ABeeZee',
-                          fontWeight: FontWeight.w400,
-                          height: 0.5,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: _fetchIncompleteQuests,
-                    child: Text('Incomplete Quests'),
-                  ),
-                  ElevatedButton(
-                    onPressed: _showCompletedQuestsDialog,
-                    child: Text('Completed Quests'),
-                  ),
-                  SizedBox(height: 20),
-                  Expanded(
-                    child: ListView(
-                      children: [
-                        ...incompleteQuests.map((quest) => _buildQuestItem(quest, false)),
-                        // Completed quests are shown in a dialog
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                          child: ElevatedButton(
-                            onPressed: _navigateToShop,
-                            child: Text('Shop'),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                          child: ElevatedButton(
-                            onPressed: _navigateToHome,
-                            child: Text('Home'),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 1.0),
-                          child: ElevatedButton(
-                            onPressed: _navigateToStatistics,
-                            child: Text('MyPage'),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
             ),
           ),
         ),
@@ -411,7 +395,9 @@ class QuestTest2State extends State<QuestTest2> {
       child: Container(
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          color: Color(0xFFFAF9E0), // 퀘스트 폼 배경색 설정
+        gradient: LinearGradient(
+          colors: [Color(0xFF87CEEB), Color(0xFFFFFFFF)],
+        ),// 퀘스트 폼 배경색 설정
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(

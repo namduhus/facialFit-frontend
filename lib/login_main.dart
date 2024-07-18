@@ -2,6 +2,7 @@ import 'package:SmileHelper/register_main.dart';
 import 'package:flutter/material.dart';
 import 'package:SmileHelper/Service/AuthService.dart'; // AuthService import
 import 'package:SmileHelper/main/main_stage.dart'; // MainStage2 screen import
+import 'package:SmileHelper/css/screen.dart'; // BaseScreen import
 
 class LoginMain extends StatefulWidget {
   const LoginMain({super.key});
@@ -29,9 +30,9 @@ class LoginMainState extends State<LoginMain> {
       });
 
       // Navigate to MainStage screen or any other screen after successful login
-      Navigator.pushReplacement(
-        context,
-          MaterialPageRoute(builder: (context) => MainHome()),
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => MainHome()),
+            (Route<dynamic> route) => false,
       );
     } catch (e) {
       setState(() {
@@ -61,34 +62,19 @@ class LoginMainState extends State<LoginMain> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false, // 뒤로 가기 버튼 없애기
-        title: Image.asset(
-          'assets/images/Logo.png', // 로고 이미지 경로
-          height: 30, // 이미지 높이 조정
-        ),
-      ),
-      body: SingleChildScrollView(
+    return BaseScreen(
+      child: SingleChildScrollView(
         child: Container(
-          color: Color(0xFF207F66),
           height: MediaQuery.of(context).size.height, // 화면 높이에 맞추도록 설정
           child: Center(
             child: Container(
               width: 424,
               height: 805,
               decoration: ShapeDecoration(
-                color: Color(0xFF48AA7B),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
                 shadows: [
-                  BoxShadow(
-                    color: Color(0x3F000000),
-                    blurRadius: 4,
-                    offset: Offset(0, 4),
-                    spreadRadius: 0,
-                  ),
                 ],
               ),
               child: Padding(
@@ -112,12 +98,14 @@ class LoginMainState extends State<LoginMain> {
                     ),
                     SizedBox(height: 40),
                     Container(
-                      decoration: ShapeDecoration(
-                        color: Color(0xFFD9D9D9),
-                        shape: RoundedRectangleBorder(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        colors: [Color(0xFF87CEEB), Color(0xFFFFFFFF)],
+                        ),
                           borderRadius: BorderRadius.circular(15),
                         ),
-                      ),
                       child: TextFormField(
                         controller: _idController,
                         decoration: InputDecoration(
@@ -129,11 +117,13 @@ class LoginMainState extends State<LoginMain> {
                     ),
                     SizedBox(height: 20),
                     Container(
-                      decoration: ShapeDecoration(
-                        color: Color(0xFFD9D9D9),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [Color(0xFF87CEEB), Color(0xFFFFFFFF)],
                         ),
+                        borderRadius: BorderRadius.circular(15),
                       ),
                       child: TextFormField(
                         controller: _passwordController,
@@ -155,7 +145,7 @@ class LoginMainState extends State<LoginMain> {
                           : Text(
                         'Login',
                         style: TextStyle(
-                          color: Color(0xFF48AA7B),
+                          color: Color(0xFF87CEEB),
                           fontSize: 35,
                           fontFamily: 'ABeeZee',
                           fontWeight: FontWeight.w400,

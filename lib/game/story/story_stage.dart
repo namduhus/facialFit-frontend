@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:SmileHelper/main/main_stage.dart'; // MainHome import
 import 'package:SmileHelper/game/story/start.dart'; // StartPage import
+import 'package:SmileHelper/css/screen.dart'; // BaseScreen import
 
 class StoryStage extends StatefulWidget {
   @override
@@ -13,48 +14,18 @@ class _StoryStageState extends State<StoryStage> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false, // 뒤로 가기 버튼 없애기
-        leading: IconButton(
-          icon: Image.asset('assets/images/home.png'), // 집 모양 이미지 경로
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MainHome()),
-            );
-          },
-        ),
-        title: Image.asset(
-          'assets/images/Logo.png', // 로고 이미지 경로
-          fit: BoxFit.contain,
-          height: 32,
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white, // AppBar 배경색 흰색으로 설정
-      ),
-      body: Container(
+    return BaseScreen(
+      child: Container(
         width: screenWidth,
         height: screenHeight,
-        color: Color(0xFF207F66), // 배경색 설정
         child: Stack(
           children: [
-            Positioned(
-              left: 0,
-              top: 0,
-              child: Container(
-                width: screenWidth,
-                height: screenHeight * 0.71,
-                color: Color(0xFFFAF9E0), // 배경색 설정
-              ),
-            ),
             Positioned(
               left: 0,
               top: screenHeight * 0.71,
               child: Container(
                 width: screenWidth,
                 height: screenHeight * 0.192,
-                color: Color(0xFF48AA7B), // 바닥색 설정
                 child: Center(
                   child: Image.asset(
                     'assets/images/weding.png', // 중앙 이미지 경로
@@ -135,15 +106,15 @@ class _StoryStageState extends State<StoryStage> {
               ),
             ),
             Positioned(
-              left: screenWidth * 0.25,
-              top: screenHeight * 0.53,
+              left: screenWidth * 0.23,
+              top: screenHeight * 0.51,
               child: ElevatedButton(
                 onPressed: () {},
                 child: Text('Stage 5'),
               ),
             ),
             Positioned(
-              top: screenHeight * 0.65,
+              top: screenHeight * 0.62,
               left: screenWidth * 0.5 - 50, // 중앙 정렬
               child: ElevatedButton(
                 onPressed: () {},
