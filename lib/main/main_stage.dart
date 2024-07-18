@@ -177,22 +177,22 @@ class _MainHomeState extends State<MainHome> {
   }
 
   Future<void> _uploadPhoto(String userId, String filePath) async {
-    // API 호출 예제
+    // Example of an API call
     var request = http.MultipartRequest(
       'POST',
       Uri.parse('http://34.47.88.29:8082/api/user/first-photo'),
     );
-    request.fields['userid'] = userId; // userId 추가
+    request.fields['userid'] = userId; // Add userId
     request.files.add(await http.MultipartFile.fromPath('photo', filePath));
     var response = await request.send();
 
     if (response.statusCode == 200) {
-      print('사진이 성공적으로 업로드되었습니다.');
-      // 첫 번째 사진 찍었다는 것을 false로 설정
+      print('Photo uploaded successfully.');
+      // Set that the first photo has been taken to false
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setBool('hasTakenFirstPhoto', false);
     } else {
-      print('사진 업로드에 실패했습니다.');
+      print('Failed to upload photo.');
     }
   }
 
@@ -356,11 +356,11 @@ class _MainHomeState extends State<MainHome> {
       final landmarksFilePath = '$dirPath/$fileName.txt';
       await saveLandmarksToFile(faceData, landmarksFilePath);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('랜드마크 및 컨투어 좌표가 저장되었습니다: $landmarksFilePath')),
+        SnackBar(content: Text('Landmark and contour coordinates have been saved: $landmarksFilePath')),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('얼굴을 인식하지 못했습니다.')),
+        SnackBar(content: Text('Failed to recognize a face.')),
       );
     }
   }
