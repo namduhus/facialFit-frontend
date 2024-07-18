@@ -57,7 +57,7 @@ class StoryPlay extends StatelessWidget {
                           top: 127,
                           child: Container(
                             width: 310,
-                            height: 550
+                            height: 550,
                             child: Stack(children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(15),

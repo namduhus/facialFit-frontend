@@ -105,6 +105,9 @@ flutter:
     - assets/prolog.mp4
     - assets/gifs/
     - assets/video2.mp4
+    - assets/gifs/mypage.gif
+    - assets/gifs/buy.gif
+    - assets/gifs/home.gif
     #- assets/models/
     #- assets/labels/
   #   - images/a_dot_burr.jpeg

@@ -234,8 +234,6 @@ class ScanController extends GetxController {
           //같을경우 통과?하는
           //if (correct.value > wrong.value) { //값이 2씩 올라가긴한다
           Get.to(StageClear());
-          debugPrint('성공 스테이지 이동');
-          Logger().e("성공 스테이지 이동");
         } else {
           Get.to(StageFail());
         }
