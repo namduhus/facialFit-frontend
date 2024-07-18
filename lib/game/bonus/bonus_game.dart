@@ -14,7 +14,7 @@ class BonusGame extends StatefulWidget {
 }
 
 class _BonusGameState extends State<BonusGame> {
-  final List<String> emotions = ['happy', 'sad', 'angry', 'neutral', 'panic'];
+  final List<String> emotions = ['anger', 'happy', 'neutral', 'panic', 'sad'];
   late String selectedEmotion;
   int countDown = 3;
   bool isCapturing = false;
@@ -61,7 +61,6 @@ class _BonusGameState extends State<BonusGame> {
       result = 'Capture complete. Analyzing...';
     });
 
-    // 이미지를 MultipartFile로 변환
     var request = http.MultipartRequest('POST', Uri.parse('http://203.241.246.109:10005/predict'));
     request.files.add(await http.MultipartFile.fromPath('file', image.path));
 
@@ -74,7 +73,7 @@ class _BonusGameState extends State<BonusGame> {
           result = data['emotion'];
         });
         Timer(Duration(seconds: 1), () {
-          if (result == selectedEmotion) {
+          if (selectedEmotion == result) {
             Get.off(() => StageClear());
           } else {
             Get.off(() => StageFail());
@@ -96,11 +95,8 @@ class _BonusGameState extends State<BonusGame> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false, // 뒤로 가기 버튼 없애기
-        title: Image.asset(
-          'assets/images/Logo.png', // 로고 이미지 경로
-          height: 30, // 이미지 높이 조정
-        ),
+        title: Text('Bonus Mode'),
+        backgroundColor: Color(0xFF207F66),
       ),
       body: Container(
         color: Color(0xFF207F66),
@@ -124,10 +120,6 @@ class _BonusGameState extends State<BonusGame> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Bonus Game!!!',
-                  style: TextStyle(fontSize: 34, color: Color(0xFFFFF3F3)),
-                ),
-                Text(
                   'Make a $selectedEmotion face',
                   style: TextStyle(fontSize: 24, color: Colors.white),
                 ),
@@ -150,8 +142,14 @@ class _BonusGameState extends State<BonusGame> {
                 if (_cameraController.value.isInitialized)
                   Container(
                     width: 300,
-                    height: 300,
-                    child: CameraPreview(_cameraController),
+                    height: 400,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: AspectRatio(
+                        aspectRatio: 3 / 4,
+                        child: CameraPreview(_cameraController),
+                      ),
+                    ),
                   ),
               ],
             ),

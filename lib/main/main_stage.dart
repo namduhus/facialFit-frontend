@@ -457,6 +457,7 @@ class _MainHomeState extends State<MainHome> {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: AssetImage("assets/images/main.png"),
+                            //image : AssetImage("assets/gifs/ezgif.com-optimize.gif"),
                             fit: BoxFit.contain,
                           ),
                         ),
