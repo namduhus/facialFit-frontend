@@ -27,7 +27,7 @@ class StoryPlay extends StatelessWidget {
                     width: 478,
                     height: 841,
                     clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(color: Color(0xFF87CEEB)),
+                    decoration: BoxDecoration(color: Color(0xFF8B4513)),
                     child: Stack(
                       children: [
                         Positioned(
