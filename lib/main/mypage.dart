@@ -7,6 +7,7 @@ import 'package:SmileHelper/main/main_stage.dart'; // MainStage import
 import 'package:SmileHelper/css/screen.dart'; // BaseScreen import
 import 'package:shimmer/shimmer.dart'; // Shimmer effect
 import 'package:animated_button/animated_button.dart'; // Animated Button
+import 'package:SmileHelper/main/statistics.dart'; // Statistics import
 
 class MyPage extends StatefulWidget {
   @override
@@ -85,6 +86,48 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
                   _buildHeader(width, height),
                   _buildUserInfo(width, height),
                   _buildButtons(width, height),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ShopMain()),
+                          );
+                        },
+                        child: Text('Shop'),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => MainHome()),
+                          );
+                        },
+                        child: Text('Main'),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => StatisticsPage()),
+                          );
+                        },
+                        child: Text('Statistics'),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

@@ -1,5 +1,5 @@
+import 'package:SmileHelper/main/statistics.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:SmileHelper/main/main_stage.dart'; // MainHome import
 import 'package:SmileHelper/shop/shop_main.dart'; // ShopMain import
 import 'package:SmileHelper/main/mypage.dart'; // MyPage import
@@ -162,6 +162,20 @@ class _SettingState extends State<Setting> {
                         ),
                       ),
                     ],
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => StatisticsPage()),
+                          );
+                        },
+                        child: Text('Statistics'),
+                      ),
+                    ),
                   ),
                 ],
               ),
