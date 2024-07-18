@@ -42,7 +42,7 @@ class StoryPlay extends StatelessWidget {
                           left: 110,
                           top: 34,
                           child: Text(
-                            'Stage 1',
+                            Get.arguments, //'Stage 1',
                             style: TextStyle(
                               color: Color(0xFFFFF3F3),
                               fontSize: 45,

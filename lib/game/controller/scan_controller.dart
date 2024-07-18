@@ -7,6 +7,7 @@ import 'dart:async';
 import 'package:SmileHelper/game/controller/getPredict.dart';
 import 'package:SmileHelper/game/controller/mlkit.dart';
 import 'package:SmileHelper/game/controller/stage_controller.dart';
+import 'package:SmileHelper/game/countdown.dart';
 import 'package:SmileHelper/game/result/stageclear1.dart';
 import 'package:SmileHelper/game/result/stagefail1.dart';
 import 'package:SmileHelper/main/main_stage.dart';
@@ -54,15 +55,27 @@ class ScanController extends GetxController {
   // "동작"
 
   int _currentStage = 0;
+  String get currentStage =>
+      '스테이지 ${stageController.currentStage.value}: ${_stages[stageController.currentStage.value - 1].join(', ')}';
   // "동작"
   final List<List<String>> _stages = [
-    ['눈웃음'], // 1단계
-    ['눈웃음', '입 벌리기'], // 2단계
-    ['눈웃음', '눈 감기'], // 3단계
-    ['눈썹 들어올리기', '볼 부풀리기', '입 벌리기'], // 4단계
-    ['입 벌리기', '눈 웃음', '눈 감기'], // 5단계
-    ['웃기', '볼 부풀리기', '눈 찡그리기'] // 6단계
+    ['웃음'], // 1단계
+    ['웃음', '입 벌리기'], // 2단계
+    ['웃음', '입 벌리기', '찡그리기'], // 3단계
+    ['눈썹 들어올리기', '볼 부풀리기', '입 벌리기', '찡그리기'], // 4단계
+    ['입 벌리기', '눈 웃음', '놀람', '눈 감기', '볼 부풀리기'], // 5단계
+    ['웃기', '볼 부풀리기', '눈 찡그리기', '입 벌리기', '눈 감기', '놀람'] // 6단계
   ];
+
+  void _selectSequentialExpression() {
+    var expressions = _stages[stageController.currentStage.value - 1];
+    if (expressions != null) {
+      int index = _currentStage % expressions.length;
+      currentExpression = expressions[index];
+      Logger().e("expression: $currentExpression");
+    }
+  }
+
   // 표정을 랜덤으로 선택하는 함수
   void _selectRandomExpression() {
     var expressions = _stages[stageController.currentStage.value - 1];
@@ -73,8 +86,7 @@ class ScanController extends GetxController {
 
   Timer? _stageTimer;
 
-  String get currentStage =>
-      '스테이지 ${stageController.currentStage.value}: ${_stages[stageController.currentStage.value - 1].join(', ')}';
+  //String get currentStage =>      '스테이지 ${stageController.currentStage.value}: ${_stages[stageController.currentStage.value - 1].join(', ')}';
   late String currentExpression; // 현재 스테이지에서 랜덤으로 선택된 표정
 
   bool get canProcess => _canProcess;
@@ -128,40 +140,67 @@ class ScanController extends GetxController {
       case 2:
         //볼 부풀리기
         return _isCheekPuffed(face);
+      case 3:
+        //눈 감기
+        return _isEyeClosed(face);
+      case 4:
+        //입 벌리기
+        return _isMouthOpen(face);
+      case 5:
+        //놀람
+        return _isSurprised(face);
+      case 6:
+        //웃음
+        return _isSmile(face);
+      case 7:
+        //찡그리기
+        return _isFrowning(face);
       default:
         return false;
     }
   }
 
+  RxInt _countdown = RxInt(0);
+  get countdown => _countdown;
   // 스테이지 시작 함수
   void _startStage() {
     if (_stageTimer != null) {
       _stageTimer!.cancel();
     }
     // 표정을 랜덤으로 선택
-    _selectRandomExpression();
+    //_selectRandomExpression();
+    //표정을 순서대로 선택
+    _selectSequentialExpression();
     // 현재 스테이지 메시지 표시
     _showPopup('현재 스테이지: $currentStage, 표정: $currentExpression');
     // 각 스테이지에 맞는 사진 촬영 횟수 조정
     int requiredImages =
         _getRequiredImagesForStage(stageController.currentStage.value);
 
-// 10초 뒤에 사진 촬영 및 스테이지 이동
-    _stageTimer = Timer(Duration(seconds: 10), () {
-      if (imageList.length < requiredImages) {
-        takePicture().then((file) {
-          if (file != null) {
-            _processImage(InputImage.fromFilePath(file.path)).then((_) {
+// 10초 카운트 뒤에 사진 촬영 및 스테이지 이동
+    _countdown.value = 10;
+    _stageTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (_countdown.value == 0) {
+        timer.cancel();
+
+        // 10초 후에 사진 촬영 및 스테이지 이동
+        if (imageList.length < requiredImages) {
+          takePicture().then((file) {
+            if (file != null) {
+              _processImage(InputImage.fromFilePath(file.path)).then((_) {
+                _picture_count.value += 1;
+                _moveToNextStage();
+              });
+            } else {
               _picture_count.value += 1;
               _moveToNextStage();
-            });
-          } else {
-            _picture_count.value += 1;
-            _moveToNextStage();
-          }
-        });
+            }
+          });
+        } else {
+          _moveToNextStage();
+        }
       } else {
-        _moveToNextStage();
+        _countdown.value--;
       }
     });
   }
@@ -513,36 +552,51 @@ class ScanController extends GetxController {
     _isBusy = false;
   }
 
-
   //로직
 
   //눈썹 올리기
   bool _isEyebrowRaised(Face face) {
     FaceContour? leftEyebrowTop = face.contours[FaceContourType.leftEyebrowTop];
     FaceContour? leftEye = face.contours[FaceContourType.leftEye];
-    FaceContour? rightEyebrowTop = face.contours[FaceContourType.rightEyebrowTop];
+    FaceContour? rightEyebrowTop =
+        face.contours[FaceContourType.rightEyebrowTop];
     FaceContour? rightEye = face.contours[FaceContourType.rightEye];
 
-    if (leftEyebrowTop != null && leftEye != null && rightEyebrowTop != null && rightEye != null) {
+    if (leftEyebrowTop != null &&
+        leftEye != null &&
+        rightEyebrowTop != null &&
+        rightEye != null) {
       // 왼쪽 눈썹의 평균 y 좌표를 계산합니다
-      double leftEyebrowY = leftEyebrowTop.points.map((p) => p.y.toDouble()).reduce((a, b) => a + b) / leftEyebrowTop.points.length;
+      double leftEyebrowY = leftEyebrowTop.points
+              .map((p) => p.y.toDouble())
+              .reduce((a, b) => a + b) /
+          leftEyebrowTop.points.length;
 
       // 오른쪽 눈썹의 평균 y 좌표를 계산합니다
-      double rightEyebrowY = rightEyebrowTop.points.map((p) => p.y.toDouble()).reduce((a, b) => a + b) / rightEyebrowTop.points.length;
+      double rightEyebrowY = rightEyebrowTop.points
+              .map((p) => p.y.toDouble())
+              .reduce((a, b) => a + b) /
+          rightEyebrowTop.points.length;
 
       // 왼쪽 눈의 평균 y 좌표를 계산합니다
-      double leftEyeY = leftEye.points.map((p) => p.y.toDouble()).reduce((a, b) => a + b) / leftEye.points.length;
+      double leftEyeY =
+          leftEye.points.map((p) => p.y.toDouble()).reduce((a, b) => a + b) /
+              leftEye.points.length;
 
       // 오른쪽 눈의 평균 y 좌표를 계산합니다
-      double rightEyeY = rightEye.points.map((p) => p.y.toDouble()).reduce((a, b) => a + b) / rightEye.points.length;
+      double rightEyeY =
+          rightEye.points.map((p) => p.y.toDouble()).reduce((a, b) => a + b) /
+              rightEye.points.length;
 
       // 눈썹과 눈 사이의 거리를 계산합니다
       double leftEyebrowEyeDistance = leftEyeY - leftEyebrowY;
       double rightEyebrowEyeDistance = rightEyeY - rightEyebrowY;
 
       // 얼굴 높이에 대한 상대적 거리를 계산합니다
-      double relativeLeftDistance = leftEyebrowEyeDistance / face.boundingBox.height;
-      double relativeRightDistance = rightEyebrowEyeDistance / face.boundingBox.height;
+      double relativeLeftDistance =
+          leftEyebrowEyeDistance / face.boundingBox.height;
+      double relativeRightDistance =
+          rightEyebrowEyeDistance / face.boundingBox.height;
 
       // 임계값 설정
       double threshold = 0.09; // 얼굴 높이의 9%를 임계값으로 설정
@@ -550,8 +604,9 @@ class ScanController extends GetxController {
       print('Left Eyebrow-Eye Distance: $relativeLeftDistance');
       print('Right Eyebrow-Eye Distance: $relativeRightDistance');
 
-      return (relativeLeftDistance > threshold) && (relativeRightDistance > threshold )
-          &&((relativeLeftDistance-relativeRightDistance).abs()<0.004);
+      return (relativeLeftDistance > threshold) &&
+          (relativeRightDistance > threshold) &&
+          ((relativeLeftDistance - relativeRightDistance).abs() < 0.004);
     }
     return false;
   }
@@ -579,21 +634,27 @@ class ScanController extends GetxController {
 
     if (leftCheek != null && rightCheek != null && noseBridge != null) {
       // 양 볼의 가장 바깥쪽 점을 찾습니다
-      Point<int> leftOuterPoint = leftCheek.points.reduce((curr, next) => curr.x < next.x ? curr : next);
-      Point<int> rightOuterPoint = rightCheek.points.reduce((curr, next) => curr.x > next.x ? curr : next);
+      Point<int> leftOuterPoint = leftCheek.points
+          .reduce((curr, next) => curr.x < next.x ? curr : next);
+      Point<int> rightOuterPoint = rightCheek.points
+          .reduce((curr, next) => curr.x > next.x ? curr : next);
 
       // 코의 중앙점을 찾습니다
       Point<int> noseCenter = noseBridge.points[noseBridge.points.length ~/ 2];
 
       // 볼의 너비를 계산합니다
-      double cheekWidth = (rightOuterPoint.x - leftOuterPoint.x).abs().toDouble();
+      double cheekWidth =
+          (rightOuterPoint.x - leftOuterPoint.x).abs().toDouble();
 
       // 코에서 양 볼까지의 거리를 계산합니다
-      double leftCheekDistance = (noseCenter.x - leftOuterPoint.x).abs().toDouble();
-      double rightCheekDistance = (rightOuterPoint.x - noseCenter.x).abs().toDouble();
+      double leftCheekDistance =
+          (noseCenter.x - leftOuterPoint.x).abs().toDouble();
+      double rightCheekDistance =
+          (rightOuterPoint.x - noseCenter.x).abs().toDouble();
 
       // 볼의 대칭성을 확인합니다
-      double cheekSymmetry = (leftCheekDistance - rightCheekDistance).abs() / cheekWidth;
+      double cheekSymmetry =
+          (leftCheekDistance - rightCheekDistance).abs() / cheekWidth;
 
       // 임계값 설정
       double widthThreshold = 0.41; // 얼굴 너비 대비 볼 너비의 임계값
@@ -603,7 +664,8 @@ class ScanController extends GetxController {
       print('Face Width: ${face.boundingBox.width}');
       print('Cheek Symmetry: $cheekSymmetry');
 
-      return (cheekWidth / face.boundingBox.width < widthThreshold) && (cheekSymmetry < symmetryThreshold);
+      return (cheekWidth / face.boundingBox.width < widthThreshold) &&
+          (cheekSymmetry < symmetryThreshold);
     }
     return false;
   }
@@ -628,12 +690,17 @@ class ScanController extends GetxController {
     FaceLandmark? upperLip = face.landmarks[FaceLandmarkType.noseBase];
     FaceLandmark? lowerLip = face.landmarks[FaceLandmarkType.bottomMouth];
 
-    if (leftMouth != null && rightMouth != null && upperLip != null && lowerLip != null) {
+    if (leftMouth != null &&
+        rightMouth != null &&
+        upperLip != null &&
+        lowerLip != null) {
       // 입 너비 계산
-      double mouthWidth = (rightMouth.position.x - leftMouth.position.x).abs().toDouble();
+      double mouthWidth =
+          (rightMouth.position.x - leftMouth.position.x).abs().toDouble();
 
       // 입 높이 계산
-      double mouthHeight = (lowerLip.position.y - upperLip.position.y).abs().toDouble();
+      double mouthHeight =
+          (lowerLip.position.y - upperLip.position.y).abs().toDouble();
 
       // 입 모양 비율 계산 (높이/너비) - 값이 커질수록 입을 오무림
       double mouthRatio = mouthHeight / mouthWidth;
@@ -643,8 +710,8 @@ class ScanController extends GetxController {
       print('Mouth Ratio: $mouthRatio');
 
       // 임계값 설정
-      double widthThreshold = 210;  // 입 너비 임계값 - 로그 보고 조정해야함
-      double ratioThreshold = 0.8;  // 입 오무리기 비율 - 낮을수록 난이도 내려감
+      double widthThreshold = 210; // 입 너비 임계값 - 로그 보고 조정해야함
+      double ratioThreshold = 0.8; // 입 오무리기 비율 - 낮을수록 난이도 내려감
 
       // 입 너비가 줄어들고, 동그랗게 변할 때 휘파람 모양으로 판단
       return mouthWidth < widthThreshold && mouthRatio > ratioThreshold;

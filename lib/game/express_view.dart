@@ -5,8 +5,8 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:SmileHelper/game/controller/scan_controller.dart';
 import 'package:logger/logger.dart';
 
-class CameraView extends GetView<ScanController> {
-  const CameraView({super.key});
+class ExpressView extends GetView<ScanController> {
+  const ExpressView({super.key});
 
   @override
   Widget build(BuildContext context) {
