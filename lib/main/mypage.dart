@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:SmileHelper/shop/shop_main.dart';
 import 'package:SmileHelper/main/main_stage.dart'; // MainStage import
 import 'package:SmileHelper/css/screen.dart'; // BaseScreen import
+import 'package:SmileHelper/main/statistics.dart'; // Statistics import
 
 class MyPage extends StatefulWidget {
   @override
@@ -120,20 +121,20 @@ class _MyPageState extends State<MyPage> {
                       ),
                     ),
                   ),
-                  // Expanded(
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                  //     child: ElevatedButton(
-                  //       onPressed: () {
-                  //         Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(builder: (context) => Statistics()),
-                  //         );
-                  //       },
-                  //       child: Text('Statistics'),
-                  //     ),
-                  //   ),
-                  // ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => StatisticsPage()),
+                          );
+                        },
+                        child: Text('Statistics'),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
