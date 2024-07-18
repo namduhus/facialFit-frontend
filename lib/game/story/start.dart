@@ -28,7 +28,6 @@ class StoryStart extends StatelessWidget {
                       style: TextStyle(
                         color: Color(0xFFFFF3F3),
                         fontSize: 40,
-                        fontFamily: 'ABeeZee',
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -60,7 +59,6 @@ class StoryStart extends StatelessWidget {
                             style: TextStyle(
                               color: Color.fromRGBO(255, 255, 255, 1),
                               fontSize: 30,
-                              fontFamily: 'ABeeZee',
                               fontWeight: FontWeight.w400,
                             ),
                           ),
@@ -79,7 +77,6 @@ class StoryStart extends StatelessWidget {
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 15,
-                          fontFamily: 'ABeeZee',
                           fontWeight: FontWeight.w400,
                         ),
                       ),

@@ -1,5 +1,5 @@
-import 'package:SmileHelper/register_main.dart';
 import 'package:flutter/material.dart';
+import 'package:SmileHelper/register_main.dart';
 import 'package:SmileHelper/Service/AuthService.dart'; // AuthService import
 import 'package:SmileHelper/main/main_stage.dart'; // MainStage2 screen import
 import 'package:SmileHelper/css/screen.dart'; // BaseScreen import
@@ -62,109 +62,125 @@ class LoginMainState extends State<LoginMain> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+
     return BaseScreen(
       child: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height, // 화면 높이에 맞추도록 설정
-          child: Center(
-            child: Container(
-              width: 424,
-              height: 805,
-              decoration: ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
+        child: Center(
+          child: Container(
+            width: 364,
+            constraints: BoxConstraints(
+              minHeight: height - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white, // 배경색을 흰색으로 변경
+              borderRadius: BorderRadius.circular(25),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 10,
+                  offset: Offset(0, 5),
                 ),
-                shadows: [
-                ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 200,
-                      height: 80,
-                      child: Text(
-                        'Login',
-                        style: TextStyle(
-                          color: Color(0xFFFFF3F3),
-                          fontSize: 51.53,
-                          fontFamily: 'ABeeZee',
-                          fontWeight: FontWeight.w400,
-                          height: 1.0,
-                        ),
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 180,
+                    height: 70,
+                    child: Text(
+                      'Login',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(0xFF000000),
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 40),
-                    Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                        colors: [Color(0xFF87CEEB), Color(0xFFFFFFFF)],
-                        ),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                      child: TextFormField(
-                        controller: _idController,
-                        decoration: InputDecoration(
-                          labelText: 'Id',
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                        ),
+                  ),
+                  SizedBox(height: 40),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      border: Border.all(color: Colors.black26),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: TextFormField(
+                      controller: _idController,
+                      style: TextStyle(fontSize: 24),
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.person),
+                        labelText: 'Id',
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          colors: [Color(0xFF87CEEB), Color(0xFFFFFFFF)],
-                        ),
+                  ),
+                  SizedBox(height: 20),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      border: Border.all(color: Colors.black26),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: TextFormField(
+                      controller: _passwordController,
+                      style: TextStyle(fontSize: 24),
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.lock),
+                        labelText: 'Password',
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 40),
+                  ElevatedButton(
+                    onPressed: _isLoading ? null : _login,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF8B4513),
+                      padding: EdgeInsets.symmetric(horizontal: 55, vertical: 15),
+                      textStyle: TextStyle(fontSize: 24),
+                      shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
-                      child: TextFormField(
-                        controller: _passwordController,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          labelText: 'Password',
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                        ),
-                      ),
                     ),
-                    SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: _isLoading ? null : _login,
-                      child: _isLoading
-                          ? CircularProgressIndicator(
+                    child: _isLoading
+                        ? CircularProgressIndicator(
+                      color: Colors.white,
+                    )
+                        : Text(
+                      'Login',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
                         color: Colors.white,
-                      )
-                          : Text(
-                        'Login',
-                        style: TextStyle(
-                          color: Color(0xFF87CEEB),
-                          fontSize: 35,
-                          fontFamily: 'ABeeZee',
-                          fontWeight: FontWeight.w400,
-                        ),
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    SizedBox(height: 20),
-                    TextButton(
-                      onPressed: () {
-                        // Navigate to Register2 screen or any other registration screen
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => RegisterMain()),
-                        );
-                      },
-                      child: Text('Create an account'),
+                  ),
+                  SizedBox(height: 30),
+                  TextButton(
+                    onPressed: () {
+                      // Navigate to Register2 screen or any other registration screen
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => RegisterMain()),
+                      );
+                    },
+                    child: Text(
+                      'Create an account',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Color(0xFF8B4513),
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

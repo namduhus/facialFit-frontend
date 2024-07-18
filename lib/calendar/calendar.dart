@@ -91,7 +91,7 @@ class _CalendarPageState extends State<CalendarPage> {
   List _getEventsForDay(DateTime day) {
     String dayT = DateFormat('yy/MM/dd').format(day);
     Map<String, List<Map<String, dynamic>>> events =
-    context.read<EventsProvider>().getEvents();
+        context.read<EventsProvider>().getEvents();
     return events[dayT] ?? [];
   }
 
@@ -102,211 +102,214 @@ class _CalendarPageState extends State<CalendarPage> {
         child: _isLoading // 로딩 상태에 따라 다른 위젯을 표시
             ? Center(child: CircularProgressIndicator()) // 로딩 중일 때 로딩 인디케이터
             : Column(
-          children: [
-            SizedBox(height: 50.h),
-            Card(
-              margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
-              elevation: 5.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                ),
-                side: BorderSide(color: Colors.grey, width: 2.w),
-              ),
-              child: TableCalendar(
-                headerStyle: HeaderStyle(
-                  headerMargin: EdgeInsets.only(bottom: 20.h),
-                  titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
-                  decoration: BoxDecoration(
-                    color: Color(0xFF87CEEB),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
+                children: [
+                  SizedBox(height: 50.h),
+                  Card(
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+                    elevation: 5.0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                      side: BorderSide(color: Colors.grey, width: 2.w),
                     ),
-                  ),
-                  formatButtonVisible: false,
-                  titleCentered: true,
-                  leftChevronIcon: Icon(
-                    Icons.chevron_left,
-                    color: Colors.white,
-                    size: 28,
-                  ),
-                  rightChevronIcon: Icon(
-                    Icons.chevron_right,
-                    color: Colors.white,
-                    size: 28,
-                  ),
-                ),
-                rowHeight: 70.h,
-                locale: 'en-US',
-                firstDay: DateTime.utc(2010, 10, 16),
-                lastDay: DateTime.utc(2030, 3, 14),
-                focusedDay: _focusedDay,
-                calendarFormat: _calendarFormat,
-                selectedDayPredicate: (day) {
-                  return isSameDay(_selectedDay, day);
-                },
-                onDaySelected: _onDaySelected,
-                eventLoader: _getEventsForDay,
-                daysOfWeekHeight: 30, // 요일 표시 높이 설정
-                daysOfWeekStyle: DaysOfWeekStyle(
-                  weekdayStyle: TextStyle(
-                    fontSize: 14.sp, // 요일 글자 크기 설정
-                    color: Colors.black,
-                  ),
-                  weekendStyle: TextStyle(
-                    fontSize: 14.sp, // 주말 요일 글자 크기 설정
-                    color: Colors.red,
-                  ),
-                ),
-                calendarStyle: CalendarStyle(
-                  markersAlignment: Alignment.bottomCenter,
-                  canMarkersOverflow: true,
-                  markersMaxCount: 2,
-                  markersAnchor: 0.7,
-                  todayDecoration: BoxDecoration(
-                    color: Color(0xff93bebd),
-                    shape: BoxShape.circle,
-                  ),
-                  selectedDecoration: BoxDecoration(
-                    color: Color(0xFF87CEEB),
-                    shape: BoxShape.circle,
-                  ),
-                  weekendTextStyle: TextStyle(color: Colors.red),
-                ),
-                calendarBuilders: CalendarBuilders(
-                  markerBuilder: (context, day, events) {
-                    if (events.isNotEmpty) {
-                      List<Map<String, dynamic>> iconEvents =
-                      List<Map<String, dynamic>>.from(events);
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: events.length,
-                        itemBuilder: (context, index) {
-                          Map key = iconEvents[index];
-                          if (key['iconIndex'] == 1) {
-                            return Container(
-                              margin: EdgeInsets.only(top: 40.h),
-                              child: Image.asset(
-                                'assets/images/calendar_check.png',
-                                width: 20.sp,
-                                height: 20.sp,
-                              ),
-                            );
-                          } else if (key['iconIndex'] == 2) {
-                            return Container(
-                              margin: EdgeInsets.only(top: 40.h),
-                              child: Image.asset(
-                                'assets/images/calendar_story_mode.png',
-                                width: 20.sp,
-                                height: 20.sp,
-                              ),
-                            );
-                          } else if (key['iconIndex'] == 3) {
-                            return Container(
-                              margin: EdgeInsets.only(top: 40.h),
-                              child: Image.asset(
-                                'assets/images/calendar_bonus_mode.png',
-                                width: 20.sp,
-                                height: 20.sp,
-                              ),
+                    child: TableCalendar(
+                      headerStyle: HeaderStyle(
+                        headerMargin: EdgeInsets.only(bottom: 20.h),
+                        titleTextStyle:
+                            TextStyle(color: Colors.white, fontSize: 20),
+                        decoration: BoxDecoration(
+                          color: Color(0xFF8B4513), // 배경색을 갈색으로 변경
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                          ),
+                        ),
+                        formatButtonVisible: false,
+                        titleCentered: true,
+                        leftChevronIcon: Icon(
+                          Icons.chevron_left,
+                          color: Colors.white,
+                          size: 28,
+                        ),
+                        rightChevronIcon: Icon(
+                          Icons.chevron_right,
+                          color: Colors.white,
+                          size: 28,
+                        ),
+                      ),
+                      rowHeight: 70.h,
+                      locale: 'en-US',
+                      firstDay: DateTime.utc(2010, 10, 16),
+                      lastDay: DateTime.utc(2030, 3, 14),
+                      focusedDay: _focusedDay,
+                      calendarFormat: _calendarFormat,
+                      selectedDayPredicate: (day) {
+                        return isSameDay(_selectedDay, day);
+                      },
+                      onDaySelected: _onDaySelected,
+                      eventLoader: _getEventsForDay,
+                      daysOfWeekHeight: 30,
+                      // 요일 표시 높이 설정
+                      daysOfWeekStyle: DaysOfWeekStyle(
+                        weekdayStyle: TextStyle(
+                          fontSize: 14.sp, // 요일 글자 크기 설정
+                          color: Colors.black,
+                        ),
+                        weekendStyle: TextStyle(
+                          fontSize: 14.sp, // 주말 요일 글자 크기 설정
+                          color: Colors.red,
+                        ),
+                      ),
+                      calendarStyle: CalendarStyle(
+                        markersAlignment: Alignment.bottomCenter,
+                        canMarkersOverflow: true,
+                        markersMaxCount: 2,
+                        markersAnchor: 0.7,
+                        todayDecoration: BoxDecoration(
+                          color: Color(0xff93bebd),
+                          shape: BoxShape.circle,
+                        ),
+                        selectedDecoration: BoxDecoration(
+                          color: Color(0xFF8B4513), // 배경색을 갈색으로 변경
+                          shape: BoxShape.circle,
+                        ),
+                        weekendTextStyle: TextStyle(color: Colors.red),
+                      ),
+                      calendarBuilders: CalendarBuilders(
+                        markerBuilder: (context, day, events) {
+                          if (events.isNotEmpty) {
+                            List<Map<String, dynamic>> iconEvents =
+                                List<Map<String, dynamic>>.from(events);
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: events.length,
+                              itemBuilder: (context, index) {
+                                Map key = iconEvents[index];
+                                if (key['iconIndex'] == 1) {
+                                  return Container(
+                                    margin: EdgeInsets.only(top: 40.h),
+                                    child: Image.asset(
+                                      'assets/images/calendar_check.png',
+                                      width: 20.sp,
+                                      height: 20.sp,
+                                    ),
+                                  );
+                                } else if (key['iconIndex'] == 2) {
+                                  return Container(
+                                    margin: EdgeInsets.only(top: 40.h),
+                                    child: Image.asset(
+                                      'assets/images/calendar_story_mode.png',
+                                      width: 20.sp,
+                                      height: 20.sp,
+                                    ),
+                                  );
+                                } else if (key['iconIndex'] == 3) {
+                                  return Container(
+                                    margin: EdgeInsets.only(top: 40.h),
+                                    child: Image.asset(
+                                      'assets/images/calendar_bonus_mode.png',
+                                      width: 20.sp,
+                                      height: 20.sp,
+                                    ),
+                                  );
+                                } else {
+                                  return Container();
+                                }
+                              },
                             );
                           } else {
                             return Container();
                           }
                         },
-                      );
-                    } else {
-                      return Container();
-                    }
-                  },
-                  dowBuilder: (context, day) {
-                    final text = DateFormat.E('en_US').format(day);
-                    if (day.weekday == DateTime.saturday ||
-                        day.weekday == DateTime.sunday) {
-                      return Center(
-                        child: Text(
-                          text,
-                          style: TextStyle(color: Colors.red),
-                        ),
-                      );
-                    } else {
-                      return Center(
-                        child: Text(
-                          text,
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      );
-                    }
-                  },
-                ),
-                onFormatChanged: (format) {
-                  if (_calendarFormat != format) {
-                    setState(() {
-                      _calendarFormat = format;
-                    });
-                  }
-                },
-                onPageChanged: (focusedDay) {
-                  _focusedDay = focusedDay;
-                },
+                        dowBuilder: (context, day) {
+                          final text = DateFormat.E('en_US').format(day);
+                          if (day.weekday == DateTime.saturday ||
+                              day.weekday == DateTime.sunday) {
+                            return Center(
+                              child: Text(
+                                text,
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            );
+                          } else {
+                            return Center(
+                              child: Text(
+                                text,
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                      onFormatChanged: (format) {
+                        if (_calendarFormat != format) {
+                          setState(() {
+                            _calendarFormat = format;
+                          });
+                        }
+                      },
+                      onPageChanged: (focusedDay) {
+                        _focusedDay = focusedDay;
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 10.h),
+                  Expanded(
+                    child: ValueListenableBuilder<List>(
+                      valueListenable: _selectedEvents,
+                      builder: (context, value, _) {
+                        return ListView.builder(
+                          itemCount: value.length < 3 ? value.length : 3,
+                          itemBuilder: (context, index) {
+                            Map event_icon_index = value[index];
+                            String description = '';
+                            if (event_icon_index['iconIndex'] == 1) {
+                              description = 'Attendance';
+                            } else if (event_icon_index['iconIndex'] == 2) {
+                              description = 'Story Mode Clear';
+                            } else if (event_icon_index['iconIndex'] == 3) {
+                              description = 'Bonus Mode Clear';
+                            }
+                            return Container(
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 12.0,
+                                vertical: 4.0,
+                              ),
+                              decoration: BoxDecoration(
+                                border: Border.all(),
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                              child: ListTile(
+                                title: Text(description),
+                                trailing: event_icon_index['iconIndex'] == 1
+                                    ? Image.asset(
+                                        'assets/images/calendar_check.png',
+                                        width: 20.sp,
+                                        height: 20.sp,
+                                      )
+                                    : event_icon_index['iconIndex'] == 2
+                                        ? Image.asset(
+                                            'assets/images/calendar_story_mode.png',
+                                            width: 20.sp,
+                                            height: 20.sp,
+                                          )
+                                        : Image.asset(
+                                            'assets/images/calendar_bonus_mode.png',
+                                            width: 20.sp,
+                                            height: 20.sp,
+                                          ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
-            ),
-            SizedBox(height: 10.h),
-            Expanded(
-              child: ValueListenableBuilder<List>(
-                valueListenable: _selectedEvents,
-                builder: (context, value, _) {
-                  return ListView.builder(
-                    itemCount: value.length < 3 ? value.length : 3,
-                    itemBuilder: (context, index) {
-                      Map event_icon_index = value[index];
-                      String description = '';
-                      if (event_icon_index['iconIndex'] == 1) {
-                        description = 'Attendance';
-                      } else if (event_icon_index['iconIndex'] == 2) {
-                        description = 'Story Mode Clear';
-                      } else if (event_icon_index['iconIndex'] == 3) {
-                        description = 'Bonus Mode Clear';
-                      }
-                      return Container(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 12.0,
-                          vertical: 4.0,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        child: ListTile(
-                          title: Text(description),
-                          trailing: event_icon_index['iconIndex'] == 1
-                              ? Image.asset(
-                            'assets/images/calendar_check.png',
-                            width: 20.sp,
-                            height: 20.sp,
-                          )
-                              : event_icon_index['iconIndex'] == 2
-                              ? Image.asset(
-                            'assets/images/calendar_story_mode.png',
-                            width: 20.sp,
-                            height: 20.sp,
-                          )
-                              : Image.asset(
-                            'assets/images/calendar_bonus_mode.png',
-                            width: 20.sp,
-                            height: 20.sp,
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

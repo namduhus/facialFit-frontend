@@ -46,7 +46,6 @@ class StoryPlay extends StatelessWidget {
                             style: TextStyle(
                               color: Color(0xFFFFF3F3),
                               fontSize: 45,
-                              fontFamily: 'ABeeZee',
                               fontWeight: FontWeight.w400,
                               height: 0,
                             ),

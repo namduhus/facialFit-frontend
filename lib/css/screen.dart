@@ -17,14 +17,14 @@ class BaseScreen extends StatelessWidget {
           height: 32,
         ),
         centerTitle: true,
-        backgroundColor: Color(0xFF87CEEB), // AppBar 하늘색으로 설정
+        backgroundColor: Color(0xFF8B4513), // AppBar 갈색으로 설정
       ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color(0xFF87CEEB), Color(0xFFFFFFFF)], // 하늘색에서 흰색으로
+            colors: [Color(0xFF8B4513), Color(0xFFF5DEB3)], // 갈색에서 밀짚색으로
           ),
         ),
         child: child,

@@ -121,51 +121,261 @@ class RegisterFormState extends State<RegisterMain> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery
+        .of(context)
+        .size
+        .height;
+
     return BaseScreen(
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(
-                  width: 250,
-                  height: 80,
-                  child: Text(
-                    'Register',
-                    style: TextStyle(
-                      color: Color(0xFFFFF3F3),
-                      fontSize: 45,
-                      fontFamily: 'ABeeZee',
-                      fontWeight: FontWeight.w400,
-                      height: 1.0,
-                    ),
-                  ),
+      child: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            width: 364,
+            constraints: BoxConstraints(
+              minHeight: height - MediaQuery
+                  .of(context)
+                  .padding
+                  .top - MediaQuery
+                  .of(context)
+                  .padding
+                  .bottom,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white, // 배경색을 흰색으로 변경
+              borderRadius: BorderRadius.circular(25),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 10,
+                  offset: Offset(0, 5),
                 ),
-                SizedBox(height: 40), // Spacing after the logo
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [
-                        Color(0xFF87CEEB),
-                        Color(0xFFFFFFFF)
-                      ], // 수평 그라데이션
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 180,
+                      height: 70,
+                      child: Text(
+                        'Register',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xFF000000),
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: TextFormField(
-                    controller: _idController,
-                    decoration: InputDecoration(
-                      labelText: 'ID',
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 2, vertical: 2),
-                      suffixIcon: IconButton(
-                        icon: Icon(Icons.check),
-                        onPressed: () async {
+                    SizedBox(height: 30), // Spacing after the title
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        border: Border.all(color: Colors.black26),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: TextFormField(
+                        controller: _idController,
+                        style: TextStyle(fontSize: 24),
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.person),
+                          labelText: 'ID',
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 12),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your ID';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 15), // 간격 조정
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        border: Border.all(color: Colors.black26),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: TextFormField(
+                        controller: _nicknameController,
+                        style: TextStyle(fontSize: 24),
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.person_outline),
+                          labelText: 'Nickname',
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 12),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your nickname';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 15), // 간격 조정
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        border: Border.all(color: Colors.black26),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: TextFormField(
+                        controller: _passwordController,
+                        style: TextStyle(fontSize: 24),
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.lock),
+                          labelText: 'Password',
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 12),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your password';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 15), // 간격 조정
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        border: Border.all(color: Colors.black26),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: TextFormField(
+                        controller: _ageController,
+                        style: TextStyle(fontSize: 24),
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.cake),
+                          labelText: 'Age',
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 12),
+                        ),
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your age';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 15), // 간격 조정
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        border: Border.all(color: Colors.black26),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.local_hospital),
+                          labelText: 'Health Area',
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 12),
+                        ),
+                        value: _selectedHealthArea,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            _selectedHealthArea = newValue;
+                          });
+                        },
+                        items: healthAreas
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        validator: (value) {
+                          if (value == null) {
+                            return 'Please select a health area';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 15), // 간격 조정
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        border: Border.all(color: Colors.black26),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.report),
+                          labelText: 'Severity Level',
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 12),
+                        ),
+                        value: _selectedSeverityLevel,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            _selectedSeverityLevel = newValue;
+                          });
+                        },
+                        items: severityLevels
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        validator: (value) {
+                          if (value == null) {
+                            return 'Please select a severity level';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 15), // 간격 조정
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        border: Border.all(color: Colors.black26),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: CheckboxListTile(
+                        title: Text('I agree to the terms and conditions'),
+                        value: _termsAccepted,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _termsAccepted = value ?? false;
+                          });
+                        },
+                        controlAffinity: ListTileControlAffinity.leading,
+                        activeColor: Color(0xFF8B4513),
+                        checkColor: Colors.white,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 5),
+                        checkboxShape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 30), // 간격 조정
+                    ElevatedButton(
+                      onPressed: _isLoading
+                          ? null
+                          : () async {
+                        if (_formKey.currentState!.validate() &&
+                            _termsAccepted) {
                           // Check ID availability
                           final isAvailable = await _checkIdAvailability(
                               _idController.text);
@@ -177,309 +387,87 @@ class RegisterFormState extends State<RegisterMain> {
                               ),
                             );
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('The ID is available.'),
-                              ),
-                            );
+                            // Proceed with registration
+                            _register();
                           }
-                        },
+                        } else if (!_termsAccepted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                  'You must accept the terms and conditions'),
+                            ),
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF8B4513),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 55, vertical: 15),
+                        textStyle: TextStyle(fontSize: 24),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                      child: _isLoading
+                          ? CircularProgressIndicator(
+                        color: Colors.white,
+                      )
+                          : Text(
+                        'Register',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your ID';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                SizedBox(height: 20),
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [
-                        Color(0xFF87CEEB),
-                        Color(0xFFFFFFFF)
-                      ], // 수평 그라데이션
-                    ),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: TextFormField(
-                    controller: _nicknameController,
-                    decoration: InputDecoration(
-                      labelText: 'Nickname',
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 2, vertical: 2),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your nickname';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                SizedBox(height: 20),
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [
-                        Color(0xFF87CEEB),
-                        Color(0xFFFFFFFF)
-                      ], // 수평 그라데이션
-                    ),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: TextFormField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 2, vertical: 2),
-                    ),
-                    obscureText: true,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your password';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                SizedBox(height: 20),
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [
-                        Color(0xFF87CEEB),
-                        Color(0xFFFFFFFF)
-                      ], // 수평 그라데이션
-                    ),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Confirm Password',
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 2, vertical: 2),
-                    ),
-                    obscureText: true,
-                    validator: (value) {
-                      if (value != _passwordController.text) {
-                        return 'Passwords do not match';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                SizedBox(height: 20),
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [
-                        Color(0xFF87CEEB),
-                        Color(0xFFFFFFFF)
-                      ], // 수평 그라데이션
-                    ),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: TextFormField(
-                    controller: _ageController,
-                    decoration: InputDecoration(
-                      labelText: 'Age',
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 2, vertical: 2),
-                    ),
-                    keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your age';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                SizedBox(height: 20),
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [
-                        Color(0xFF87CEEB),
-                        Color(0xFFFFFFFF)
-                      ], // 수평 그라데이션
-                    ),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: DropdownButtonFormField<String>(
-                    decoration: InputDecoration(
-                      labelText: 'Health Area',
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 5, vertical: 5),
-                    ),
-                    value: _selectedHealthArea,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        _selectedHealthArea = newValue;
-                      });
-                    },
-                    items: healthAreas
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    validator: (value) {
-                      if (value == null) {
-                        return 'Please select a health area';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                SizedBox(height: 20),
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [
-                        Color(0xFF87CEEB),
-                        Color(0xFFFFFFFF)
-                      ], // 수평 그라데이션
-                    ),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: DropdownButtonFormField<String>(
-                    decoration: InputDecoration(
-                      labelText: 'Severity Level',
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 5, vertical: 5),
-                    ),
-                    value: _selectedSeverityLevel,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        _selectedSeverityLevel = newValue;
-                      });
-                    },
-                    items: severityLevels
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    validator: (value) {
-                      if (value == null) {
-                        return 'Please select a severity level';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                SizedBox(height: 10),
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [
-                        Color(0xFF87CEEB),
-                        Color(0xFFFFFFFF)
-                      ], // 수평 그라데이션
-                    ),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: CheckboxListTile(
-                    title: Text('I agree to the terms and conditions'),
-                    value: _termsAccepted,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _termsAccepted = value ?? false;
-                      });
-                    },
-                    controlAffinity: ListTileControlAffinity.leading,
-                    activeColor: Color(0xFF87CEEB),
-                    checkColor: Colors.white,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 5),
-                    checkboxShape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () async {
-                    final result = await Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) =>
-                          Survey(registrationData: {},)),
-                    );
-                    // Handle survey result if needed
-                  },
-                  child: Text('Go to Survey'),
-                ),
-                SizedBox(height: 40),
-                ElevatedButton(
-                  onPressed: _isLoading
-                      ? null
-                      : () async {
-                    if (_formKey.currentState!.validate() && _termsAccepted) {
-                      // Check ID availability
-                      final isAvailable = await _checkIdAvailability(
-                          _idController.text);
-                      if (!isAvailable) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                                'The ID is already taken. Please choose another one.'),
-                          ),
+                    SizedBox(height: 20), // 간격 조정
+                    ElevatedButton(
+                      onPressed: () async {
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Survey(registrationData: {})),
                         );
-                      } else {
-                        // Proceed with registration
-                        _register();
-                      }
-                    } else if (!_termsAccepted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                              'You must accept the terms and conditions'),
+                        // Handle survey result if needed
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF8B4513),
+                        padding: EdgeInsets.symmetric(horizontal: 55, vertical: 15),
+                        textStyle: TextStyle(fontSize: 24),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
                         ),
-                      );
-                    }
-                  },
-                  child: _isLoading
-                      ? CircularProgressIndicator(
-                    color: Colors.white,
-                  )
-                      : Text(
-                    'Register',
-                    style: TextStyle(
-                      color: Color(0xFF87CEEB),
-                      fontSize: 35,
-                      fontFamily: 'ABeeZee',
-                      fontWeight: FontWeight.w400,
+                      ),
+                      child: Text(
+                        'Go to Survey',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
-                  ),
+                    SizedBox(height: 30), // 간격 조정
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => LoginMain()),
+                        );
+                      },
+                      child: Text(
+                        'Already have an account? Log in',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Color(0xFF8B4513),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),
