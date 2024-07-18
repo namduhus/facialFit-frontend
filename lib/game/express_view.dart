@@ -10,7 +10,9 @@ class CameraView extends GetView<ScanController> {
 
   @override
   Widget build(BuildContext context) {
-    return GetX<ScanController>( builder: (controller) {
+    return GetX<ScanController>(initState: (state) {
+      controller.onInit();
+    }, builder: (controller) {
       if (!controller.isInitialized) {
         Logger().e("camera view error");
         //3 33controller.onInit();
