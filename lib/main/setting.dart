@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:SmileHelper/main/main_stage.dart'; // MainHome import
 import 'package:SmileHelper/shop/shop_main.dart'; // ShopMain import
 import 'package:SmileHelper/main/mypage.dart'; // MyPage import
+import 'package:SmileHelper/css/screen.dart'; // BaseScreen import
 
 class Setting extends StatefulWidget {
   @override
@@ -17,27 +18,15 @@ class _SettingState extends State<Setting> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFF48AA7B), // 배경색 설정
-      appBar: AppBar(
-        automaticallyImplyLeading: false, // 뒤로 가기 버튼 없애기
-        title: Image.asset(
-          'assets/images/Logo.png',
-          fit: BoxFit.contain,
-          height: 32,
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
-      body: SingleChildScrollView(
+    return BaseScreen(
+      child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               padding: EdgeInsets.all(16.0),
               alignment: Alignment.center,
               child: Text(
-                'Setting',
+                'Information',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -50,11 +39,6 @@ class _SettingState extends State<Setting> {
                 padding: EdgeInsets.all(50.0),
                 margin: EdgeInsets.all(10.0),
                 height: 600.0, // 높이 설정 (예: 400.0)
-                decoration: BoxDecoration(
-                  color: Color(0xFFFAF9E0),
-                  borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(color: Colors.black, width: 2),
-                ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center, // 중앙 배치
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -100,7 +84,6 @@ class _SettingState extends State<Setting> {
               ),
             ),
             Container(
-              color: Color(0xFF48AA7B),
               padding: EdgeInsets.symmetric(vertical: 20.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
