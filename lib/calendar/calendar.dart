@@ -5,9 +5,9 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:SmileHelper/calendar/events_provider.dart';
-import 'package:SmileHelper/calendar/user_info_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:http/http.dart' as http;
+import 'package:SmileHelper/css/screen.dart'; // BaseScreen import
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({Key? key}) : super(key: key);
@@ -15,6 +15,7 @@ class CalendarPage extends StatefulWidget {
   @override
   State<CalendarPage> createState() => _CalendarPageState();
 }
+
 class _CalendarPageState extends State<CalendarPage> {
   late final ValueNotifier<List> _selectedEvents;
   CalendarFormat _calendarFormat = CalendarFormat.month;
@@ -36,9 +37,7 @@ class _CalendarPageState extends State<CalendarPage> {
     });
 
     final eventsProvider = context.read<EventsProvider>();
-    if (eventsProvider
-        .getEvents()
-        .isEmpty) {
+    if (eventsProvider.getEvents().isEmpty) {
       await _fetchUserEvents();
     } else {
       _selectedEvents.value = _getEventsForDay(_selectedDay!);
@@ -98,27 +97,13 @@ class _CalendarPageState extends State<CalendarPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: Image.asset(
-          'assets/images/Logo.png',
-          fit: BoxFit.contain,
-          height: 32,
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
-      body: SafeArea(
+    return BaseScreen(
+      child: SafeArea(
         child: _isLoading // 로딩 상태에 따라 다른 위젯을 표시
             ? Center(child: CircularProgressIndicator()) // 로딩 중일 때 로딩 인디케이터
             : Column(
           children: [
-            SizedBox(height: 10.h),
+            SizedBox(height: 50.h),
             Card(
               margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
               elevation: 5.0,
@@ -133,7 +118,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   headerMargin: EdgeInsets.only(bottom: 20.h),
                   titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
                   decoration: BoxDecoration(
-                    color: Color(0xFF48AA7B),
+                    color: Color(0xFF87CEEB),
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10),
@@ -152,7 +137,7 @@ class _CalendarPageState extends State<CalendarPage> {
                     size: 28,
                   ),
                 ),
-                rowHeight: 60.h,
+                rowHeight: 70.h,
                 locale: 'en-US',
                 firstDay: DateTime.utc(2010, 10, 16),
                 lastDay: DateTime.utc(2030, 3, 14),
@@ -163,6 +148,17 @@ class _CalendarPageState extends State<CalendarPage> {
                 },
                 onDaySelected: _onDaySelected,
                 eventLoader: _getEventsForDay,
+                daysOfWeekHeight: 30, // 요일 표시 높이 설정
+                daysOfWeekStyle: DaysOfWeekStyle(
+                  weekdayStyle: TextStyle(
+                    fontSize: 14.sp, // 요일 글자 크기 설정
+                    color: Colors.black,
+                  ),
+                  weekendStyle: TextStyle(
+                    fontSize: 14.sp, // 주말 요일 글자 크기 설정
+                    color: Colors.red,
+                  ),
+                ),
                 calendarStyle: CalendarStyle(
                   markersAlignment: Alignment.bottomCenter,
                   canMarkersOverflow: true,
@@ -173,7 +169,7 @@ class _CalendarPageState extends State<CalendarPage> {
                     shape: BoxShape.circle,
                   ),
                   selectedDecoration: BoxDecoration(
-                    color: Color(0xFF207F66),
+                    color: Color(0xFF87CEEB),
                     shape: BoxShape.circle,
                   ),
                   weekendTextStyle: TextStyle(color: Colors.red),
@@ -226,13 +222,20 @@ class _CalendarPageState extends State<CalendarPage> {
                     }
                   },
                   dowBuilder: (context, day) {
+                    final text = DateFormat.E('en_US').format(day);
                     if (day.weekday == DateTime.saturday ||
                         day.weekday == DateTime.sunday) {
-                      final text = DateFormat.E('en_US').format(day);
                       return Center(
                         child: Text(
                           text,
                           style: TextStyle(color: Colors.red),
+                        ),
+                      );
+                    } else {
+                      return Center(
+                        child: Text(
+                          text,
+                          style: TextStyle(color: Colors.black),
                         ),
                       );
                     }
@@ -279,22 +282,23 @@ class _CalendarPageState extends State<CalendarPage> {
                         child: ListTile(
                           title: Text(description),
                           trailing: event_icon_index['iconIndex'] == 1
-                        ? Image.asset(
-                        'assets/images/calendar_check.png',
-                          width: 20.sp,
-                          height: 20.sp,
-                        )
-                            : event_icon_index['iconIndex'] == 2
-                      ? Image.asset(
-                      'assets/images/calendar_story_mode.png',
-                        width: 20.sp,
-                        height: 20.sp,
-                      ): Image.asset(
-                      'assets/images/calendar_bonus_mode.png',
-                      width: 20.sp,
-                      height: 20.sp,
-                      ),
-                      ),
+                              ? Image.asset(
+                            'assets/images/calendar_check.png',
+                            width: 20.sp,
+                            height: 20.sp,
+                          )
+                              : event_icon_index['iconIndex'] == 2
+                              ? Image.asset(
+                            'assets/images/calendar_story_mode.png',
+                            width: 20.sp,
+                            height: 20.sp,
+                          )
+                              : Image.asset(
+                            'assets/images/calendar_bonus_mode.png',
+                            width: 20.sp,
+                            height: 20.sp,
+                          ),
+                        ),
                       );
                     },
                   );
