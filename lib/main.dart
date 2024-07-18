@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
               ),
               GetPage(
                 name: '/CameraScreen',
-                page: () => CameraScreen(cameras: [],),
+                page: () => CameraScreen(),
                 transition: Transition.zoom,
               ),
               GetPage(name: '/bonus', page: () => BonusGame()),
@@ -92,7 +92,7 @@ class MyApp extends StatelessWidget {
               "/Prolog": (context) => Prolog(),
               "/Story": (context) => StoryStage(),
               "/CameraView": (context) => CameraView(),
-              "/CameraScreen": (context) => CameraScreen(cameras: [],),
+              "/CameraScreen": (context) => CameraScreen(),
 
               "/stageclear1": (context) => StageClear(),
               "/stagefail1": (context) => StageFail(),
