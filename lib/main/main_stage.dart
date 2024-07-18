@@ -17,6 +17,7 @@ import 'package:SmileHelper/game/story/prolog.dart'; // Prolog import
 import 'package:SmileHelper/game/bonus/bonus_game.dart';
 import 'package:SmileHelper/Service/MlkitService.dart';
 import 'package:SmileHelper/game/mlkit/file_utils.dart'; // 좌표 저장 함수가 있는 파일
+import 'package:SmileHelper/css/screen_home.dart'; // BaseScreen 파일 import
 
 class MainHome extends StatefulWidget {
   @override
@@ -270,7 +271,7 @@ class _MainHomeState extends State<MainHome> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFFAF9E0),
+                    backgroundColor: Color(0xFF87CEEB),
                     padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                     textStyle: TextStyle(fontSize: 18),
                   ),
@@ -288,7 +289,7 @@ class _MainHomeState extends State<MainHome> {
                 SizedBox(height: 20),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFFAF9E0),
+                    backgroundColor: Color(0xFF87CEEB),
                     padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                     textStyle: TextStyle(fontSize: 18),
                   ),
@@ -344,29 +345,9 @@ class _MainHomeState extends State<MainHome> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false, // 뒤로 가기 버튼 없애기
-        title: Image.asset(
-          'assets/images/Logo.png',
-          fit: BoxFit.contain,
-          height: 32,
-        ),
-        centerTitle: true,
-        actions: [
-          if (_imageFile != null)
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.file(
-                _imageFile!,
-                width: 50,
-                height: 50,
-                fit: BoxFit.cover,
-              ),
-            ),
-        ],
-      ),
-      body: Stack(
+    return BaseScreen_home(
+      imageFile: _imageFile,
+      child: Stack(
         children: [
           Positioned(
             left: 0,
@@ -374,17 +355,6 @@ class _MainHomeState extends State<MainHome> {
             child: Container(
               width: screenWidth,
               height: screenHeight,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Color(0x3F000000),
-                    blurRadius: 4,
-                    offset: Offset(0, 4),
-                    spreadRadius: 0,
-                  ),
-                ],
-              ),
               child: Stack(
                 children: [
                   Positioned(
@@ -393,7 +363,6 @@ class _MainHomeState extends State<MainHome> {
                     child: Container(
                       width: screenWidth,
                       height: screenHeight * 0.29,
-                      decoration: BoxDecoration(color: Color(0xFF48AA7B)),
                     ),
                   ),
                   Positioned(
@@ -402,7 +371,6 @@ class _MainHomeState extends State<MainHome> {
                     child: Container(
                       width: screenWidth,
                       height: screenHeight * 0.71,
-                      decoration: BoxDecoration(color: Color(0xFFFAF9E0)),
                     ),
                   ),
                   Positioned(
@@ -456,17 +424,17 @@ class _MainHomeState extends State<MainHome> {
                         height: screenHeight * 0.3,
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage("assets/images/main.png"),
+                            image: AssetImage("assets/images/main5.png"),
                             fit: BoxFit.contain,
                           ),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: screenHeight * 0.1),
+                  SizedBox(height: screenHeight * 0.3),
                   Positioned(
                     left: 0,
-                    top: screenHeight * 0.83,
+                    top: screenHeight * 0.77,
                     child: Container(
                       width: screenWidth,
                       child: Row(
@@ -475,48 +443,60 @@ class _MainHomeState extends State<MainHome> {
                           Expanded(
                             child: Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 5.0),
-                              child: ElevatedButton(
-                                onPressed: () {
+                              const EdgeInsets.symmetric(horizontal: 5.0),
+                              child: GestureDetector(
+                                onTap: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ShopMain()),
+                                    MaterialPageRoute(builder: (context) => ShopMain()),
                                   );
                                 },
-                                child: Text('Shop'),
+                                child: Image.asset(
+                                  'assets/gifs/buy.gif',
+                                  width: 100, // 원하는 너비로 설정
+                                  height: 100, // 원하는 높이로 설정
+                                  fit: BoxFit.cover, // 이미지 맞춤 방식 설정
+                                ),
                               ),
                             ),
                           ),
                           Expanded(
                             child: Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 5.0),
-                              child: ElevatedButton(
-                                onPressed: () {
+                              const EdgeInsets.symmetric(horizontal: 5.0),
+                              child: GestureDetector(
+                                onTap: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(
-                                        builder: (context) => MainHome()),
+                                    MaterialPageRoute(builder: (context) => MainHome()),
                                   );
                                 },
-                                child: Text('Home'),
+                                child: Image.asset(
+                                  'assets/gifs/home.gif',
+                                  width: 100, // 원하는 너비로 설정
+                                  height: 100, // 원하는 높이로 설정
+                                  fit: BoxFit.cover, // 이미지 맞춤 방식 설정
+                                ),
                               ),
                             ),
                           ),
                           Expanded(
                             child: Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 5.0),
-                              child: ElevatedButton(
-                                onPressed: () {
+                              const EdgeInsets.symmetric(horizontal: 5.0),
+                              child: GestureDetector(
+                                onTap: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(
-                                        builder: (context) => MyPage()),
+                                    MaterialPageRoute(builder: (context) => MyPage()),
                                   );
                                 },
-                                child: Text('MyPage'),
+                                child: Image.asset(
+                                  'assets/gifs/mypage.gif',
+                                  width: 100, // 원하는 너비로 설정
+                                  height: 100, // 원하는 높이로 설정
+                                  fit: BoxFit.cover, // 이미지 맞춤 방식 설정
+                                ),
                               ),
                             ),
                           ),
