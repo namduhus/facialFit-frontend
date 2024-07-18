@@ -10,5 +10,5 @@ Future<void> saveLandmarksToFile(Map<String, List<Point<int>>> faceData, String 
   }).join('\n\n');
 
   await file.writeAsString(landmarksText);
-  print('랜드마크 및 컨투어 좌표가 저장된 파일 경로: ${file.path}');
+  print('File path where landmark and contour coordinates are saved: ${file.path}');
 }
