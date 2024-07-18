@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:SmileHelper/game/camera_screen.dart';
 import 'package:SmileHelper/game/result/stageclear1.dart';
 import 'package:SmileHelper/css/screen.dart'; // BaseScreen import
+import 'package:get/get.dart';
 
 class StoryPlay extends StatelessWidget {
   const StoryPlay({super.key});
@@ -56,13 +57,13 @@ class StoryPlay extends StatelessWidget {
                           top: 127,
                           child: Container(
                             width: 310,
-                            height: 550,
+                            height: 550
                             child: Stack(children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(15),
                                 child: CameraScreen(),
                               ),
-                            ]),
+                            ]), 
                           ),
                         ),
                       ],

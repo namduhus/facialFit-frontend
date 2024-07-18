@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 import 'package:SmileHelper/css/screen.dart'; // BaseScreen import
 
 class StoryStart extends StatelessWidget {
-  const StoryStart({super.key});
+  final String stage;
+
+  const StoryStart({super.key, required this.stage});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class StoryStart extends StatelessWidget {
                     left: 120,
                     top: 40,
                     child: Text(
-                      'Stage 1',
+                      stage, //여기서 이전에 클릭한 단계 표시
                       style: TextStyle(
                         color: Color(0xFFFFF3F3),
                         fontSize: 40,
@@ -37,6 +39,12 @@ class StoryStart extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () {
                         Get.to(StoryPlay());
+
+                        /*Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => StoryPlay()),
+                        );*/
+                        Get.to(StoryPlay(), arguments: stage);
                       },
                       child: Container(
                         width: 200,
