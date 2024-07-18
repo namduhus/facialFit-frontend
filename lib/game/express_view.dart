@@ -16,11 +16,13 @@ class ExpressView extends GetView<ScanController> {
       Logger().e('express_view: ${controller.currentExpression}');
       switch (controller.currExp.value) {
         case '눈썹 올리기':
-          return Container(
+          return Positioned(
             width: 125,
             height: 150,
+            top: 150,
+            right: 20,
             child: Align(
-                alignment: Alignment.topRight,
+                // alignment: Alignment.topRight,
                 child: Image.asset('assets/gifs/eyebrow.gif')),
           );
 
