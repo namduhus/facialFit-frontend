@@ -26,7 +26,7 @@ class _SettingState extends State<Setting> {
               padding: EdgeInsets.all(16.0),
               alignment: Alignment.center,
               child: Text(
-                'Setting',
+                'Information',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,

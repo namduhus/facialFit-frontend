@@ -431,10 +431,10 @@ class _MainHomeState extends State<MainHome> {
                       ),
                     ),
                   ),
-                  SizedBox(height: screenHeight * 0.1),
+                  SizedBox(height: screenHeight * 0.3),
                   Positioned(
                     left: 0,
-                    top: screenHeight * 0.83,
+                    top: screenHeight * 0.77,
                     child: Container(
                       width: screenWidth,
                       child: Row(
@@ -444,15 +444,19 @@ class _MainHomeState extends State<MainHome> {
                             child: Padding(
                               padding:
                               const EdgeInsets.symmetric(horizontal: 5.0),
-                              child: ElevatedButton(
-                                onPressed: () {
+                              child: GestureDetector(
+                                onTap: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ShopMain()),
+                                    MaterialPageRoute(builder: (context) => ShopMain()),
                                   );
                                 },
-                                child: Text('Shop'),
+                                child: Image.asset(
+                                  'assets/gifs/buy.gif',
+                                  width: 100, // 원하는 너비로 설정
+                                  height: 100, // 원하는 높이로 설정
+                                  fit: BoxFit.cover, // 이미지 맞춤 방식 설정
+                                ),
                               ),
                             ),
                           ),
@@ -460,15 +464,19 @@ class _MainHomeState extends State<MainHome> {
                             child: Padding(
                               padding:
                               const EdgeInsets.symmetric(horizontal: 5.0),
-                              child: ElevatedButton(
-                                onPressed: () {
+                              child: GestureDetector(
+                                onTap: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(
-                                        builder: (context) => MainHome()),
+                                    MaterialPageRoute(builder: (context) => MainHome()),
                                   );
                                 },
-                                child: Text('Home'),
+                                child: Image.asset(
+                                  'assets/gifs/home.gif',
+                                  width: 100, // 원하는 너비로 설정
+                                  height: 100, // 원하는 높이로 설정
+                                  fit: BoxFit.cover, // 이미지 맞춤 방식 설정
+                                ),
                               ),
                             ),
                           ),
@@ -476,15 +484,19 @@ class _MainHomeState extends State<MainHome> {
                             child: Padding(
                               padding:
                               const EdgeInsets.symmetric(horizontal: 5.0),
-                              child: ElevatedButton(
-                                onPressed: () {
+                              child: GestureDetector(
+                                onTap: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(
-                                        builder: (context) => MyPage()),
+                                    MaterialPageRoute(builder: (context) => MyPage()),
                                   );
                                 },
-                                child: Text('MyPage'),
+                                child: Image.asset(
+                                  'assets/gifs/mypage.gif',
+                                  width: 100, // 원하는 너비로 설정
+                                  height: 100, // 원하는 높이로 설정
+                                  fit: BoxFit.cover, // 이미지 맞춤 방식 설정
+                                ),
                               ),
                             ),
                           ),
