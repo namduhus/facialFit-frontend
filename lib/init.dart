@@ -83,7 +83,6 @@ class Appinit extends StatelessWidget {
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 35,
-                                          fontFamily: 'ABeeZee',
                                           fontWeight: FontWeight.w400,
                                           height: 0,
                                         ),
@@ -148,7 +147,6 @@ class Appinit extends StatelessWidget {
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 35,
-                                              fontFamily: 'ABeeZee',
                                               fontWeight: FontWeight.w400,
                                               height: 0,
                                             ),
@@ -190,7 +188,6 @@ class Appinit extends StatelessWidget {
                                 style: TextStyle(
                                   color: Color(0xFFFFF3F3),
                                   fontSize: 51.53,
-                                  fontFamily: 'ABeeZee',
                                   fontWeight: FontWeight.w400,
                                   height: 0,
                                 ),

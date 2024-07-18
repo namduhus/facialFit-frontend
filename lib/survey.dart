@@ -69,7 +69,6 @@ class SurveyState extends State<Survey> {
                   style: TextStyle(
                     color: Color(0xFFFFF3F3),
                     fontSize: 50,
-                    fontFamily: 'ABeeZee',
                     fontWeight: FontWeight.w400,
                   ),
                 ),

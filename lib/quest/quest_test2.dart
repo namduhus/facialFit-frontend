@@ -311,7 +311,6 @@ class QuestTest2State extends State<QuestTest2> {
                       style: TextStyle(
                         color: Color(0xFFFFF3F3),
                         fontSize: 30, // 폰트 크기 조정
-                        fontFamily: 'ABeeZee',
                         fontWeight: FontWeight.w400,
                         height: 0.5,
                       ),

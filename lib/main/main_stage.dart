@@ -236,17 +236,41 @@ class _MainHomeState extends State<MainHome> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('사진을 찍어주세요'),
-          content: Text('첫 이용자는 사진을 찍어주세요.'),
+          title: Text(
+            'Take a Photo',
+            style: TextStyle(
+              fontSize: 24, // 제목 폰트 사이즈
+              fontWeight: FontWeight.bold, // 제목 폰트 굵기
+            ),
+          ),
+          content: Text(
+            'As a first-time user, please take a photo.',
+            style: TextStyle(
+              fontSize: 16, // 내용 폰트 사이즈
+              fontWeight: FontWeight.normal, // 내용 폰트 굵기
+            ),
+          ),
           actions: [
             TextButton(
-              child: Text('취소'),
+              child: Text(
+                'Cancel',
+                style: TextStyle(
+                  fontSize: 16, // 버튼 폰트 사이즈
+                  fontWeight: FontWeight.normal, // 버튼 폰트 굵기
+                ),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('사진 찍기'),
+              child: Text(
+                'Take Photo',
+                style: TextStyle(
+                  fontSize: 16, // 버튼 폰트 사이즈
+                  fontWeight: FontWeight.bold, // 버튼 폰트 굵기
+                ),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
                 _takePicture();
@@ -271,7 +295,7 @@ class _MainHomeState extends State<MainHome> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF87CEEB),
+                    backgroundColor: Color(0xFF8B4513),
                     padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                     textStyle: TextStyle(fontSize: 18),
                   ),
@@ -284,19 +308,19 @@ class _MainHomeState extends State<MainHome> {
                     );
                   },
                   child:
-                  Text('Story Mode', style: TextStyle(color: Colors.black)),
+                  Text('Story Mode', style: TextStyle(color: Colors.white)),
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF87CEEB),
+                    backgroundColor: Color(0xFF8B4513),
                     padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                     textStyle: TextStyle(fontSize: 18),
                   ),
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => BonusGame()));
                   },
-                  child: Text('Bonus Mode', style: TextStyle(color: Colors.black)),
+                  child: Text('Bonus Mode', style: TextStyle(color: Colors.white)),
                 ),
               ],
             ),
@@ -355,6 +379,20 @@ class _MainHomeState extends State<MainHome> {
             child: Container(
               width: screenWidth,
               height: screenHeight,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/test.png'), // 배경 이미지 경로 설정
+                  fit: BoxFit.cover, // 이미지가 화면에 맞게 조정되도록 설정
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            left: 0,
+            top: 0,
+            child: Container(
+              width: screenWidth,
+              height: screenHeight,
               child: Stack(
                 children: [
                   Positioned(
@@ -373,58 +411,58 @@ class _MainHomeState extends State<MainHome> {
                       height: screenHeight * 0.71,
                     ),
                   ),
+                  // Positioned(
+                  //   left: screenWidth * 0.6,
+                  //   top: screenHeight * 0.50,
+                  //   child: Container(
+                  //     width: screenWidth * 0.5,
+                  //     height: screenHeight * 0.2,
+                  //     decoration: BoxDecoration(
+                  //       image: DecorationImage(
+                  //         image: AssetImage("assets/images/refrigerator.png"),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  // Positioned(
+                  //   left: screenWidth * -0.05,
+                  //   top: screenHeight * 0.5,
+                  //   child: Container(
+                  //     width: screenWidth * 0.5,
+                  //     height: screenHeight * 0.2,
+                  //     decoration: BoxDecoration(
+                  //       image: DecorationImage(
+                  //         image: AssetImage("assets/images/desk.png"),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  // Positioned(
+                  //   left: screenWidth * 0.35,
+                  //   top: screenHeight * 0.001,
+                  //   child: Container(
+                  //     width: screenWidth * 0.3,
+                  //     height: screenHeight * 0.3,
+                  //     decoration: BoxDecoration(
+                  //       image: DecorationImage(
+                  //         image: AssetImage("assets/images/light.png"),
+                  //         fit: BoxFit.fill,
+                  //       ),
+                  //     ),
+                  //     child: Opacity(opacity: _opacity),
+                  //   ),
+                  // ),
                   Positioned(
-                    left: screenWidth * 0.6,
-                    top: screenHeight * 0.50,
-                    child: Container(
-                      width: screenWidth * 0.5,
-                      height: screenHeight * 0.2,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/images/refrigerator.png"),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: screenWidth * -0.05,
-                    top: screenHeight * 0.5,
-                    child: Container(
-                      width: screenWidth * 0.5,
-                      height: screenHeight * 0.2,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/images/desk.png"),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: screenWidth * 0.35,
-                    top: screenHeight * 0.001,
-                    child: Container(
-                      width: screenWidth * 0.3,
-                      height: screenHeight * 0.3,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/images/light.png"),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      child: Opacity(opacity: _opacity),
-                    ),
-                  ),
-                  Positioned(
-                    left: screenWidth * 0.35,
-                    top: screenHeight * 0.49,
+                    left: screenWidth * 0.38,
+                    top: screenHeight * 0.30,
                     child: GestureDetector(
                       onTap: _showModeDialog,
                       child: Container(
-                        width: screenWidth * 0.3,
-                        height: screenHeight * 0.3,
+                        width: screenWidth * 0.6,
+                        height: screenHeight * 0.6,
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage("assets/images/main5.png"),
+                            image: AssetImage("assets/images/main_character.png"),
                             fit: BoxFit.contain,
                           ),
                         ),
@@ -505,8 +543,8 @@ class _MainHomeState extends State<MainHome> {
                     ),
                   ),
                   Positioned(
-                    left: screenWidth * 0.001,
-                    top: screenHeight * 0.01,
+                    left: screenWidth * 0.06,
+                    top: screenHeight * 0.02,
                     child: Row(
                       children: [
                         Image.asset(
@@ -518,7 +556,7 @@ class _MainHomeState extends State<MainHome> {
                         Text(
                           '$userCoins',
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Colors.white,
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -527,37 +565,42 @@ class _MainHomeState extends State<MainHome> {
                     ),
                   ),
                   Positioned(
-                    left: screenWidth * 0.18,
-                    top: screenHeight * 0.43,
+                    left: screenWidth * 0.2,
+                    top: screenHeight * 0.28,
                     child: Container(
-                      width: screenWidth * 0.25,
-                      height: screenHeight * 0.15,
+                      width: screenWidth * 0.4,
+                      height: screenHeight * 0.2,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage("assets/images/Topic.png"),
+                          image: AssetImage("assets/images/speech_bubble.png"),
                           fit: BoxFit.cover,
                         ),
                       ),
-                      child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(10.0, 35.0, 10.0, 10.0), // 좌측, 상단, 우측, 하단 패딩 설정
                         child: Text(
-                          'Hello! $nickname sir!',
+                          'Good day, $nickname!\nKeep it up!',
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 13.5,
-                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w800,
                           ),
                           textAlign: TextAlign.center,
                         ),
                       ),
+                      ),
                     ),
-                  ),
                   Positioned(
                     right: screenWidth * 0.001,
                     top: screenHeight * 0.01, // AppBar 바로 아래
                     child: Row(
                       children: [
                         IconButton(
-                          icon: Image.asset('assets/images/Parchment.png'),
+                          icon: Container(
+                            width: 33.0,  // 원하는 너비로 설정
+                            height: 33.0, // 원하는 높이로 설정
+                            child: Image.asset('assets/images/Quest2.png'),
+                          ),
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -568,7 +611,11 @@ class _MainHomeState extends State<MainHome> {
                         ),
                         // calendar 버튼의 onPressed 함수 수정
                         IconButton(
-                          icon: Image.asset('assets/images/calendar.png'),
+                          icon: Container(
+                            width: 33.0,  // 원하는 너비로 설정
+                            height: 33.0, // 원하는 높이로 설정
+                            child: Image.asset('assets/images/calendar.png'),
+                          ),
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -578,7 +625,11 @@ class _MainHomeState extends State<MainHome> {
                           },
                         ),
                         IconButton(
-                          icon: Image.asset('assets/images/setting.png'),
+                          icon: Container(
+                            width: 33.0,  // 원하는 너비로 설정
+                            height: 33.0, // 원하는 높이로 설정
+                            child: Image.asset('assets/images/setting2.png'),
+                          ),
                           onPressed: () {
                             Navigator.push(
                               context,
