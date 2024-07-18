@@ -28,7 +28,6 @@ class StoryStart extends StatelessWidget {
                       style: TextStyle(
                         color: Color(0xFFFFF3F3),
                         fontSize: 40,
-                        fontFamily: 'ABeeZee',
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -38,7 +37,7 @@ class StoryStart extends StatelessWidget {
                     top: 250,
                     child: GestureDetector(
                       onTap: () {
-                        Get.to(StoryPlay());
+                        //Get.to(StoryPlay());
 
                         /*Navigator.push(
                           context,
@@ -60,7 +59,6 @@ class StoryStart extends StatelessWidget {
                             style: TextStyle(
                               color: Color.fromRGBO(255, 255, 255, 1),
                               fontSize: 30,
-                              fontFamily: 'ABeeZee',
                               fontWeight: FontWeight.w400,
                             ),
                           ),
@@ -75,11 +73,10 @@ class StoryStart extends StatelessWidget {
                       width: 400,
                       height: 120,
                       child: Text(
-                        '문제설명: 문제는 랜덤으로 주어집니다.\n10초 시간동안 표정을 유지해주세요 \n찍는 사진수는 1장입니다.',
+                        'Explanation: You’ll get a random challenge. Hold the expression for 10 seconds. We’ll snap one photo at a time.',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 15,
-                          fontFamily: 'ABeeZee',
                           fontWeight: FontWeight.w400,
                         ),
                       ),

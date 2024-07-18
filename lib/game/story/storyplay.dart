@@ -42,11 +42,10 @@ class StoryPlay extends StatelessWidget {
                           left: 110,
                           top: 34,
                           child: Text(
-                            'Stage 1',
+                            Get.arguments, //'Stage 1',
                             style: TextStyle(
                               color: Color(0xFFFFF3F3),
                               fontSize: 45,
-                              fontFamily: 'ABeeZee',
                               fontWeight: FontWeight.w400,
                               height: 0,
                             ),
@@ -63,7 +62,7 @@ class StoryPlay extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(15),
                                 child: CameraScreen(),
                               ),
-                            ]), 
+                            ]),
                           ),
                         ),
                       ],
