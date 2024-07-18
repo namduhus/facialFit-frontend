@@ -184,7 +184,7 @@ class SurveyState extends State<Survey> {
         Text(
           question,
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.black,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -194,11 +194,11 @@ class SurveyState extends State<Survey> {
           children: [
             _buildCheckBox(option1, isChecked, onChanged),
             SizedBox(width: 10),
-            Text(option1, style: TextStyle(color: Colors.white)),
+            Text(option1, style: TextStyle(color: Colors.black)),
             SizedBox(width: 20),
             _buildCheckBox(option2, !isChecked, (value) => onChanged(!value)),
             SizedBox(width: 10),
-            Text(option2, style: TextStyle(color: Colors.white)),
+            Text(option2, style: TextStyle(color: Colors.black)),
           ],
         ),
         SizedBox(height: 20),
@@ -217,11 +217,11 @@ class SurveyState extends State<Survey> {
         height: 20,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(color: Colors.white),
+          border: Border.all(color: Colors.black),
         ),
         child: isChecked
             ? Center(
-          child: Icon(Icons.check, size: 16, color: Colors.white),
+          child: Icon(Icons.check, size: 16, color: Colors.black),
         )
             : SizedBox(),
       ),
