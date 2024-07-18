@@ -60,7 +60,10 @@ class MyApp extends StatelessWidget {
                   textStyle: TextStyle(color: Colors.black, fontSize: 16),
                 ),
                 headlineLarge: GoogleFonts.robotoMono(
-                  textStyle: TextStyle(color: Colors.black, fontSize: 32, fontWeight: FontWeight.bold),
+                  textStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold),
                 ),
                 // Add other needed text styles
               ),
@@ -74,7 +77,9 @@ class MyApp extends StatelessWidget {
               ),
               GetPage(
                 name: '/CameraScreen',
-                page: () => CameraScreen(cameras: [],),
+                page: () => CameraScreen(
+                  cameras: [],
+                ),
                 transition: Transition.zoom,
               ),
               GetPage(name: '/bonus', page: () => BonusGame()),
@@ -85,15 +90,16 @@ class MyApp extends StatelessWidget {
               "/Home": (context) => MainHome(),
               "/Shop": (context) => ShopMain(),
               "/survey": (context) => Survey(
-                registrationData: {},
-              ),
+                    registrationData: {},
+                  ),
               "/Quest": (context) => QuestTest2(),
               "/MyPage": (context) => MyPage(),
               "/Prolog": (context) => Prolog(),
               "/Story": (context) => StoryStage(),
               "/CameraView": (context) => CameraView(),
-              "/CameraScreen": (context) => CameraScreen(cameras: [],),
-
+              "/CameraScreen": (context) => CameraScreen(
+                    cameras: [],
+                  ),
               "/stageclear1": (context) => StageClear(),
               "/stagefail1": (context) => StageFail(),
               "/Calendar": (context) => CalendarPage(),

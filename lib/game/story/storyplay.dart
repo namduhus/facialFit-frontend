@@ -60,7 +60,9 @@ class StoryPlay extends StatelessWidget {
                             child: Stack(children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(15),
-                                child: CameraScreen(),
+                                child: CameraScreen(
+                                  cameras: [],
+                                ),
                               ),
                             ]),
                           ),
