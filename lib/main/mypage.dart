@@ -166,13 +166,13 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
 
   Widget _buildButtons(double width, double height) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 20.0),
+      padding: EdgeInsets.symmetric(vertical: 5.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildElevatedButton('Shop', ShopMain(), width, height),
-          _buildElevatedButton('Main', MainHome(), width, height),
-          _buildElevatedButton('Statistics', StatisticsPage(), width, height),
+          _buildShimmerButton('Shop', ShopMain(), width, height),
+          _buildShimmerButton('Main', MainHome(), width, height),
+          _buildShimmerButton('Statistics', StatisticsPage(), width, height),
         ],
       ),
     );
@@ -181,7 +181,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
   Widget _buildInfoItem(String label, String value) {
     return Container(
       padding: EdgeInsets.all(15.0),
-      margin: EdgeInsets.symmetric(vertical: 5.0),
+      margin: EdgeInsets.symmetric(vertical: 3.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -202,7 +202,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _buildElevatedButton(String text, Widget page, double width, double height) {
+  Widget _buildShimmerButton(String text, Widget page, double width, double height) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -214,19 +214,22 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
             );
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: Color(0xFF8B4513),
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            textStyle: TextStyle(fontSize: 20),
+            foregroundColor: Colors.black,
+            backgroundColor: Color(0xFF8B4513), // 버튼 배경색을 흰색으로 설정
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(20), // 버튼을 둥글게 설정
             ),
+            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5), // 패딩 조정
           ),
-          child: Text(
-            text,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 10,
-              fontWeight: FontWeight.bold,
+          child: Shimmer.fromColors(
+            baseColor: Colors.white,
+            highlightColor: Color(0xFFD2691E),
+            child: Text(
+              text,
+              style: TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),

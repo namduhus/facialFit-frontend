@@ -2,6 +2,7 @@ import 'package:SmileHelper/game/story/story_stage.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:SmileHelper/css/screen.dart'; // BaseScreen import
+import 'package:shimmer/shimmer.dart'; // Shimmer effect
 
 class Prolog extends StatefulWidget {
   @override
@@ -56,12 +57,37 @@ class _PrologPageState extends State<Prolog> {
           Positioned(
             bottom: 20,
             right: 20,
-            child: ElevatedButton(
-              onPressed: _navigateToStage,
-              child: Text('Stage'),
-            ),
+            child: buildShimmerButton(context, 'Stage', _navigateToStage),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget buildShimmerButton(BuildContext context, String text, VoidCallback onPressed) {
+    return Container(
+      height: 50, // 버튼 높이 설정
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.black,
+          backgroundColor: Color(0xFF8B4513), // 버튼 배경색을 흰색으로 설정
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15), // 버튼을 둥글게 설정
+          ),
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20), // 패딩 조정
+        ),
+        onPressed: onPressed,
+        child: Shimmer.fromColors(
+          baseColor: Colors.white,
+          highlightColor: Color(0xFFD2691E),
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -1,9 +1,9 @@
+import 'package:SmileHelper/main/main_stage.dart';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:get/get.dart';
-import 'package:SmileHelper/game/story/story_stage.dart';
-
-import '../../main/main_stage.dart'; // StoryStage import
+import 'package:SmileHelper/game/story/story_stage.dart'; // StoryStage import
+import 'package:get/get.dart'; // Get 패키지 import
+import 'package:shimmer/shimmer.dart';
 
 class StageFail extends StatefulWidget {
   @override
@@ -21,6 +21,7 @@ class _StageFailState extends State<StageFail> {
   }
 
   Future<void> _playSound() async {
+    // 사운드 재생
     await _audioPlayer.play(AssetSource('fail.mp3'), volume: 15.0);
     // 2초 후에 사운드 정지
     Future.delayed(Duration(seconds: 2), () {
@@ -34,10 +35,40 @@ class _StageFailState extends State<StageFail> {
     super.dispose();
   }
 
+  Widget buildShimmerButton(BuildContext context, String text, Widget page) {
+    return Container(
+      height: 50, // 버튼 높이 설정
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.black,
+          backgroundColor: Color(0xFF8B4513), // 버튼 배경색을 흰색으로 설정
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15), // 버튼을 둥글게 설정
+          ),
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20), // 패딩 조정
+        ),
+        onPressed: () {
+          Get.to(page);
+        },
+        child: Shimmer.fromColors(
+          baseColor: Colors.black,
+          highlightColor: Color(0xFFD2691E),
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF207F66),
+      backgroundColor: Color(0xFF8B4513),
       appBar: AppBar(
         automaticallyImplyLeading: false, // 뒤로 가기 버튼 없애기
         title: Image.asset(
@@ -46,7 +77,7 @@ class _StageFailState extends State<StageFail> {
           height: 32,
         ),
         centerTitle: true,
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xFF8B4513),
         elevation: 0,
       ),
       body: Center(
@@ -56,12 +87,12 @@ class _StageFailState extends State<StageFail> {
             Container(
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: Color(0xFF207F66),
+                color: Color(0xFF8B4513),
               ),
               child: Text(
                 '1 Stage...',
                 style: TextStyle(
-                  fontSize: 50,
+                  fontSize: 40,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
@@ -71,7 +102,6 @@ class _StageFailState extends State<StageFail> {
               padding: EdgeInsets.all(16.0),
               margin: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: Color(0xFFFAF9E0),
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: Column(
@@ -80,15 +110,15 @@ class _StageFailState extends State<StageFail> {
                   Image.asset(
                     'assets/images/Game Over.png',
                     fit: BoxFit.contain,
-                    width: 550, // 원하는 너비로 조절
-                    height: 150, // 원하는 높이로 조절
+                    width: 350, // 원하는 너비로 조절
+                    height: 150, // 이미지의 높이 조절
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 15),
                   Image.asset(
                     'assets/images/sad.png',
                     fit: BoxFit.contain,
-                    width: 450, // 원하는 너비로 조절
-                    height: 170, // 원하는 높이로 조절
+                    width: 500, // 이미지의 너비 조절
+                    height: 150, // 이미지의 높이 조절
                   ),
                 ],
               ),
@@ -96,31 +126,13 @@ class _StageFailState extends State<StageFail> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center, // 가로로 중앙 정렬
               children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Get.to(StoryStage()); // StoryStage 페이지로 이동
-            },
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20), // 버튼의 패딩 설정
-              textStyle: TextStyle(fontSize: 15), // 텍스트 크기 설정
+                buildShimmerButton(context, 'Stage', StoryStage()),
+                SizedBox(width: 20), // 간격 추가
+                buildShimmerButton(context, 'Home', MainHome()),
+              ],
             ),
-            child: Text('Stage'),
-          ),
-          SizedBox(width: 20), // 간격 추가
-          ElevatedButton(
-            onPressed: () {
-              Get.offAll(MainHome()); // MainHome 페이지로 이동
-            },
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20), // 버튼의 패딩 설정
-              textStyle: TextStyle(fontSize: 15), // 텍스트 크기 설정
-            ),
-            child: Text('Home'),
-          ),
           ],
         ),
-      ],
-      ),
       ),
     );
   }

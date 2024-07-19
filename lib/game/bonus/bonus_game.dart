@@ -15,7 +15,7 @@ class BonusGame extends StatefulWidget {
 }
 
 class _BonusGameState extends State<BonusGame> {
-  final List<String> emotions = ['happy', 'sad', 'angry', 'neutral', 'panic'];
+  final List<String> emotions = ['happy', 'sad', 'anger', 'neutral', 'panic'];
   late String selectedEmotion;
   int countDown = 3;
   bool isCapturing = false;
@@ -76,7 +76,7 @@ class _BonusGameState extends State<BonusGame> {
         });
         Timer(Duration(seconds: 1), () {
           if (result == selectedEmotion) {
-            Get.off(() => StageClear());
+            Get.off(() => StageClear1());
           } else {
             Get.off(() => StageFail());
           }
@@ -105,11 +105,11 @@ class _BonusGameState extends State<BonusGame> {
             children: [
               Text(
                 'Bonus Game!!!',
-                style: TextStyle(fontSize: 34, color: Color(0xFFFFF3F3)),
+                style: TextStyle(fontSize: 30, color: Color(0xFFFFF3F3)),
               ),
               Text(
                 'Make a $selectedEmotion face',
-                style: TextStyle(fontSize: 24, color: Colors.white),
+                style: TextStyle(fontSize: 20, color: Colors.white),
               ),
               SizedBox(height: 20),
               if (!isCapturing)
@@ -123,14 +123,14 @@ class _BonusGameState extends State<BonusGame> {
                   child: Text('Start', style: TextStyle(color: Colors.black)),
                 )
               else if (countDown > 0)
-                Text('$countDown', style: TextStyle(fontSize: 48, color: Colors.white))
+                Text('$countDown', style: TextStyle(fontSize: 40, color: Colors.white))
               else
-                Text(result, style: TextStyle(fontSize: 24, color: Colors.white)),
+                Text(result, style: TextStyle(fontSize: 20, color: Colors.white)),
               SizedBox(height: 20),
               if (_cameraController.value.isInitialized)
                 Container(
-                  width: 320,
-                  height: 480,
+                  width: 300,
+                  height: 400,
                   child: CameraPreview(_cameraController),
                 ),
             ],

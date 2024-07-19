@@ -93,7 +93,7 @@ class MyApp extends StatelessWidget {
               "/Story": (context) => StoryStage(),
               "/CameraView": (context) => CameraView(),
               "/CameraScreen": (context) => CameraScreen(),
-              "/stageclear1": (context) => StageClear(),
+              "/stageclear1": (context) => StageClear1(),
               "/stagefail1": (context) => StageFail(),
               "/Calendar": (context) => CalendarPage(),
               "/Setting": (context) => Setting(),

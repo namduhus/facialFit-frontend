@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:SmileHelper/Service/AuthService.dart';
 import 'package:SmileHelper/main/main_stage.dart';
 import 'package:SmileHelper/css/screen.dart'; // BaseScreen import
+import 'package:shimmer/shimmer.dart';
 
 class ShopMain extends StatefulWidget {
   const ShopMain({super.key});
@@ -197,6 +198,14 @@ class ShopState extends State<ShopMain> {
     }
   }
 
+  void _navigateToShop() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ShopMain()),
+    );
+  }
+
+
   void _navigateToHome() {
     Navigator.push(
       context,
@@ -250,13 +259,13 @@ class ShopState extends State<ShopMain> {
                         ),
                       ),
                     ),
-                    SizedBox(width: 70),
+                    SizedBox(width: 45),
                     // 코인과 Shop 로고 사이 간격 조정
                     Text(
                       'Shop',
                       style: TextStyle(
                         color: Color(0xFFFFF3F3),
-                        fontSize: 51.53,
+                        fontSize: 45,
                         fontWeight: FontWeight.w400,
                         height: 1.5,
                       ),
@@ -296,9 +305,10 @@ class ShopState extends State<ShopMain> {
                   ),
                 ),
                 SizedBox(height: 5),
-                ElevatedButton(
-                  onPressed: _purchaseItems,
-                  child: Text('Purchase'),
+                buildShimmerButton(
+                  context,
+                  'Purchase',
+                  _purchaseItems,
                 ),
                 SizedBox(height: 70),
                 Row(
@@ -307,33 +317,64 @@ class ShopState extends State<ShopMain> {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Text('Shop'),
+                        child: buildShimmerButton(
+                          context,
+                          'Shop',
+                          _navigateToShop, // 현재 페이지이므로 null로 설정
                         ),
                       ),
                     ),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                        child: ElevatedButton(
-                          onPressed: _navigateToHome,
-                          child: Text('Home'),
+                        child: buildShimmerButton(
+                          context,
+                          'Home',
+                          _navigateToHome,
                         ),
                       ),
                     ),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                        child: ElevatedButton(
-                          onPressed: _navigateToStatistics,
-                          child: Text('MyPage'),
+                        child: buildShimmerButton(
+                          context,
+                          'MyPage',
+                          _navigateToStatistics,
                         ),
                       ),
                     ),
                   ],
                 ),
               ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildShimmerButton(BuildContext context, String text, VoidCallback? onPressed) {
+    return Container(
+      height: 50, // 버튼 높이 설정
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.black,
+          backgroundColor: Color(0xFF8B4513), // 버튼 배경색을 흰색으로 설정
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15), // 버튼을 둥글게 설정
+          ),
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20), // 패딩 조정
+        ),
+        onPressed: onPressed,
+        child: Shimmer.fromColors(
+          baseColor: Colors.white,
+          highlightColor: Color(0xFFD2691E),
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
@@ -367,7 +408,7 @@ class ShopItem extends StatelessWidget {
           color: isSelected ? Color(0xFF87CEEB) : Colors.transparent,
           // 아이템 선택 시 강조 색상
           shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
               color: Color(0x3F000000),
