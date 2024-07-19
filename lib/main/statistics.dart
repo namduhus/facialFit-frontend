@@ -36,7 +36,7 @@ extension ExpressionTypeExtension on ExpressionType {
       return 'PUCKER_LIPS';
       case ExpressionType.OPEN_MOUTH:
       return 'OPEN_MOUTH';
-      case ExpressionType.SURPRISE:\
+      case ExpressionType.SURPRISE:
       return 'SURPRISE';
       case ExpressionType.TEMP1:
       return 'TEMP1';
