@@ -128,14 +128,23 @@ class _SettingState extends State<Setting> {
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF8B4513),
+                              backgroundColor: Color(0xFF8B4513), // 버튼 색상 흰색으로 변경
                               padding: EdgeInsets.symmetric(horizontal: 55, vertical: 15),
-                              textStyle: TextStyle(fontSize: 24),
+                              textStyle: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold, // 글씨체 굵게
+                              ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15),
                               ),
                             ),
-                            child: Text('Shop'),
+                            child: Text(
+                              'Shop',
+                              style: TextStyle(
+                                color: Colors.white, // 글씨 색상 변경
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -150,14 +159,23 @@ class _SettingState extends State<Setting> {
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF8B4513),
+                              backgroundColor: Color(0xFF8B4513), // 버튼 색상 흰색으로 변경
                               padding: EdgeInsets.symmetric(horizontal: 55, vertical: 15),
-                              textStyle: TextStyle(fontSize: 24),
+                              textStyle: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold, // 글씨체 굵게
+                              ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15),
                               ),
                             ),
-                            child: Text('Main'),
+                            child: Text(
+                              'Main',
+                              style: TextStyle(
+                                color: Colors.white, // 글씨 색상 변경
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
                       ),
