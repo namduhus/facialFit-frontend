@@ -6,7 +6,6 @@ import 'package:SmileHelper/shop/shop_main.dart';
 import 'package:SmileHelper/main/main_stage.dart'; // MainStage import
 import 'package:SmileHelper/css/screen.dart'; // BaseScreen import
 import 'package:shimmer/shimmer.dart'; // Shimmer effect
-import 'package:animated_button/animated_button.dart'; // Animated Button
 import 'package:SmileHelper/main/statistics.dart'; // Statistics import
 
 class MyPage extends StatefulWidget {
