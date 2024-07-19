@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:SmileHelper/css/screen.dart'; // BaseScreen import
+import 'package:shimmer/shimmer.dart'; // Shimmer effect
 
 enum ExpressionType {
   ALL,
@@ -29,15 +30,15 @@ extension ExpressionTypeExtension on ExpressionType {
       case ExpressionType.BLINK:
         return 'BLINK';
       case ExpressionType.PUFF_CHEEKS:
-        return 'PUFF_CHEEKS';
+      return 'PUFF_CHEEKS';
       case ExpressionType.PUCKER_LIPS:
-        return 'PUCKER_LIPS';
+      return 'PUCKER_LIPS';
       case ExpressionType.OPEN_MOUTH:
-        return 'OPEN_MOUTH';
+      return 'OPEN_MOUTH';
       case ExpressionType.SURPRISE:
-        return 'SURPRISE';
+      return 'SURPRISE';
       case ExpressionType.TEMP1:
-        return 'TEMP1';
+      return 'TEMP1';
       default:
         return '';
     }
@@ -88,94 +89,214 @@ class _StatisticsPageState extends State<StatisticsPage> {
               ? data
               : data.where((element) => element['expressionType'] == selectedExpressionType!.name).toList();
 
-          return Column(
-            children: [
-              DropdownButton<ExpressionType>(
-                hint: Text("Select Expression Type"),
-                value: selectedExpressionType,
-                onChanged: (ExpressionType? newValue) {
-                  setState(() {
-                    selectedExpressionType = newValue;
-                  });
-                },
-                items: ExpressionType.values.map((ExpressionType type) {
-                  return DropdownMenuItem<ExpressionType>(
-                    value: type,
-                    child: Text(type.name),
-                  );
-                }).toList(),
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: [
+                  _buildDropdown(),
+                  SizedBox(height: 20),
+                  ..._buildStatisticsCards(filteredData),
+                ],
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(1.0),
-                  child: BarChart(
-                    BarChartData(
-                      barGroups: _createBarGroups(filteredData),
-                      titlesData: FlTitlesData(
-                        leftTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            getTitlesWidget: (value, meta) {
-                              return Text('${value.toInt()}%');
-                            },
-                          ),
-                        ),
-                        bottomTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            getTitlesWidget: (value, meta) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                                child: Text(
-                                  filteredData[value.toInt()]['expressionType'], // 데이터에서 직접 표현식 타입을 가져옴
-                                  style: TextStyle(fontSize: 5), // 글자 크기를 줄임
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                      borderData: FlBorderData(show: false),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+            ),
           );
         },
       ),
     );
   }
 
-  List<BarChartGroupData> _createBarGroups(List<Map<String, dynamic>> data) {
-    final List<BarChartGroupData> barGroups = [];
+  Widget _buildDropdown() {
+    return Container(
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 10,
+            offset: Offset(0, 5),
+          ),
+        ],
+      ),
+      child: DropdownButton<ExpressionType>(
+        hint: Text("Select Expression Type"),
+        value: selectedExpressionType,
+        onChanged: (ExpressionType? newValue) {
+          setState(() {
+            selectedExpressionType = newValue;
+          });
+        },
+        items: ExpressionType.values.map((ExpressionType type) {
+          return DropdownMenuItem<ExpressionType>(
+            value: type,
+            child: Text(type.name),
+          );
+        }).toList(),
+      ),
+    );
+  }
 
-    for (int i = 0; i < data.length; i++) {
-      final int successCount = data[i]['successCount'];
-      final int failCount = data[i]['failCount'];
-      final int totalCount = successCount + failCount;
-      final double successPercent = (totalCount == 0) ? 0 : (successCount / totalCount) * 100;
-      final double failPercent = (totalCount == 0) ? 0 : (failCount / totalCount) * 100;
-
-      barGroups.add(
-        BarChartGroupData(
-          x: i,
-          barRods: [
-            BarChartRodData(
-              toY: successPercent,
-              color: Colors.blue,
-              width: 3,
-            ),
-            BarChartRodData(
-              toY: failPercent,
-              color: Colors.red,
-              width: 3,
-            ),
-          ],
+  List<Widget> _buildStatisticsCards(List<Map<String, dynamic>> data) {
+    return data.map((item) {
+      return Card(
+        margin: EdgeInsets.symmetric(vertical: 10),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Shimmer.fromColors(
+                baseColor: Color(0xFF8B4513),
+                highlightColor: Color(0xFFD2691E),
+                child: Text(
+                  item['expressionType'],
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(height: 10),
+              Container(
+                height: 200,
+                child: PieChart(
+                  PieChartData(
+                    sections: _createPieSections(item),
+                    centerSpaceRadius: 40,
+                    sectionsSpace: 2,
+                  ),
+                ),
+              ),
+              if (selectedExpressionType != ExpressionType.ALL) ...[
+                SizedBox(height: 10),
+                Container(
+                  height: 200,
+                  child: LineChart(_createLineChartData()),
+                ),
+              ],
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildLegendItem(Colors.blue, 'Success'),
+                  SizedBox(width: 10),
+                  _buildLegendItem(Colors.red, 'Fail'),
+                ],
+              ),
+            ],
+          ),
         ),
       );
-    }
-
-    return barGroups;
+    }).toList();
   }
+
+  Widget _buildLegendItem(Color color, String text) {
+    return Row(
+      children: [
+        Container(
+          width: 16,
+          height: 16,
+          color: color,
+        ),
+        SizedBox(width: 5),
+        Text(text, style: TextStyle(fontSize: 14, color: Colors.black)),
+      ],
+    );
+  }
+
+  List<PieChartSectionData> _createPieSections(Map<String, dynamic> data) {
+    final int successCount = data['successCount'];
+    final int failCount = data['failCount'];
+    final int totalCount = successCount + failCount;
+
+    final double successPercent = (totalCount == 0) ? 0 : (successCount / totalCount) * 100;
+    final double failPercent = (totalCount == 0) ? 0 : (failCount / totalCount) * 100;
+
+    return [
+      PieChartSectionData(
+        value: successPercent,
+        color: Colors.blue,
+        title: '${successPercent.toStringAsFixed(1)}%',
+        radius: 60,
+        titleStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+      ),
+      PieChartSectionData(
+        value: failPercent,
+        color: Colors.red,
+        title: '${failPercent.toStringAsFixed(1)}%',
+        radius: 60,
+        titleStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+      ),
+    ];
+  }
+
+  LineChartData _createLineChartData() {
+    // Mock data for the last 7 days
+    DateTime now = DateTime(2024, 7, 19);
+    List<FlSpot> spots = List.generate(7, (index) {
+      DateTime date = now.subtract(Duration(days: 6 - index));
+      double successRate = (50 + index * 5) / 100; // Mock success rate data
+      return FlSpot(index.toDouble(), successRate);
+    });
+
+    return LineChartData(
+      gridData: FlGridData(show: true),
+      titlesData: FlTitlesData(
+        leftTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 28,
+            interval: 0.1,
+            getTitlesWidget: (value, meta) {
+              return Text(
+                '${(value * 100).toInt()}%',
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                ),
+              );
+            },
+          ),
+        ),
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false), // Hide right titles
+        ),
+        topTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false), // Hide top titles
+        ),
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            getTitlesWidget: (value, meta) {
+              DateTime date = now.subtract(Duration(days: 6 - value.toInt()));
+              return Text(
+                '${date.month}/${date.day}',
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+      borderData: FlBorderData(show: true),
+      lineBarsData: [
+        LineChartBarData(
+          spots: spots,
+          isCurved: true,
+          barWidth: 2,
+          color: Colors.green,
+        ),
+      ],
+    );
+  }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: StatisticsPage(),
+  ));
 }

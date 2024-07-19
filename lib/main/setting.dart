@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:SmileHelper/main/main_stage.dart'; // MainHome import
 import 'package:SmileHelper/shop/shop_main.dart'; // ShopMain import
 import 'package:SmileHelper/main/mypage.dart'; // MyPage import
@@ -129,13 +128,20 @@ class _SettingState extends State<Setting> {
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFF8B4513),
-                              padding: EdgeInsets.symmetric(horizontal: 55, vertical: 15),
-                              textStyle: TextStyle(fontSize: 24),
+                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                              textStyle: TextStyle(fontSize: 20),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15),
                               ),
                             ),
-                            child: Text('Shop'),
+                            child: Text(
+                              'Shop',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -151,13 +157,20 @@ class _SettingState extends State<Setting> {
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFF8B4513),
-                              padding: EdgeInsets.symmetric(horizontal: 55, vertical: 15),
-                              textStyle: TextStyle(fontSize: 24),
+                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                              textStyle: TextStyle(fontSize: 20),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15),
                               ),
                             ),
-                            child: Text('Main'),
+                            child: Text(
+                              'Main',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
                       ),

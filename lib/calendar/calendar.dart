@@ -193,8 +193,8 @@ class _CalendarPageState extends State<CalendarPage> {
                                     margin: EdgeInsets.only(top: 40.h),
                                     child: Image.asset(
                                       'assets/images/calendar_check.png',
-                                      width: 20.sp,
-                                      height: 20.sp,
+                                      width: 15.sp,
+                                      height: 15.sp,
                                     ),
                                   );
                                 } else if (key['iconIndex'] == 2) {
@@ -202,8 +202,8 @@ class _CalendarPageState extends State<CalendarPage> {
                                     margin: EdgeInsets.only(top: 40.h),
                                     child: Image.asset(
                                       'assets/images/calendar_story_mode.png',
-                                      width: 20.sp,
-                                      height: 20.sp,
+                                      width: 15.sp,
+                                      height: 15.sp,
                                     ),
                                   );
                                 } else if (key['iconIndex'] == 3) {
@@ -211,8 +211,8 @@ class _CalendarPageState extends State<CalendarPage> {
                                     margin: EdgeInsets.only(top: 40.h),
                                     child: Image.asset(
                                       'assets/images/calendar_bonus_mode.png',
-                                      width: 20.sp,
-                                      height: 20.sp,
+                                      width: 15.sp,
+                                      height: 15.sp,
                                     ),
                                   );
                                 } else {

@@ -23,6 +23,7 @@ class ExpressView extends StatelessWidget {
                     width: 125, height: 150),
               ));
 
+
         case '눈 감기':
           return Align(
               alignment: Alignment.topRight,

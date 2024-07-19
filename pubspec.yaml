@@ -60,7 +60,6 @@ dependencies:
   animated_button: ^0.2.0
   flutter_spinkit: ^5.0.0
   rive: ^0.13.9
-  lottie: ^3.1.2
   flutter_neumorphic: ^3.1.0
   smooth_page_indicator: ^1.2.0
   google_fonts: ^6.2.1
@@ -113,7 +112,6 @@ flutter:
     - assets/images/test.png
     - assets/images/calendar.png
     - assets/images/speech_bubble.png
-    - assets/images/main5.png
     - assets/Fun.mp3
     - assets/clear.mp3
     - assets/fail.mp3
