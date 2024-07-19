@@ -1,6 +1,5 @@
 import 'package:SmileHelper/game/controller/scan_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
@@ -18,7 +17,7 @@ class MessageView extends GetView<ScanController> {
       return Stack(
         children: [
           Center(
-            child: Container(), //컨트롤러이미지 출력m
+            child: Container(), //컨트롤러이미지 출력
           ),
           _buildImageWidget(controller),
         ],
