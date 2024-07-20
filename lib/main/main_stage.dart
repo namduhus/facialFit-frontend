@@ -18,6 +18,8 @@ import 'package:SmileHelper/game/bonus/bonus_game.dart';
 import 'package:SmileHelper/Service/MlkitService.dart';
 import 'package:SmileHelper/game/mlkit/file_utils.dart'; // 좌표 저장 함수가 있는 파일
 import 'package:SmileHelper/css/screen_home.dart'; // BaseScreen 파일 import
+import 'package:shimmer/shimmer.dart';
+import 'second_page.dart'; // second_page.dart import
 
 class MainHome extends StatefulWidget {
   @override
@@ -353,7 +355,7 @@ class _MainHomeState extends State<MainHome> {
     final faceData = await detectFaceLandmarks(imageFile);
     if (faceData.isNotEmpty) {
       final fileName = imageFile.path.split('/').last.split('.').first;
-      final landmarksFilePath = '$dirPath/$fileName.txt';
+      final landmarksFilePath = '$dirPath/$userId.txt'; // 사용자 ID를 파일 이름으로 사용
       await saveLandmarksToFile(faceData, landmarksFilePath);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Landmark and contour coordinates have been saved: $landmarksFilePath')),
@@ -411,47 +413,6 @@ class _MainHomeState extends State<MainHome> {
                       height: screenHeight * 0.71,
                     ),
                   ),
-                  // Positioned(
-                  //   left: screenWidth * 0.6,
-                  //   top: screenHeight * 0.50,
-                  //   child: Container(
-                  //     width: screenWidth * 0.5,
-                  //     height: screenHeight * 0.2,
-                  //     decoration: BoxDecoration(
-                  //       image: DecorationImage(
-                  //         image: AssetImage("assets/images/refrigerator.png"),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  // Positioned(
-                  //   left: screenWidth * -0.05,
-                  //   top: screenHeight * 0.5,
-                  //   child: Container(
-                  //     width: screenWidth * 0.5,
-                  //     height: screenHeight * 0.2,
-                  //     decoration: BoxDecoration(
-                  //       image: DecorationImage(
-                  //         image: AssetImage("assets/images/desk.png"),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  // Positioned(
-                  //   left: screenWidth * 0.35,
-                  //   top: screenHeight * 0.001,
-                  //   child: Container(
-                  //     width: screenWidth * 0.3,
-                  //     height: screenHeight * 0.3,
-                  //     decoration: BoxDecoration(
-                  //       image: DecorationImage(
-                  //         image: AssetImage("assets/images/light.png"),
-                  //         fit: BoxFit.fill,
-                  //       ),
-                  //     ),
-                  //     child: Opacity(opacity: _opacity),
-                  //   ),
-                  // ),
                   Positioned(
                     left: screenWidth * 0.38,
                     top: screenHeight * 0.30,
@@ -472,71 +433,26 @@ class _MainHomeState extends State<MainHome> {
                   SizedBox(height: screenHeight * 0.3),
                   Positioned(
                     left: 0,
-                    top: screenHeight * 0.77,
+                    top: screenHeight * 0.83,
                     child: Container(
                       width: screenWidth,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Expanded(
-                            child: Padding(
-                              padding:
-                              const EdgeInsets.symmetric(horizontal: 5.0),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => ShopMain()),
-                                  );
-                                },
-                                child: Image.asset(
-                                  'assets/gifs/buy.gif',
-                                  width: 100, // 원하는 너비로 설정
-                                  height: 100, // 원하는 높이로 설정
-                                  fit: BoxFit.cover, // 이미지 맞춤 방식 설정
-                                ),
-                              ),
-                            ),
+                          buildShimmerButton(
+                            context,
+                            'Shop',
+                            ShopMain(),
                           ),
-                          Expanded(
-                            child: Padding(
-                              padding:
-                              const EdgeInsets.symmetric(horizontal: 5.0),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => MainHome()),
-                                  );
-                                },
-                                child: Image.asset(
-                                  'assets/gifs/home.gif',
-                                  width: 100, // 원하는 너비로 설정
-                                  height: 100, // 원하는 높이로 설정
-                                  fit: BoxFit.cover, // 이미지 맞춤 방식 설정
-                                ),
-                              ),
-                            ),
+                          buildShimmerButton(
+                            context,
+                            'Home',
+                            MainHome(),
                           ),
-                          Expanded(
-                            child: Padding(
-                              padding:
-                              const EdgeInsets.symmetric(horizontal: 5.0),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => MyPage()),
-                                  );
-                                },
-                                child: Image.asset(
-                                  'assets/gifs/mypage.gif',
-                                  width: 100, // 원하는 너비로 설정
-                                  height: 100, // 원하는 높이로 설정
-                                  fit: BoxFit.cover, // 이미지 맞춤 방식 설정
-                                ),
-                              ),
-                            ),
+                          buildShimmerButton(
+                            context,
+                            'MyPage',
+                            MyPage(),
                           ),
                         ],
                       ),
@@ -577,7 +493,7 @@ class _MainHomeState extends State<MainHome> {
                         ),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.fromLTRB(10.0, 35.0, 10.0, 10.0), // 좌측, 상단, 우측, 하단 패딩 설정
+                        padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 10.0), // 좌측, 상단, 우측, 하단 패딩 설정
                         child: Text(
                           'Good day, $nickname!\nKeep it up!',
                           style: TextStyle(
@@ -588,8 +504,8 @@ class _MainHomeState extends State<MainHome> {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      ),
                     ),
+                  ),
                   Positioned(
                     right: screenWidth * 0.001,
                     top: screenHeight * 0.01, // AppBar 바로 아래
@@ -655,6 +571,17 @@ class _MainHomeState extends State<MainHome> {
                           icon: Icon(Icons.camera_alt),
                           onPressed: _takePicture,
                         ),
+                        IconButton(
+                          icon: Icon(Icons.photo),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SecondPage(),
+                              ),
+                            );
+                          },
+                        ),
                       ],
                     ),
                   ),
@@ -663,6 +590,39 @@ class _MainHomeState extends State<MainHome> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget buildShimmerButton(BuildContext context, String text, Widget page) {
+    return Container(
+      height: 50, // 버튼 높이 설정
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.black,
+          backgroundColor: Color(0xFF8B4513), // 버튼 배경색을 흰색으로 설정
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15), // 버튼을 둥글게 설정
+          ),
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20), // 패딩 조정
+        ),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => page),
+          );
+        },
+        child: Shimmer.fromColors(
+          baseColor: Colors.white,
+          highlightColor: Color(0xFFD2691E),
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ),
     );
   }

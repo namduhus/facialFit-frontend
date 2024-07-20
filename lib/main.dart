@@ -16,7 +16,7 @@ import 'package:SmileHelper/calendar/user_info_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/date_symbol_data_local.dart'; // 추가: 올바른 import
+import 'package:intl/date_symbol_data_local.dart';
 import 'calendar/calendar.dart';
 import 'game/result/stageclear1.dart';
 import 'game/result/stagefail1.dart';
@@ -24,10 +24,13 @@ import 'package:SmileHelper/game/story/start.dart';
 import 'package:SmileHelper/game/story/story_stage.dart';
 import 'package:SmileHelper/game/story/prolog.dart';
 import 'package:SmileHelper/game/bonus/bonus_game.dart';
+import 'splash.dart';
+import 'package:animated_splash_screen/animated_splash_screen.dart'; // splash.dart 파일 추가
+import 'package:SmileHelper/main/second_page.dart'; // second_page.dart import
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initializeDateFormatting('ko_KR', ''); // Updated: Using an empty string
+  await initializeDateFormatting('ko_KR', '');
 
   runApp(MyApp());
 }
@@ -68,8 +71,7 @@ class MyApp extends StatelessWidget {
                 // Add other needed text styles
               ),
             ),
-            home: child,
-            initialRoute: "/Login",
+            initialRoute: "/Splash",
             getPages: [
               GetPage(
                 name: '/CameraView',
@@ -83,6 +85,7 @@ class MyApp extends StatelessWidget {
                 transition: Transition.zoom,
               ),
               GetPage(name: '/bonus', page: () => BonusGame()),
+              GetPage(name: '/Splash', page: () => SplashScreen()),
             ],
             routes: {
               "/Login": (context) => LoginMain(),
@@ -97,17 +100,23 @@ class MyApp extends StatelessWidget {
               "/Prolog": (context) => Prolog(),
               "/Story": (context) => StoryStage(),
               "/CameraView": (context) => CameraView(),
+
+              "/CameraScreen": (context) => CameraScreen(),
+              "/stageclear1": (context) => StageClear1(),
+
               "/CameraScreen": (context) => CameraScreen(
                     cameras: [],
                   ),
               "/stageclear1": (context) => StageClear(),
+
               "/stagefail1": (context) => StageFail(),
               "/Calendar": (context) => CalendarPage(),
               "/Setting": (context) => Setting(),
+              "/SecondPage": (context) => SecondPage(), // second_page 추가
             },
           );
         },
-        child: LoginMain(), // Initial screen setting
+        child: SplashScreen(), // 스플래시 스크린으로 초기 화면 설정
       ),
     );
   }

@@ -32,6 +32,11 @@ class ScanController extends GetxController {
 
   bool get isInitialized => cameraManager.isInitialized;
 
+
+          Get.to(StageClear1());
+        } else {
+          Logger().e('실패이동');
+
   CameraController get cameraController => cameraManager.cameraController;
 
   String get text => faceRecognition.text;

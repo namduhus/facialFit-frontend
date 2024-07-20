@@ -3,6 +3,7 @@ import 'package:SmileHelper/main/main_stage.dart'; // MainHome import
 import 'package:SmileHelper/shop/shop_main.dart'; // ShopMain import
 import 'package:SmileHelper/main/mypage.dart'; // MyPage import
 import 'package:SmileHelper/css/screen.dart'; // BaseScreen import
+import 'package:shimmer/shimmer.dart';
 
 class Setting extends StatefulWidget {
   @override
@@ -119,13 +120,16 @@ class _SettingState extends State<Setting> {
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                          child: ElevatedButton(
-                            onPressed: () {
+                          child: buildShimmerButton(
+                            context,
+                            'Shop',
+                                () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => ShopMain()),
                               );
                             },
+
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFF8B4513),
                               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -142,19 +146,23 @@ class _SettingState extends State<Setting> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
+
                           ),
                         ),
                       ),
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                          child: ElevatedButton(
-                            onPressed: () {
+                          child: buildShimmerButton(
+                            context,
+                            'Main',
+                                () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => MainHome()),
                               );
                             },
+
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFF8B4513),
                               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -171,6 +179,7 @@ class _SettingState extends State<Setting> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
+
                           ),
                         ),
                       ),
@@ -200,6 +209,34 @@ class _SettingState extends State<Setting> {
           style: TextStyle(fontSize: 18, color: Colors.black),
         ),
         onTap: onTap,
+      ),
+    );
+  }
+
+  Widget buildShimmerButton(BuildContext context, String text, VoidCallback onPressed) {
+    return Container(
+      height: 50, // 버튼 높이 설정
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.black,
+            backgroundColor: Color(0xFF8B4513), // 버튼 배경색을 흰색으로 설정
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15), // 버튼을 둥글게 설정
+          ),
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20), // 패딩 조정
+        ),
+        onPressed: onPressed,
+        child: Shimmer.fromColors(
+          baseColor: Colors.white,
+          highlightColor: Color(0xFFD2691E),
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ),
     );
   }

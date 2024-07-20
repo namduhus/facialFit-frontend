@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:SmileHelper/Service/AuthService.dart';
 import 'package:SmileHelper/main/main_stage.dart';
 import 'package:SmileHelper/css/screen.dart'; // BaseScreen import
+import 'package:shimmer/shimmer.dart';
 
 class QuestTest2 extends StatefulWidget {
   const QuestTest2({super.key});
@@ -305,7 +306,7 @@ class QuestTest2State extends State<QuestTest2> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(width: 80), // 코인과 Quest 로고 사이 간격 조정
+                    SizedBox(width: 60), // 코인과 Quest 로고 사이 간격 조정
                     Text(
                       'Quest',
                       style: TextStyle(
@@ -318,13 +319,15 @@ class QuestTest2State extends State<QuestTest2> {
                   ],
                 ),
                 SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: _fetchIncompleteQuests,
-                  child: Text('Incomplete Quests'),
+                buildShimmerButton(
+                  context,
+                  'Incomplete Quests',
+                  _fetchIncompleteQuests,
                 ),
-                ElevatedButton(
-                  onPressed: _showCompletedQuestsDialog,
-                  child: Text('Completed Quests'),
+                buildShimmerButton(
+                  context,
+                  'Completed Quests',
+                  _showCompletedQuestsDialog,
                 ),
                 SizedBox(height: 20),
                 Expanded(
@@ -342,33 +345,64 @@ class QuestTest2State extends State<QuestTest2> {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                        child: ElevatedButton(
-                          onPressed: _navigateToShop,
-                          child: Text('Shop'),
+                        child: buildShimmerButton(
+                          context,
+                          'Shop',
+                          _navigateToShop,
                         ),
                       ),
                     ),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                        child: ElevatedButton(
-                          onPressed: _navigateToHome,
-                          child: Text('Home'),
+                        child: buildShimmerButton(
+                          context,
+                          'Home',
+                          _navigateToHome,
                         ),
                       ),
                     ),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 1.0),
-                        child: ElevatedButton(
-                          onPressed: _navigateToStatistics,
-                          child: Text('MyPage'),
+                        child: buildShimmerButton(
+                          context,
+                          'MyPage',
+                          _navigateToStatistics,
                         ),
                       ),
                     ),
                   ],
                 ),
               ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildShimmerButton(BuildContext context, String text, VoidCallback? onPressed) {
+    return Container(
+      height: 50, // 버튼 높이 설정
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.black,
+          backgroundColor: Color(0xFF8B4513), // 버튼 배경색을 흰색으로 설정
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15), // 버튼을 둥글게 설정
+          ),
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20), // 패딩 조정
+        ),
+        onPressed: onPressed,
+        child: Shimmer.fromColors(
+          baseColor: Colors.white,
+          highlightColor: Color(0xFFD2691E),
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
@@ -394,8 +428,8 @@ class QuestTest2State extends State<QuestTest2> {
       child: Container(
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-            color:Color(0xFFF5DEB3),
-        // 퀘스트 폼 배경색 설정
+          color:Color(0xFFF5DEB3),
+          // 퀘스트 폼 배경색 설정
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
@@ -424,12 +458,10 @@ class QuestTest2State extends State<QuestTest2> {
               ),
             ),
             SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: isCompleted || !canComplete ? null : () => _completeQuest(quest['id']),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: isCompleted ? Colors.grey : Colors.green,
-              ),
-              child: Text(isCompleted ? 'Completed' : 'Complete'),
+            buildShimmerButton(
+              context,
+              isCompleted ? 'Completed' : 'Complete',
+              isCompleted || !canComplete ? null : () => _completeQuest(quest['id']),
             ),
           ],
         ),

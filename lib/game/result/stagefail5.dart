@@ -1,29 +1,33 @@
 import 'package:SmileHelper/main/main_stage.dart';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:SmileHelper/game/story/story_stage.dart'; // StoryStage import
-import 'package:get/get.dart'; // Get 패키지 import
+import 'package:SmileHelper/game/story/story_stage.dart';
+import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
-class StageFail extends StatefulWidget {
+class StageFail5 extends StatefulWidget {
+  final String result;
+
+  StageFail5({required this.result});
+
   @override
-  _StageFailState createState() => _StageFailState();
+  _StageFail5State createState() => _StageFail5State();
 }
 
-class _StageFailState extends State<StageFail> {
+class _StageFail5State extends State<StageFail5> {
   late AudioPlayer _audioPlayer;
+  late String result;
 
   @override
   void initState() {
     super.initState();
+    result = widget.result;
     _audioPlayer = AudioPlayer();
     _playSound();
   }
 
   Future<void> _playSound() async {
-    // 사운드 재생
     await _audioPlayer.play(AssetSource('fail.mp3'), volume: 15.0);
-    // 2초 후에 사운드 정지
     Future.delayed(Duration(seconds: 2), () {
       _audioPlayer.stop();
     });
@@ -37,15 +41,15 @@ class _StageFailState extends State<StageFail> {
 
   Widget buildShimmerButton(BuildContext context, String text, Widget page) {
     return Container(
-      height: 50, // 버튼 높이 설정
+      height: 50,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           foregroundColor: Colors.black,
-          backgroundColor: Color(0xFF8B4513), // 버튼 배경색을 흰색으로 설정
+          backgroundColor: Color(0xFF8B4513),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15), // 버튼을 둥글게 설정
+            borderRadius: BorderRadius.circular(15),
           ),
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20), // 패딩 조정
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         ),
         onPressed: () {
           Get.to(page);
@@ -70,7 +74,7 @@ class _StageFailState extends State<StageFail> {
     return Scaffold(
       backgroundColor: Color(0xFF8B4513),
       appBar: AppBar(
-        automaticallyImplyLeading: false, // 뒤로 가기 버튼 없애기
+        automaticallyImplyLeading: false,
         title: Image.asset(
           'assets/images/Logo.png',
           fit: BoxFit.contain,
@@ -90,7 +94,7 @@ class _StageFailState extends State<StageFail> {
                 color: Color(0xFF8B4513),
               ),
               child: Text(
-                '1 Stage...',
+                '5 Stage...', // Changed to 2 Stage
                 style: TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.bold,
@@ -110,24 +114,33 @@ class _StageFailState extends State<StageFail> {
                   Image.asset(
                     'assets/images/Game Over.png',
                     fit: BoxFit.contain,
-                    width: 350, // 원하는 너비로 조절
-                    height: 150, // 이미지의 높이 조절
+                    width: 350,
+                    height: 150,
+                  ),
+                  SizedBox(height: 15),
+                  Text(
+                    'Result: $result',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                   SizedBox(height: 15),
                   Image.asset(
                     'assets/images/sad1.png',
                     fit: BoxFit.contain,
-                    width: 500, // 이미지의 너비 조절
-                    height: 150, // 이미지의 높이 조절
+                    width: 500,
+                    height: 150,
                   ),
                 ],
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center, // 가로로 중앙 정렬
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 buildShimmerButton(context, 'Stage', StoryStage()),
-                SizedBox(width: 20), // 간격 추가
+                SizedBox(width: 20),
                 buildShimmerButton(context, 'Home', MainHome()),
               ],
             ),
