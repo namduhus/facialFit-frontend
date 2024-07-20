@@ -15,77 +15,95 @@ class ExpressView extends StatelessWidget {
       Logger().e('express_view: ${controller.currentExpression}');
       switch (controller.currExp.value) {
         case '눈썹 올리기':
-          return Positioned(
-            width: 125,
-            height: 150,
-            top: 150,
-            right: 20,
-            child: Align(
-                child: Image.asset('assets/gifs/eyebrow.gif')),
-          );
+          return Align(
+              alignment: Alignment.topRight,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: Image.asset('assets/gifs/eyebrow.gif',
+                    width: 125, height: 150),
+              ));
+
 
         case '눈 감기':
-          return Container(
-            width: 125,
-            height: 150,
-            child: Align(
-                alignment: Alignment.topRight,
-                child: Image.asset('assets/gifs/eyeclose.gif')),
-          );
+          return Align(
+              alignment: Alignment.topRight,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: Image.asset(
+                  'assets/gifs/eyeclose.gif',
+                  width: 125,
+                  height: 150,
+                ),
+              ));
 
         case '볼 부풀리기':
-          return Container(
-            width: 125,
-            height: 150,
-            child: Align(
-                alignment: Alignment.topRight,
-                child: Image.asset('assets/gifs/cheek.gif')),
-          );
+          return Align(
+              alignment: Alignment.topRight,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: Image.asset(
+                  'assets/gifs/cheek.gif',
+                  width: 125,
+                  height: 150,
+                ),
+              ));
 
         case '입 오므리기':
-          return Container(
-            width: 125,
-            height: 150,
-            child: Align(
-                alignment: Alignment.topRight,
-                child: Image.asset('assets/gifs/mouth_close.gif')),
-          );
+          return Align(
+              alignment: Alignment.topRight,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: Image.asset('assets/gifs/mouth_close.gif',
+                    height: 150, width: 125),
+              ));
 
         case '입 벌리기':
-          return Container(
-            width: 125,
-            height: 150,
-            child: Align(
-                alignment: Alignment.topRight,
-                child: Image.asset('assets/gifs/mouth_open.gif')),
-          );
+          return Align(
+              alignment: Alignment.topRight,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: Image.asset(
+                  'assets/gifs/mouth_open.gif',
+                  width: 125,
+                  height: 150,
+                ),
+              ));
 
         case '놀람':
-          return Container(
-            width: 125,
-            height: 150,
-            child: Align(
-                alignment: Alignment.topRight,
-                child: Image.asset('assets/gifs/surprise.gif')),
-          );
+          return Align(
+              alignment: Alignment.topRight,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: Image.asset(
+                  'assets/gifs/surprise.gif',
+                  height: 150,
+                  width: 125,
+                ),
+              ));
 
         case '웃음':
-          return Container(
-            width: 125,
-            height: 150,
-            child: Align(
-                alignment: Alignment.topRight,
-                child: Image.asset('assets/gifs/smile.gif')),
-          );
+          return Align(
+              alignment: Alignment.topRight,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: Image.asset(
+                  'assets/gifs/smile.gif',
+                  width: 125,
+                  height: 150,
+                ),
+              ));
 
         case '찡그리기':
-          return Container(
-            width: 125,
-            height: 150,
-            child: Align(
-                alignment: Alignment.topRight,
-                child: Image.asset('assets/gifs/frown.gif')),
-          );
+          return Align(
+              alignment: Alignment.topRight,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: Image.asset(
+                  'assets/gifs/frown.gif',
+                  width: 125,
+                  height: 150,
+                ),
+              ));
 
         default:
           return Container();
