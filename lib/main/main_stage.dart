@@ -498,7 +498,7 @@ class _MainHomeState extends State<MainHome> {
                           'Good day, $nickname!\nKeep it up!',
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 14,
+                            fontSize: 11,
                             fontWeight: FontWeight.w800,
                           ),
                           textAlign: TextAlign.center,

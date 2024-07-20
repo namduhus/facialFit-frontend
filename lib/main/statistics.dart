@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:SmileHelper/css/screen.dart'; // BaseScreen import
 import 'package:shimmer/shimmer.dart'; // Shimmer effect
+
 import 'package:animated_button/animated_button.dart'; // Animated Button
 import 'package:SmileHelper/main/second_page.dart'; // 두 번째 페이지 import
 
@@ -173,11 +174,41 @@ class _StatisticsPageState extends State<StatisticsPage> {
                   ),
                 ),
               ),
+              if (selectedExpressionType != ExpressionType.ALL) ...[
+                SizedBox(height: 10),
+                Container(
+                  height: 200,
+                  child: LineChart(_createLineChartData()),
+                ),
+              ],
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildLegendItem(Colors.blue, 'Success'),
+                  SizedBox(width: 10),
+                  _buildLegendItem(Colors.red, 'Fail'),
+                ],
+              ),
             ],
           ),
         ),
       );
     }).toList();
+  }
+
+  Widget _buildLegendItem(Color color, String text) {
+    return Row(
+      children: [
+        Container(
+          width: 16,
+          height: 16,
+          color: color,
+        ),
+        SizedBox(width: 5),
+        Text(text, style: TextStyle(fontSize: 14, color: Colors.black)),
+      ],
+    );
   }
 
   List<PieChartSectionData> _createPieSections(Map<String, dynamic> data) {
@@ -206,6 +237,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
     ];
   }
 
+
   Widget _buildNavigationButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
@@ -215,6 +247,67 @@ class _StatisticsPageState extends State<StatisticsPage> {
         );
       },
       child: Text('Go to Second Page'),
+
+  LineChartData _createLineChartData() {
+    // Mock data for the last 7 days
+    DateTime now = DateTime(2024, 7, 19);
+    List<FlSpot> spots = List.generate(7, (index) {
+      DateTime date = now.subtract(Duration(days: 6 - index));
+      double successRate = (50 + index * 5) / 100; // Mock success rate data
+      return FlSpot(index.toDouble(), successRate);
+    });
+
+    return LineChartData(
+      gridData: FlGridData(show: true),
+      titlesData: FlTitlesData(
+        leftTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 28,
+            interval: 0.1,
+            getTitlesWidget: (value, meta) {
+              return Text(
+                '${(value * 100).toInt()}%',
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                ),
+              );
+            },
+          ),
+        ),
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false), // Hide right titles
+        ),
+        topTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false), // Hide top titles
+        ),
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            getTitlesWidget: (value, meta) {
+              DateTime date = now.subtract(Duration(days: 6 - value.toInt()));
+              return Text(
+                '${date.month}/${date.day}',
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+      borderData: FlBorderData(show: true),
+      lineBarsData: [
+        LineChartBarData(
+          spots: spots,
+          isCurved: true,
+          barWidth: 2,
+          color: Colors.green,
+        ),
+      ],
+ main
     );
   }
 }

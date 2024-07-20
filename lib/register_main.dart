@@ -369,6 +369,34 @@ class RegisterFormState extends State<RegisterMain> {
                         ),
                       ),
                     ),
+                    SizedBox(height: 20), // 간격 조정
+                    ElevatedButton(
+                      onPressed: () async {
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Survey(registrationData: {})),
+                        );
+                        // Handle survey result if needed
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        padding: EdgeInsets.symmetric(horizontal: 55, vertical: 15),
+                        textStyle: TextStyle(fontSize: 15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          side: BorderSide(color: Color(0xFF8B4513), width: 2),
+                        ),
+                      ),
+                      child: Text(
+                        'Go to Survey',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xFF8B4513),
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
                     SizedBox(height: 30), // 간격 조정
                     ElevatedButton(
                       onPressed: _isLoading
@@ -414,33 +442,6 @@ class RegisterFormState extends State<RegisterMain> {
                       )
                           : Text(
                         'Register',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 20), // 간격 조정
-                    ElevatedButton(
-                      onPressed: () async {
-                        final result = await Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Survey(registrationData: {})),
-                        );
-                        // Handle survey result if needed
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF8B4513),
-                        padding: EdgeInsets.symmetric(horizontal: 55, vertical: 15),
-                        textStyle: TextStyle(fontSize: 24),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                      ),
-                      child: Text(
-                        'Go to Survey',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,
