@@ -62,7 +62,6 @@ dependencies:
   flutter_neumorphic: ^3.1.0
   smooth_page_indicator: ^1.2.0
   google_fonts: ^6.2.1
-  animated_splash_screen: ^1.0.1+2
 
 dev_dependencies:
   flutter_test:
@@ -114,8 +113,6 @@ flutter:
     - assets/images/speech_bubble.png
 
     - assets/images/stage1.png
-=======
-
     - assets/Fun.mp3
     - assets/clear.mp3
     - assets/fail.mp3

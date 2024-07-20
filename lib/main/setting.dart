@@ -213,7 +213,7 @@ class _SettingState extends State<Setting> {
     );
   }
 
-  Widget buildShimmerButton(BuildContext context, String text, VoidCallback onPressed) {
+  Widget buildShimmerButton(BuildContext context, String text, VoidCallback onPressed, {required Text child, required ButtonStyle style}) {
     return Container(
       height: 50, // 버튼 높이 설정
       child: ElevatedButton(
