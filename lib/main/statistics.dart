@@ -6,9 +6,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:SmileHelper/css/screen.dart'; // BaseScreen import
 import 'package:shimmer/shimmer.dart'; // Shimmer effect
 
-import 'package:animated_button/animated_button.dart'; // Animated Button
-import 'package:SmileHelper/main/second_page.dart'; // 두 번째 페이지 import
-
 enum ExpressionType {
   ALL,
   RAISE_EYEBROWS,
@@ -33,15 +30,15 @@ extension ExpressionTypeExtension on ExpressionType {
       case ExpressionType.BLINK:
         return 'BLINK';
       case ExpressionType.PUFF_CHEEKS:
-      return 'PUFF_CHEEKS';
+        return 'PUFF_CHEEKS';
       case ExpressionType.PUCKER_LIPS:
-      return 'PUCKER_LIPS';
+        return 'PUCKER_LIPS';
       case ExpressionType.OPEN_MOUTH:
-      return 'OPEN_MOUTH';
+        return 'OPEN_MOUTH';
       case ExpressionType.SURPRISE:
-      return 'SURPRISE';
+        return 'SURPRISE';
       case ExpressionType.TEMP1:
-      return 'TEMP1';
+        return 'TEMP1';
       default:
         return '';
     }
@@ -100,8 +97,6 @@ class _StatisticsPageState extends State<StatisticsPage> {
                   _buildDropdown(),
                   SizedBox(height: 20),
                   ..._buildStatisticsCards(filteredData),
-                  SizedBox(height: 20),
-                  _buildNavigationButton(context),
                 ],
               ),
             ),
@@ -237,17 +232,6 @@ class _StatisticsPageState extends State<StatisticsPage> {
     ];
   }
 
-
-  Widget _buildNavigationButton(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => SecondPage()),
-        );
-      },
-      child: Text('Go to Second Page'),
-
   LineChartData _createLineChartData() {
     // Mock data for the last 7 days
     DateTime now = DateTime(2024, 7, 19);
@@ -307,7 +291,6 @@ class _StatisticsPageState extends State<StatisticsPage> {
           color: Colors.green,
         ),
       ],
- main
     );
   }
 }

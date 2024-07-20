@@ -8,6 +8,5 @@ class GlobalBindings extends Bindings {
   @override
   void dependencies() async {
     _cameras = await availableCameras();
-    Get.lazyPut<ScanController>(() => ScanController(cameras: _cameras));
   }
 }
