@@ -6,6 +6,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:SmileHelper/css/screen.dart'; // BaseScreen import
 import 'package:shimmer/shimmer.dart'; // Shimmer effect
 import 'package:animated_button/animated_button.dart'; // Animated Button
+import 'package:SmileHelper/main/second_page.dart'; // 두 번째 페이지 import
 
 enum ExpressionType {
   ALL,
@@ -98,6 +99,8 @@ class _StatisticsPageState extends State<StatisticsPage> {
                   _buildDropdown(),
                   SizedBox(height: 20),
                   ..._buildStatisticsCards(filteredData),
+                  SizedBox(height: 20),
+                  _buildNavigationButton(context),
                 ],
               ),
             ),
@@ -201,6 +204,18 @@ class _StatisticsPageState extends State<StatisticsPage> {
         titleStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
       ),
     ];
+  }
+
+  Widget _buildNavigationButton(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SecondPage()),
+        );
+      },
+      child: Text('Go to Second Page'),
+    );
   }
 }
 

@@ -35,7 +35,6 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
-  flutter_native_splash: ^2.4.0
   table_calendar: ^3.1.2
   intl: ^0.19.0
   camera: ^0.11.0+1
@@ -64,6 +63,7 @@ dependencies:
   flutter_neumorphic: ^3.1.0
   smooth_page_indicator: ^1.2.0
   google_fonts: ^6.2.1
+  animated_splash_screen: ^1.0.1+2
 
 dev_dependencies:
   flutter_test:
@@ -113,10 +113,12 @@ flutter:
     - assets/images/test.png
     - assets/images/calendar.png
     - assets/images/speech_bubble.png
+    - assets/images/stage1.png
     - assets/Fun.mp3
     - assets/clear.mp3
     - assets/fail.mp3
     - assets/prolog.mp4
+    - assets/splash.mp4
     - assets/gifs/
     - assets/video2.mp4
     - assets/gifs/mypage.gif

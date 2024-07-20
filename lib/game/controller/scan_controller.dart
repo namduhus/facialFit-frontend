@@ -315,7 +315,7 @@ class ScanController extends GetxController {
           //if (correct.value > wrong.value) { //값이 2씩 올라가긴한다
           Logger().e('성공이동');
 
-          Get.to(StageClear());
+          Get.to(StageClear1());
         } else {
           Logger().e('실패이동');
 

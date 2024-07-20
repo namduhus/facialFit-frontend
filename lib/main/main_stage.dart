@@ -19,6 +19,7 @@ import 'package:SmileHelper/Service/MlkitService.dart';
 import 'package:SmileHelper/game/mlkit/file_utils.dart'; // 좌표 저장 함수가 있는 파일
 import 'package:SmileHelper/css/screen_home.dart'; // BaseScreen 파일 import
 import 'package:shimmer/shimmer.dart';
+import 'second_page.dart'; // second_page.dart import
 
 class MainHome extends StatefulWidget {
   @override
@@ -294,9 +295,35 @@ class _MainHomeState extends State<MainHome> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                buildShimmerButton(context, 'Story Mode', Prolog()),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFF8B4513),
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                    textStyle: TextStyle(fontSize: 18),
+                  ),
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    await _audioService.stopBackgroundMusic(); // 배경음악 멈추기
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Prolog()),
+                    );
+                  },
+                  child:
+                  Text('Story Mode', style: TextStyle(color: Colors.white)),
+                ),
                 SizedBox(height: 20),
-                buildShimmerButton(context, 'Bonus Mode', BonusGame()),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFF8B4513),
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                    textStyle: TextStyle(fontSize: 18),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => BonusGame()));
+                  },
+                  child: Text('Bonus Mode', style: TextStyle(color: Colors.white)),
+                ),
               ],
             ),
           ),
@@ -328,7 +355,7 @@ class _MainHomeState extends State<MainHome> {
     final faceData = await detectFaceLandmarks(imageFile);
     if (faceData.isNotEmpty) {
       final fileName = imageFile.path.split('/').last.split('.').first;
-      final landmarksFilePath = '$dirPath/$fileName.txt';
+      final landmarksFilePath = '$dirPath/$userId.txt'; // 사용자 ID를 파일 이름으로 사용
       await saveLandmarksToFile(faceData, landmarksFilePath);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Landmark and contour coordinates have been saved: $landmarksFilePath')),
@@ -543,6 +570,17 @@ class _MainHomeState extends State<MainHome> {
                         IconButton(
                           icon: Icon(Icons.camera_alt),
                           onPressed: _takePicture,
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.photo),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SecondPage(),
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
