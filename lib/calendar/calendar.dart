@@ -192,27 +192,9 @@ class _CalendarPageState extends State<CalendarPage> {
                                   return Container(
                                     margin: EdgeInsets.only(top: 40.h),
                                     child: Image.asset(
-                                      'assets/images/calendar_check.png',
-                                      width: 15.sp,
-                                      height: 15.sp,
-                                    ),
-                                  );
-                                } else if (key['iconIndex'] == 2) {
-                                  return Container(
-                                    margin: EdgeInsets.only(top: 40.h),
-                                    child: Image.asset(
-                                      'assets/images/calendar_story_mode.png',
-                                      width: 15.sp,
-                                      height: 15.sp,
-                                    ),
-                                  );
-                                } else if (key['iconIndex'] == 3) {
-                                  return Container(
-                                    margin: EdgeInsets.only(top: 40.h),
-                                    child: Image.asset(
-                                      'assets/images/calendar_bonus_mode.png',
-                                      width: 15.sp,
-                                      height: 15.sp,
+                                      'assets/images/stamp.png',
+                                      width: 45.sp,
+                                      height: 45.sp,
                                     ),
                                   );
                                 } else {
@@ -268,10 +250,6 @@ class _CalendarPageState extends State<CalendarPage> {
                             String description = '';
                             if (event_icon_index['iconIndex'] == 1) {
                               description = 'Attendance';
-                            } else if (event_icon_index['iconIndex'] == 2) {
-                              description = 'Story Mode Clear';
-                            } else if (event_icon_index['iconIndex'] == 3) {
-                              description = 'Bonus Mode Clear';
                             }
                             return Container(
                               margin: const EdgeInsets.symmetric(
@@ -286,21 +264,11 @@ class _CalendarPageState extends State<CalendarPage> {
                                 title: Text(description),
                                 trailing: event_icon_index['iconIndex'] == 1
                                     ? Image.asset(
-                                        'assets/images/calendar_check.png',
+                                        'assets/images/stamp.png',
                                         width: 20.sp,
                                         height: 20.sp,
                                       )
-                                    : event_icon_index['iconIndex'] == 2
-                                        ? Image.asset(
-                                            'assets/images/calendar_story_mode.png',
-                                            width: 20.sp,
-                                            height: 20.sp,
-                                          )
-                                        : Image.asset(
-                                            'assets/images/calendar_bonus_mode.png',
-                                            width: 20.sp,
-                                            height: 20.sp,
-                                          ),
+                                    : null,
                               ),
                             );
                           },

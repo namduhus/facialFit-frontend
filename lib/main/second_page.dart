@@ -9,7 +9,7 @@ class SecondPage extends StatefulWidget {
 }
 
 class _SecondPageState extends State<SecondPage> {
-  Map<String, List<Offset>> _coordinatesMap = {
+  final Map<String, List<Offset>> _coordinatesMap = {
     'landmarks': [],
     'face': [],
     'leftEyebrowTop': [],
@@ -102,7 +102,7 @@ class _SecondPageState extends State<SecondPage> {
 
     if (userId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('사용자 ID를 찾을 수 없습니다. 다시 로그인해 주세요.')),
+        SnackBar(content: Text('The user ID cannot be found. Please log in again.')),
       );
       setState(() {
         _isLoading = false;

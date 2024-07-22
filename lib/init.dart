@@ -93,27 +93,6 @@ class Appinit extends StatelessWidget {
                               ),
                             ),
                           ),
-
-                          /*
-                          Positioned(
-                            left: 198,
-                            top: 504,
-                            child: SizedBox(
-                              width: 103,
-                              height: 43,
-                              child: Text(
-                                'Login',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 35,
-                                  fontFamily: 'ABeeZee',
-                                  fontWeight: FontWeight.w400,
-                                  height: 0,
-                                ),
-                              ),
-                            ),
-                          ),
-            */
                           //    회원가입
                           Positioned(
                             left: 141,
@@ -155,28 +134,6 @@ class Appinit extends StatelessWidget {
                                       )),
                                 )),
                           ),
-
-                          /*
-                          Positioned(
-                            left: 170,
-                            top: 269,
-                            child: SizedBox(
-                              width: 139,
-                              height: 45,
-                              child: Text(
-                                'Regitser',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 35,
-                                  fontFamily: 'ABeeZee',
-                                  fontWeight: FontWeight.w400,
-                                  height: 0,
-                                ),
-                              ),
-                            ),
-                          ),
-                          */
-
                           Positioned(
                             left: 89,
                             top: 40,

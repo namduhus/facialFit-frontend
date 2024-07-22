@@ -359,7 +359,7 @@ class ShopState extends State<ShopMain> {
       height: 50, // 버튼 높이 설정
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.black,
+          foregroundColor: Colors.white,
           backgroundColor: Color(0xFF8B4513), // 버튼 배경색을 흰색으로 설정
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15), // 버튼을 둥글게 설정
@@ -367,18 +367,14 @@ class ShopState extends State<ShopMain> {
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20), // 패딩 조정
         ),
         onPressed: onPressed,
-        child: Shimmer.fromColors(
-          baseColor: Colors.white,
-          highlightColor: Color(0xFFD2691E),
           child: Text(
             text,
             style: TextStyle(
-              fontSize: 12,
+              fontSize: 15,
               fontWeight: FontWeight.bold,
             ),
           ),
         ),
-      ),
     );
   }
 }
@@ -424,7 +420,7 @@ class ShopItem extends StatelessWidget {
             Expanded(
               child: Image.asset(imagePath, fit: BoxFit.cover),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 20),
             Text(
               itemName,
               style: TextStyle(
@@ -433,7 +429,7 @@ class ShopItem extends StatelessWidget {
                 color: Colors.black, // 텍스트 색상 설정
               ),
             ),
-            SizedBox(height: 5),
+            SizedBox(height: 10),
             Image.asset(
               itemPriceImage,
               width: 50,

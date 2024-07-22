@@ -61,11 +61,6 @@ class HardModeScreen extends StatelessWidget {
         ],
       ),
     );
-
-
-
-
-
   }
 }
 
