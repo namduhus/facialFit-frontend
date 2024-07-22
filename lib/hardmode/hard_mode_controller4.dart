@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:SmileHelper/game/result/stageclear4.dart';
 import 'package:SmileHelper/game/result/stagefail4.dart';
 import 'package:camera/camera.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:logger/logger.dart';
@@ -11,8 +10,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import '../game/result/stageclear1.dart';
-import '../game/result/stagefail1.dart';
 
 class HardModeController4 extends GetxController {
   late List<CameraDescription> _cameras;

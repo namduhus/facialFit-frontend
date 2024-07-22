@@ -1,6 +1,4 @@
 import 'package:SmileHelper/global_binding.dart';
-import 'package:SmileHelper/game/camera_screen.dart';
-import 'package:SmileHelper/game/camera_view.dart';
 import 'package:SmileHelper/main/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:SmileHelper/survey.dart';
@@ -20,7 +18,6 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'calendar/calendar.dart';
 import 'game/result/stageclear1.dart';
 import 'game/result/stagefail1.dart';
-import 'package:SmileHelper/game/story/start.dart';
 import 'package:SmileHelper/game/story/story_stage.dart';
 import 'package:SmileHelper/game/story/prolog.dart';
 import 'package:SmileHelper/game/bonus/bonus_game.dart';

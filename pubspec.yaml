@@ -60,7 +60,7 @@ dependencies:
   flutter_spinkit: ^5.0.0
   rive: ^0.13.9
   flutter_neumorphic: ^3.1.0
-  smooth_page_indicator: ^1.2.0
+  smooth_page_indicator: ^1.2.0+3
   google_fonts: ^6.2.1
 
 dev_dependencies:

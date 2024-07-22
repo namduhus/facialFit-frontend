@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:SmileHelper/game/controller/coordinates_translator.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';

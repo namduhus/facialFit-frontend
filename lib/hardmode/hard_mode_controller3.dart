@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:SmileHelper/game/result/stageclear3.dart';
 import 'package:SmileHelper/game/result/stagefail3.dart';
 import 'package:camera/camera.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:logger/logger.dart';

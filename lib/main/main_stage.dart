@@ -124,7 +124,7 @@ class _MainHomeState extends State<MainHome> {
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('사용자 ID를 찾을 수 없습니다. 다시 로그인해 주세요.')),
+        SnackBar(content: Text('User ID not found. Please log in again.')),
       );
     }
   }
@@ -132,7 +132,7 @@ class _MainHomeState extends State<MainHome> {
   Future<void> _takePicture() async {
     if (userId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('사용자 ID를 찾을 수 없습니다. 다시 로그인해 주세요.')),
+        SnackBar(content: Text('User ID not found. Please log in again.')),
       );
       return;
     }
@@ -158,7 +158,7 @@ class _MainHomeState extends State<MainHome> {
 
         File(image.path).copy(filePath).then((file) async {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('사진이 저장되었습니다: $filePath')),
+            SnackBar(content: Text('The photo has been saved.: $filePath')),
           );
           // API 호출
           await _uploadPhoto(userId!, filePath);
@@ -173,7 +173,7 @@ class _MainHomeState extends State<MainHome> {
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('카메라 또는 저장소 권한이 필요합니다.')),
+        SnackBar(content: Text('Camera or storage permission is required.')),
       );
     }
   }
@@ -430,7 +430,7 @@ class _MainHomeState extends State<MainHome> {
                       ),
                     ),
                   ),
-                  SizedBox(height: screenHeight * 0.3),
+                  SizedBox(height: screenHeight * 0.5),
                   Positioned(
                     left: 0,
                     top: screenHeight * 0.83,

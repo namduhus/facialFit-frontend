@@ -1,13 +1,7 @@
 import 'dart:convert';
-
-import 'dart:io';
-import 'dart:typed_data';
 import 'package:camera/camera.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' show utf8;
 
 class Getpredict {
