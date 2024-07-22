@@ -18,7 +18,6 @@ class HardModeController extends GetxController {
   final RxInt _countdown = RxInt(5);
   final RxString _message = RxString('');
   final RxBool _isCapturing = RxBool(false);
-  final Rx<Rect?> _faceRect = Rx<Rect?>(null);
 
   CameraController get cameraController => _cameraController;
 
@@ -32,7 +31,6 @@ class HardModeController extends GetxController {
 
   bool get isCapturing => _isCapturing.value;
 
-  Rect? get faceRect => _faceRect.value;
 
   final List<String> allExpressions = [
     'SURPRISE',
@@ -162,7 +160,6 @@ class HardModeController extends GetxController {
           next.boundingBox.width * next.boundingBox.height ? curr : next
       );
 
-      _faceRect.value = largestFace.boundingBox; // 얼굴의 경계를 설정
 
       bool isExpressionCorrect = _validateExpression(
           largestFace, _currentExpression.value);

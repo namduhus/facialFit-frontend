@@ -22,7 +22,6 @@ class HardModeController6 extends GetxController {
   final RxInt _correctExpressions = RxInt(0);
   final RxString _feedbackMessage = RxString('');
   final RxInt _totalExpressions = RxInt(3);
-  final Rx<Rect?> _faceRect = Rx<Rect?>(null);
   CameraController get cameraController => _cameraController;
   bool get isInitialized => _isInitialized.value;
   List<String> get currentExpressions => _currentExpressions;
@@ -31,7 +30,6 @@ class HardModeController6 extends GetxController {
   bool get isCapturing => _isCapturing.value;
   String get feedbackMessage => _feedbackMessage.value;
   int get totalExpressions => _totalExpressions.value;
-  Rect? get faceRect => _faceRect.value;
   final List<String> allExpressions = [
     'SURPRISE', 'OPEN_MOUTH', 'BLINK', 'RAISE_EYEBROWS', 'PUFF_CHEEKS', 'PUCKER_LIPS', 'TEMP1'
   ];
@@ -158,7 +156,6 @@ RxString currentExpression = ''.obs;
           next.boundingBox.width * next.boundingBox.height ? curr : next
       );
 
-      _faceRect.value = largestFace.boundingBox;
 
 
       final face = faces.first;
