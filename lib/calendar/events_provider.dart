@@ -29,13 +29,13 @@ class EventsProvider extends ChangeNotifier {
       if (events[dayData]!.length < 3) {
         events[dayData]!.add(eventContents);
       } else {
-        return '초과';
+        return 'Exceeded';
       }
     } else {
       events[dayData] = [eventContents];
     }
     notifyListeners();
-    return '성공';
+    return 'Success';
   }
 
   void deleteEvents(DateTime? selectedDay, int index) {

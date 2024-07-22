@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:SmileHelper/css/screen.dart'; // BaseScreen import
-
 import '../../hardmode/hard_mode_screen.dart'; // Get 패키지 import
 import 'finish.dart'; // FinishPage import
 

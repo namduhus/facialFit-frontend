@@ -70,6 +70,7 @@ class HardModeScreen extends StatelessWidget {
         ],
       ),
     );
+
   }
 
   Widget _showExpress(String expression) {
@@ -135,6 +136,8 @@ class FaceOutlinePainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return true;
+
+
   }
 }
 

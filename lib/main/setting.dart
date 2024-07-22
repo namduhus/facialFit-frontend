@@ -3,7 +3,6 @@ import 'package:SmileHelper/main/main_stage.dart'; // MainHome import
 import 'package:SmileHelper/shop/shop_main.dart'; // ShopMain import
 import 'package:SmileHelper/main/mypage.dart'; // MyPage import
 import 'package:SmileHelper/css/screen.dart'; // BaseScreen import
-import 'package:shimmer/shimmer.dart';
 
 class Setting extends StatefulWidget {
   @override
@@ -218,7 +217,7 @@ class _SettingState extends State<Setting> {
       height: 50, // 버튼 높이 설정
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.black,
+          foregroundColor: Colors.white,
             backgroundColor: Color(0xFF8B4513), // 버튼 배경색을 흰색으로 설정
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15), // 버튼을 둥글게 설정
@@ -226,18 +225,14 @@ class _SettingState extends State<Setting> {
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20), // 패딩 조정
         ),
         onPressed: onPressed,
-        child: Shimmer.fromColors(
-          baseColor: Colors.white,
-          highlightColor: Color(0xFFD2691E),
           child: Text(
             text,
             style: TextStyle(
-              fontSize: 12,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),
         ),
-      ),
     );
   }
 

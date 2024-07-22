@@ -4,12 +4,9 @@ import 'dart:math';
 import 'package:SmileHelper/game/result/stageclear2.dart';
 import 'package:SmileHelper/game/result/stagefail2.dart';
 import 'package:camera/camera.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:logger/logger.dart';
-import 'package:SmileHelper/game/result/stageclear1.dart';
-import 'package:SmileHelper/game/result/stagefail1.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
