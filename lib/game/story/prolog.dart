@@ -55,6 +55,20 @@ class _PrologPageState extends State<Prolog> {
                 : CircularProgressIndicator(),
           ),
           Positioned(
+              bottom: 33, // 폰 맞춰서 조정
+              right: 130, //          조정
+              child: Shimmer.fromColors(
+                baseColor: Colors.white,
+                highlightColor: Color(0xFFD2691E),
+                child: Text(
+                  "SKIP! ->",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              )),
+          Positioned(
             bottom: 20,
             right: 20,
             child: buildShimmerButton(context, 'Stage', _navigateToStage),
@@ -64,7 +78,8 @@ class _PrologPageState extends State<Prolog> {
     );
   }
 
-  Widget buildShimmerButton(BuildContext context, String text, VoidCallback onPressed) {
+  Widget buildShimmerButton(
+      BuildContext context, String text, VoidCallback onPressed) {
     return Container(
       height: 50, // 버튼 높이 설정
       child: ElevatedButton(
