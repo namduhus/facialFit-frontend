@@ -87,12 +87,46 @@ class _StoryStageState extends State<StoryStage> {
   }
 
   void _showStageDialog(int stage, Function navigateToStage) {
+    String title;
+    String content;
+
+    switch (stage) {
+      case 1:
+        title = 'Stage 1';
+        content = 'There is only one facial expression given on stage one.\nPlease copy the expression in 5 seconds.\n Are you ready?';
+        break;
+      case 2:
+        title = 'Stage 2';
+        content = 'Stage 2 has two facial expressions.\nPlease copy the expression in 5 seconds. \nAre you ready?';
+        break;
+      case 3:
+        title = 'Stage 3';
+        content = 'Stage 3 has two facial expressions.\nPlease copy the expression in 5 seconds. \nAre you ready?';
+        break;
+      case 4:
+        title = 'Stage 4';
+        content = 'Stage 4 has three facial expressions.\nPlease copy the expression in 5 seconds. \nAre you ready?';
+        break;
+      case 5:
+        title = 'Stage 5';
+        content = 'Stage 5 has three facial expressions.\nPlease copy the expression in 5 seconds. \nAre you ready?';
+        break;
+      case 6:
+        title = 'Stage 6';
+        content = 'Stage 6 has three facial expressions.\nPlease copy the expression in 5 seconds. \nAre you ready?';
+        break;
+      default:
+        title = 'Stage';
+        content = 'Get ready for the stage. Follow the instructions given.';
+        break;
+    }
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Stage $stage'),
-          content: Text('There is one question for stage $stage. If you follow the expression presented in 5 seconds, you\'ll get it right?'),
+          title: Text(title),
+          content: Text(content),
           actions: [
             TextButton(
               child: Text('Cancel'),

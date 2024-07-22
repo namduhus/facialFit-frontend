@@ -23,7 +23,7 @@ class HardModeController5 extends GetxController {
   final RxInt _correctExpressions = RxInt(0);
   final RxString _feedbackMessage = RxString('');
   final RxInt _totalExpressions = RxInt(3);
-
+  final Rx<Rect?> _faceRect = Rx<Rect?>(null);
   CameraController get cameraController => _cameraController;
   bool get isInitialized => _isInitialized.value;
   List<String> get currentExpressions => _currentExpressions;
@@ -32,7 +32,7 @@ class HardModeController5 extends GetxController {
   bool get isCapturing => _isCapturing.value;
   String get feedbackMessage => _feedbackMessage.value;
   int get totalExpressions => _totalExpressions.value;
-
+  Rect? get faceRect => _faceRect.value;
   final List<String> allExpressions = [
     'SURPRISE', 'OPEN_MOUTH', 'BLINK', 'RAISE_EYEBROWS', 'PUFF_CHEEKS', 'PUCKER_LIPS', 'TEMP1'
   ];
@@ -92,8 +92,9 @@ class HardModeController5 extends GetxController {
 
   void _updateMessage() {
     _message.value = 'FACE ${_currentExpressionIndex.value + 1}: ${_currentExpressions[_currentExpressionIndex.value]}';
+    currentExpression.value = _currentExpressions.value[_currentExpressionIndex.value];
   }
-
+RxString currentExpression = ''.obs;
   void _startCountdown() {
     _countdown.value = 5;
     _isCapturing.value = true;
@@ -107,6 +108,39 @@ class HardModeController5 extends GetxController {
     });
   }
 
+  Future<void> saveStatistics(String userId, String expressionType, int successCount, int failCount) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? accessToken = prefs.getString('accessToken');
+    String date = DateTime.now().toIso8601String(); // 현재 날짜와 시간을 ISO 8601 형식으로 저장
+
+    if (accessToken != null) {
+      final response = await http.post(
+        Uri.parse('http://34.47.88.29:8082/api/statistics/save?id=$userId'),
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+          'Authorization': 'Bearer $accessToken',
+        },
+        body: jsonEncode([
+          {
+            'expressionType': expressionType,
+            'successCount': successCount,
+            'failCount': failCount,
+            'date': date, // 날짜 추가
+          }
+        ]),
+      );
+
+      if (response.statusCode == 200) {
+        print('통계가 성공적으로 저장되었습니다.');
+      } else {
+        print('통계 저장 실패: ${response.statusCode}');
+        print('Response body: ${response.body}');
+      }
+    } else {
+      print('액세스 토큰을 찾을 수 없습니다.');
+    }
+  }
+
   Future<void> _captureAndAnalyze() async {
     try {
       final image = await _cameraController.takePicture();
@@ -114,16 +148,27 @@ class HardModeController5 extends GetxController {
       final faces = await _faceDetector.processImage(inputImage);
 
       if (faces.isEmpty) {
-        _feedbackMessage.value = 'Cheer Up...!';
+        _feedbackMessage.value = 'No face detected. Please try again.';
         _showFeedback(false);
         return;
       }
+
+      // 가장 큰 얼굴 선택
+      Face largestFace = faces.reduce((curr, next) =>
+      curr.boundingBox.width * curr.boundingBox.height >
+          next.boundingBox.width * next.boundingBox.height ? curr : next
+      );
+
+
+      _faceRect.value = largestFace.boundingBox; // 얼굴의 경계를 설정
 
       final face = faces.first;
       bool isExpressionCorrect = _validateExpression(face, _currentExpressions[_currentExpressionIndex.value]);
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? userId = prefs.getString('userId');
+
+      String date = DateTime.now().toIso8601String(); // 현재 날짜와 시간을 ISO 8601 형식으로 저장
 
       if (isExpressionCorrect) {
         _correctExpressions.value++;
@@ -143,37 +188,6 @@ class HardModeController5 extends GetxController {
       Logger().e('Error during capture and analysis: $e');
       _feedbackMessage.value = '오류가 발생했습니다.';
       _showFeedback(false);
-    }
-  }
-
-  Future<void> saveStatistics(String userId, String expressionType, int successCount, int failCount) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? accessToken = prefs.getString('accessToken');
-
-    if (accessToken != null) {
-      final response = await http.post(
-        Uri.parse('http://34.47.88.29:8082/api/statistics/save?id=$userId'),
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-          'Authorization': 'Bearer $accessToken',
-        },
-        body: jsonEncode([
-          {
-            'expressionType': expressionType,
-            'successCount': successCount,
-            'failCount': failCount
-          }
-        ]),
-      );
-
-      if (response.statusCode == 200) {
-        print('통계가 성공적으로 저장되었습니다.');
-      } else {
-        print('통계 저장 실패: ${response.statusCode}');
-        print('Response body: ${response.body}');
-      }
-    } else {
-      print('액세스 토큰을 찾을 수 없습니다.');
     }
   }
 

@@ -166,9 +166,11 @@ class _MainHomeState extends State<MainHome> {
             _imageFile = file; // 이미지 파일 갱신
           });
           // 랜드마크 디렉토리 설정
-          final String newDirPath = '${externalDir!.path}/MyAppImages/Landmarks';
+          final String newDirPath =
+              '${externalDir!.path}/MyAppImages/Landmarks';
           await Directory(newDirPath).create(recursive: true);
-          await _processAndSaveLandmarks(file, newDirPath); // 추가된 코드: newDirPath 전달
+          await _processAndSaveLandmarks(
+              file, newDirPath); // 추가된 코드: newDirPath 전달
         });
       }
     } else {
@@ -320,9 +322,11 @@ class _MainHomeState extends State<MainHome> {
                     textStyle: TextStyle(fontSize: 18),
                   ),
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => BonusGame()));
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => BonusGame()));
                   },
-                  child: Text('Bonus Mode', style: TextStyle(color: Colors.white)),
+                  child:
+                  Text('Bonus Mode', style: TextStyle(color: Colors.white)),
                 ),
               ],
             ),
@@ -358,7 +362,9 @@ class _MainHomeState extends State<MainHome> {
       final landmarksFilePath = '$dirPath/$userId.txt'; // 사용자 ID를 파일 이름으로 사용
       await saveLandmarksToFile(faceData, landmarksFilePath);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Landmark and contour coordinates have been saved: $landmarksFilePath')),
+        SnackBar(
+            content: Text(
+                'Landmark and contour coordinates have been saved: $landmarksFilePath')),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -423,7 +429,8 @@ class _MainHomeState extends State<MainHome> {
                         height: screenHeight * 0.6,
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage("assets/images/main_character.png"),
+                            image:
+                            AssetImage("assets/images/main_character.png"),
                             fit: BoxFit.contain,
                           ),
                         ),
@@ -461,23 +468,31 @@ class _MainHomeState extends State<MainHome> {
                   Positioned(
                     left: screenWidth * 0.06,
                     top: screenHeight * 0.02,
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          'assets/images/coin.png',
-                          width: 30,
-                          height: 30,
-                        ),
-                        SizedBox(width: 10),
-                        Text(
-                          '$userCoins',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                    child: Container(
+                      padding: EdgeInsets.all(10.0), // 내부 여백 추가
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 255, 237, 225), // 살구색 배경
+                        borderRadius:
+                        BorderRadius.circular(5.0), // 모서리 둥글게 설정 (선택 사항)
+                      ),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'assets/images/coin.png',
+                            width: 30,
+                            height: 30,
                           ),
-                        ),
-                      ],
+                          SizedBox(width: 10),
+                          Text(
+                            '$userCoins',
+                            style: TextStyle(
+                              color: Color(0xFFD2691E),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Positioned(
@@ -493,9 +508,10 @@ class _MainHomeState extends State<MainHome> {
                         ),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 10.0), // 좌측, 상단, 우측, 하단 패딩 설정
+                        padding: EdgeInsets.fromLTRB(
+                            10.0, 20.0, 10.0, 10.0), // 좌측, 상단, 우측, 하단 패딩 설정
                         child: Text(
-                          'Good day, $nickname!\nKeep it up!',
+                          'Good day, \n$nickname!\nKeep it up!\n\nTOUCH ME !!!',
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 11,
@@ -509,80 +525,98 @@ class _MainHomeState extends State<MainHome> {
                   Positioned(
                     right: screenWidth * 0.001,
                     top: screenHeight * 0.01, // AppBar 바로 아래
-                    child: Row(
-                      children: [
-                        IconButton(
-                          icon: Container(
-                            width: 33.0,  // 원하는 너비로 설정
-                            height: 33.0, // 원하는 높이로 설정
-                            child: Image.asset('assets/images/Quest2.png'),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        //배경 추가
+                        color: Color.fromARGB(255, 255, 237, 225), // 전체 배경색 설정
+                        borderRadius:
+                        BorderRadius.circular(5.0), // 모서리 둥글게 설정 (선택 사항)
+                      ),
+                      child: Row(
+                        //container 추가
+                        children: [
+                          IconButton(
+                            icon: Container(
+                              width: 33.0, // 원하는 너비로 설정
+                              height: 33.0, // 원하는 높이로 설정
+                              child: Image.asset('assets/images/Quest2.png'),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => QuestTest2()),
+                              );
+                            },
                           ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => QuestTest2()),
-                            );
-                          },
-                        ),
-                        // calendar 버튼의 onPressed 함수 수정
-                        IconButton(
-                          icon: Container(
-                            width: 33.0,  // 원하는 너비로 설정
-                            height: 33.0, // 원하는 높이로 설정
-                            child: Image.asset('assets/images/calendar.png'),
+                          // calendar 버튼의 onPressed 함수 수정
+                          IconButton(
+                            icon: Container(
+                              width: 33.0, // 원하는 너비로 설정
+                              height: 33.0, // 원하는 높이로 설정
+                              child: Image.asset('assets/images/calendar.png'),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CalendarPage()),
+                              );
+                            },
                           ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CalendarPage()),
-                            );
-                          },
-                        ),
-                        IconButton(
-                          icon: Container(
-                            width: 33.0,  // 원하는 너비로 설정
-                            height: 33.0, // 원하는 높이로 설정
-                            child: Image.asset('assets/images/setting2.png'),
+                          IconButton(
+                            icon: Container(
+                              width: 33.0, // 원하는 너비로 설정
+                              height: 33.0, // 원하는 높이로 설정
+                              child: Image.asset('assets/images/setting2.png'),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Setting()),
+                              );
+                            },
                           ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Setting()),
-                            );
-                          },
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   Positioned(
                     right: screenWidth * 0.001,
                     top: screenHeight * 0.09,
-                    child: Column(
-                      children: [
-                        IconButton(
-                          icon: Icon(
-                              isMuted ? Icons.volume_off : Icons.volume_up),
-                          onPressed: _toggleMute,
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.camera_alt),
-                          onPressed: _takePicture,
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.photo),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SecondPage(),
-                              ),
-                            );
-                          },
-                        ),
-                      ],
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 10.0), // 내부 여백 추가
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 255, 237, 225), // 살구색 배경
+                        borderRadius:
+                        BorderRadius.circular(5.0), // 모서리 둥글게 설정 (선택 사항)
+                      ),
+                      child: Column(
+                        children: [
+                          IconButton(
+                            icon: Icon(
+                                isMuted ? Icons.volume_off : Icons.volume_up),
+                            onPressed: _toggleMute,
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.camera_alt),
+                            onPressed: _takePicture,
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.photo),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SecondPage(),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -600,7 +634,8 @@ class _MainHomeState extends State<MainHome> {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           foregroundColor: Colors.black,
-          backgroundColor: Color(0xFF8B4513), // 버튼 배경색을 흰색으로 설정
+          backgroundColor:
+          Color.fromARGB(255, 255, 237, 225), // 버튼 배경색을 흰색으로 설정  0xFF8B4513
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15), // 버튼을 둥글게 설정
           ),
@@ -613,8 +648,8 @@ class _MainHomeState extends State<MainHome> {
           );
         },
         child: Shimmer.fromColors(
-          baseColor: Colors.white,
-          highlightColor: Color(0xFFD2691E),
+          baseColor: Color(0xFFD2691E), //while
+          highlightColor: Colors.white, //0xFFD2691E
           child: Text(
             text,
             style: TextStyle(

@@ -8,6 +8,7 @@ import 'package:camera/camera.dart';
 import 'package:SmileHelper/game/result/stageclear1.dart';
 import 'package:SmileHelper/game/result/stagefail1.dart';
 import 'package:SmileHelper/css/screen.dart'; // BaseScreen import
+import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 
 class BonusGame extends StatefulWidget {
   @override
@@ -21,6 +22,18 @@ class _BonusGameState extends State<BonusGame> {
   bool isCapturing = false;
   String result = '';
   late CameraController _cameraController;
+  final FaceDetector _faceDetector = FaceDetector(
+    options: FaceDetectorOptions(
+      enableContours: true,
+      enableLandmarks: true,
+      enableClassification: true,
+      enableTracking: true,
+    ),
+
+  );
+
+
+
 
   @override
   void initState() {
@@ -61,6 +74,14 @@ class _BonusGameState extends State<BonusGame> {
     setState(() {
       result = 'Capture complete. Analyzing...';
     });
+    final inputImage = InputImage.fromFilePath(image.path);
+    final faces = await _faceDetector.processImage(inputImage);
+
+
+    Face largestFace = faces.reduce((curr, next) =>
+    curr.boundingBox.width * curr.boundingBox.height >
+        next.boundingBox.width * next.boundingBox.height ? curr : next
+    );
 
     var request = http.MultipartRequest('POST', Uri.parse('http://203.241.246.109:10005/predict'));
     request.files.add(await http.MultipartFile.fromPath('file', image.path));
@@ -176,6 +197,7 @@ class _BonusGameState extends State<BonusGame> {
   @override
   void dispose() {
     _cameraController.dispose();
+    _faceDetector.close();
     super.dispose();
   }
 }
