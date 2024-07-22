@@ -11,6 +11,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shimmer/shimmer.dart';
 import '../calendar/calendar.dart';
 import '../Service/AudioService.dart';
 import 'package:SmileHelper/game/story/prolog.dart'; // Prolog import
@@ -667,6 +668,7 @@ class _MainHomeState extends State<MainHome> {
             ),
           ),
         ),
+      ),
     );
   }
 }

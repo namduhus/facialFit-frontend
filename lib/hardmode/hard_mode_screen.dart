@@ -26,16 +26,7 @@ class HardModeScreen extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            child: Obx(() {
-              if (controller.isInitialized) {
-                return CustomPaint(
-                  painter: FaceOutlinePainter(controller.faceRect),
-                  child: CameraPreview(controller.cameraController),
-                );
-              } else {
-                return Container(color: Colors.black);
-              }
-            }),
+
           ),
           Positioned(
             top: 50,
@@ -157,16 +148,7 @@ class HardModeScreen2 extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            child: Obx(() {
-              if (controller.isInitialized) {
-                return CustomPaint(
-                  painter: FaceOutlinePainter(controller.faceRect),
-                  child: CameraPreview(controller.cameraController),
-                );
-              } else {
-                return Container(color: Colors.black);
-              }
-            }),
+
           ),
           Positioned(
             top: 50,
@@ -270,16 +252,6 @@ class HardModeScreen3 extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            child: Obx(() {
-              if (controller.isInitialized) {
-                return CustomPaint(
-                  painter: FaceOutlinePainter(controller.faceRect),
-                  child: CameraPreview(controller.cameraController),
-                );
-              } else {
-                return Container(color: Colors.black);
-              }
-            }),
           ),
           Positioned(
             top: 50,
@@ -382,16 +354,7 @@ class HardModeScreen4 extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            child: Obx(() {
-              if (controller.isInitialized) {
-                return CustomPaint(
-                  painter: FaceOutlinePainter(controller.faceRect),
-                  child: CameraPreview(controller.cameraController),
-                );
-              } else {
-                return Container(color: Colors.black);
-              }
-            }),
+
           ),
           Positioned(
             top: 50,
@@ -494,16 +457,6 @@ class HardModeScreen5 extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            child: Obx(() {
-              if (controller.isInitialized) {
-                return CustomPaint(
-                  painter: FaceOutlinePainter(controller.faceRect),
-                  child: CameraPreview(controller.cameraController),
-                );
-              } else {
-                return Container(color: Colors.black);
-              }
-            }),
           ),
           Positioned(
             top: 50,
@@ -606,16 +559,6 @@ class HardModeScreen6 extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            child: Obx(() {
-              if (controller.isInitialized) {
-                return CustomPaint(
-                  painter: FaceOutlinePainter(controller.faceRect),
-                  child: CameraPreview(controller.cameraController),
-                );
-              } else {
-                return Container(color: Colors.black);
-              }
-            }),
           ),
           Positioned(
             top: 50,
