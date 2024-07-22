@@ -26,7 +26,13 @@ class HardModeScreen extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-
+            child: Obx(() {
+              if (controller.isInitialized) {
+                return CameraPreview(controller.cameraController);
+              } else {
+                return Container(color: Colors.black);
+              }
+            }),
           ),
           Positioned(
             top: 50,
@@ -53,83 +59,39 @@ class HardModeScreen extends StatelessWidget {
               }
             }),
           ),
-          Positioned(
-            top: 100,
-            right: 30,
-            child: Obx(() => _showExpress(controller.currentExpression)),
-          ),
+          Positioned(top:100,right: 30,child: Obx(()=> _showExpress(controller.currentExpression)),),
+
         ],
       ),
     );
 
-  }
 
+
+
+
+  }
   Widget _showExpress(String expression) {
     switch (expression) {
       case 'SURPRISE':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/surprise.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/surprise.gif", width: 150, height: 150)),);
       case 'OPEN_MOUTH':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/mouth_open.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/mouth_open.gif", width: 150, height: 150)),);
       case 'BLINK':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/eyeclose.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/eyeclose.gif", width: 150, height: 150)),);
       case 'RAISE_EYEBROWS':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/eyebrow.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/eyebrow.gif", width: 150, height: 150)),);
       case 'PUFF_CHEEKS':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/cheek.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/cheek.gif", width: 150, height: 150)),);
       case 'PUCKER_LIPS':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/mouth_close.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/mouth_close.gif", width: 150, height: 150)),);
       case 'TEMP1':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/frown.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/frown.gif", width: 150, height: 150)),);
       default:
         return Container();
     }
   }
-}
-
-class FaceOutlinePainter extends CustomPainter {
-  final Rect? faceRect;
-
-  FaceOutlinePainter(this.faceRect);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    if (faceRect != null) {
-      final paint = Paint()
-        ..color = Colors.red
-        ..strokeWidth = 3.0
-        ..style = PaintingStyle.stroke;
-
-      canvas.drawRect(faceRect!, paint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
 
 
-  }
 }
 
 class HardModeScreen2 extends StatelessWidget {
@@ -148,7 +110,13 @@ class HardModeScreen2 extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-
+            child: Obx(() {
+              if (controller.isInitialized) {
+                return CameraPreview(controller.cameraController);
+              } else {
+                return Container(color: Colors.black);
+              }
+            }),
           ),
           Positioned(
             top: 50,
@@ -183,11 +151,11 @@ class HardModeScreen2 extends StatelessWidget {
               style: TextStyle(color: Colors.white, fontSize: 36, fontWeight: FontWeight.bold),
             )),
           ),
-          Positioned(
-            top: 100,
-            right: 30,
-            child: Obx(() => _showExpress(controller.currentExpression.value)),
-          ),
+          Positioned(top: 100,right: 30,child: Obx(()=>
+              _showExpress(controller.currentExpression.value)
+
+
+          )),
         ],
       ),
     );
@@ -196,46 +164,25 @@ class HardModeScreen2 extends StatelessWidget {
   Widget _showExpress(String expression) {
     switch (expression) {
       case 'SURPRISE':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/surprise.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/surprise.gif", width: 150, height: 150)),);
       case 'OPEN_MOUTH':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/mouth_open.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/mouth_open.gif", width: 150, height: 150)),);
       case 'BLINK':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/eyeclose.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/eyeclose.gif", width: 150, height: 150)),);
       case 'RAISE_EYEBROWS':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/eyebrow.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/eyebrow.gif", width: 150, height: 150)),);
       case 'PUFF_CHEEKS':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/cheek.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50, right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/cheek.gif", width: 150, height: 150)),);
       case 'PUCKER_LIPS':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/mouth_close.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/mouth_close.gif", width: 150, height: 150)),);
       case 'TEMP1':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/frown.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/frown.gif", width: 150, height: 150)),);
       default:
         return Container();
     }
   }
-}
 
+}
 class HardModeScreen3 extends StatelessWidget {
   final List<CameraDescription> cameras;
 
@@ -252,6 +199,13 @@ class HardModeScreen3 extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
+            child: Obx(() {
+              if (controller.isInitialized) {
+                return CameraPreview(controller.cameraController);
+              } else {
+                return Container(color: Colors.black);
+              }
+            }),
           ),
           Positioned(
             top: 50,
@@ -284,58 +238,35 @@ class HardModeScreen3 extends StatelessWidget {
               controller.feedbackMessage,
               style: TextStyle(color: Colors.white, fontSize: 36, fontWeight: FontWeight.bold),
             )),
-          ),
-          Positioned(
-            top: 100,
-            right: 30,
-            child: Obx(() => _showExpress(controller.currentExpression.value)),
-          ),
+          ),          Positioned(top: 100,right: 30,child: Obx(()=>
+              _showExpress(controller.currentExpression.value)))
+
         ],
       ),
     );
   }
-
   Widget _showExpress(String expression) {
     switch (expression) {
       case 'SURPRISE':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/surprise.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/surprise.gif", width: 150, height: 150)),);
       case 'OPEN_MOUTH':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/mouth_open.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/mouth_open.gif", width: 150, height: 150)),);
       case 'BLINK':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/eyeclose.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/eyeclose.gif", width: 150, height: 150)),);
       case 'RAISE_EYEBROWS':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/eyebrow.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/eyebrow.gif", width: 150, height: 150)),);
       case 'PUFF_CHEEKS':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/cheek.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50, right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/cheek.gif", width: 150, height: 150)),);
       case 'PUCKER_LIPS':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/mouth_close.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/mouth_close.gif", width: 150, height: 150)),);
       case 'TEMP1':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/frown.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/frown.gif", width: 150, height: 150)),);
       default:
         return Container();
     }
   }
+
+
 }
 
 class HardModeScreen4 extends StatelessWidget {
@@ -354,7 +285,13 @@ class HardModeScreen4 extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-
+            child: Obx(() {
+              if (controller.isInitialized) {
+                return CameraPreview(controller.cameraController);
+              } else {
+                return Container(color: Colors.black);
+              }
+            }),
           ),
           Positioned(
             top: 50,
@@ -387,58 +324,35 @@ class HardModeScreen4 extends StatelessWidget {
               controller.feedbackMessage,
               style: TextStyle(color: Colors.white, fontSize: 36, fontWeight: FontWeight.bold),
             )),
-          ),
-          Positioned(
-            top: 100,
-            right: 30,
-            child: Obx(() => _showExpress(controller.currentExpression.value)),
-          ),
+          ),          Positioned(top: 100,right: 30,child: Obx(()=>
+              _showExpress(controller.currentExpression.value)))
+
         ],
       ),
     );
   }
-
   Widget _showExpress(String expression) {
     switch (expression) {
       case 'SURPRISE':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/surprise.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/surprise.gif", width: 150, height: 150)),);
       case 'OPEN_MOUTH':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/mouth_open.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/mouth_open.gif", width: 150, height: 150)),);
       case 'BLINK':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/eyeclose.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/eyeclose.gif", width: 150, height: 150)),);
       case 'RAISE_EYEBROWS':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/eyebrow.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/eyebrow.gif", width: 150, height: 150)),);
       case 'PUFF_CHEEKS':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/cheek.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50, right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/cheek.gif", width: 150, height: 150)),);
       case 'PUCKER_LIPS':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/mouth_close.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/mouth_close.gif", width: 150, height: 150)),);
       case 'TEMP1':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/frown.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/frown.gif", width: 150, height: 150)),);
       default:
         return Container();
     }
   }
+
+
 }
 
 class HardModeScreen5 extends StatelessWidget {
@@ -457,6 +371,13 @@ class HardModeScreen5 extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
+            child: Obx(() {
+              if (controller.isInitialized) {
+                return CameraPreview(controller.cameraController);
+              } else {
+                return Container(color: Colors.black);
+              }
+            }),
           ),
           Positioned(
             top: 50,
@@ -489,58 +410,36 @@ class HardModeScreen5 extends StatelessWidget {
               controller.feedbackMessage,
               style: TextStyle(color: Colors.white, fontSize: 36, fontWeight: FontWeight.bold),
             )),
-          ),
-          Positioned(
-            top: 100,
-            right: 30,
-            child: Obx(() => _showExpress(controller.currentExpression.value)),
-          ),
+          ),          Positioned(top: 100,right: 30,child: Obx(()=>
+              _showExpress(controller.currentExpression.value)))
+
         ],
       ),
     );
   }
-
   Widget _showExpress(String expression) {
     switch (expression) {
       case 'SURPRISE':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/surprise.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/surprise.gif", width: 150, height: 150)),);
       case 'OPEN_MOUTH':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/mouth_open.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/mouth_open.gif", width: 150, height: 150)),);
       case 'BLINK':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/eyeclose.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/eyeclose.gif", width: 150, height: 150)),);
       case 'RAISE_EYEBROWS':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/eyebrow.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/eyebrow.gif", width: 150, height: 150)),);
       case 'PUFF_CHEEKS':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/cheek.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50, right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/cheek.gif", width: 150, height: 150)),);
       case 'PUCKER_LIPS':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/mouth_close.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/mouth_close.gif", width: 150, height: 150)),);
       case 'TEMP1':
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(90),
-          child: Image.asset("assets/gifs/frown.gif", width: 150, height: 150),
-        );
+        return Positioned(top: 50,right: 30,child: ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.asset("assets/gifs/frown.gif", width: 150, height: 150)),);
       default:
         return Container();
     }
   }
+
+
+
 }
 
 class HardModeScreen6 extends StatelessWidget {
@@ -559,6 +458,13 @@ class HardModeScreen6 extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
+            child: Obx(() {
+              if (controller.isInitialized) {
+                return CameraPreview(controller.cameraController);
+              } else {
+                return Container(color: Colors.black);
+              }
+            }),
           ),
           Positioned(
             top: 50,
@@ -592,16 +498,12 @@ class HardModeScreen6 extends StatelessWidget {
               style: TextStyle(color: Colors.white, fontSize: 36, fontWeight: FontWeight.bold),
             )),
           ),
-          Positioned(
-            top: 100,
-            right: 30,
-            child: Obx(() => _showExpress(controller.currentExpression.value)),
-          ),
+          Positioned(top: 100,right: 30,child: Obx(()=>_showExpress(controller.currentExpression.value)))
+
         ],
       ),
     );
   }
-
   Widget _showExpress(String expression) {
     Widget expressionWidget;
     switch (expression) {
