@@ -111,6 +111,11 @@ flutter:
     - assets/images/test.png
     - assets/images/calendar.png
     - assets/images/speech_bubble.png
+    - assets/images/countdown5.png
+    - assets/images/countdown4.png
+    - assets/images/countdown3.png
+    - assets/images/countdown2.png
+    - assets/images/countdown1.png
 
     - assets/images/stage1.png
     - assets/Fun.mp3
