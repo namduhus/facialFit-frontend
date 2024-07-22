@@ -62,9 +62,9 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
       child: SingleChildScrollView(
         child: Center(
           child: Container(
-            width: 364,
+            width: 375,
             constraints: BoxConstraints(
-              minHeight: height - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom,
+              maxHeight: height - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom - 63, // 적절한 최대 높이 설정
             ),
             decoration: BoxDecoration(
               color: Colors.white, // 배경색을 흰색으로 변경
@@ -121,7 +121,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
           ),
           SizedBox(height: height * 0.011),
           Text(
-            'PlayerProfile',
+            'PlayerCard',
             style: TextStyle(
               fontSize: height * 0.03,
               fontWeight: FontWeight.w600,
@@ -136,7 +136,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
   Widget _buildUserInfo(double width, double height) {
     return Container(
       padding: EdgeInsets.all(20.0),
-      margin: EdgeInsets.symmetric(vertical: 20.0),
+      margin: EdgeInsets.symmetric(vertical: 10.0),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
@@ -171,7 +171,7 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
         children: [
           _buildShimmerButton('Shop', ShopMain(), width, height),
           _buildShimmerButton('Main', MainHome(), width, height),
-          _buildShimmerButton('Statistics', StatisticsPage(), width, height),
+          _buildShimmerButton('Stats', StatisticsPage(), width, height),
         ],
       ),
     );
@@ -179,8 +179,8 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
 
   Widget _buildInfoItem(String label, String value) {
     return Container(
-      padding: EdgeInsets.all(15.0),
-      margin: EdgeInsets.symmetric(vertical: 3.0),
+      padding: EdgeInsets.all(10.0),
+      margin: EdgeInsets.symmetric(vertical: 0.5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -213,26 +213,22 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
             );
           },
           style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.black,
+            foregroundColor: Colors.white,
             backgroundColor: Color(0xFF8B4513), // 버튼 배경색을 흰색으로 설정
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20), // 버튼을 둥글게 설정
+              borderRadius: BorderRadius.circular(15), // 버튼을 둥글게 설정
             ),
             padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5), // 패딩 조정
           ),
-          child: Shimmer.fromColors(
-            baseColor: Colors.white,
-            highlightColor: Color(0xFFD2691E),
             child: Text(
               text,
               style: TextStyle(
-                fontSize: 10,
+                fontSize: 15,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
         ),
-      ),
     );
   }
 }

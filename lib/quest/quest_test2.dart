@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:SmileHelper/Service/AuthService.dart';
 import 'package:SmileHelper/main/main_stage.dart';
 import 'package:SmileHelper/css/screen.dart'; // BaseScreen import
-import 'package:shimmer/shimmer.dart';
+import 'dart:async';
 
 class QuestTest2 extends StatefulWidget {
   const QuestTest2({super.key});
@@ -23,11 +23,39 @@ class QuestTest2State extends State<QuestTest2> {
   List<dynamic> incompleteQuests = []; // 미완료 퀘스트 목록
   List<dynamic> completedQuests = []; // 완료 퀘스트 목록
   Map<int, bool> questCompleted = {}; // 퀘스트 완료 상태
+  Map<int, bool> showContent = {}; // 퀘스트 내용 표시 상태
+  Timer? timer;
 
   @override
   void initState() {
     super.initState();
     _fetchUserId(); // 사용자 ID를 먼저 가져옴
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  String _formatDuration(Duration duration) {
+    int hours = duration.inHours;
+    int minutes = duration.inMinutes.remainder(60);
+    return '${hours}h ${minutes}m';
+  }
+
+  void toggleQuestContent(int questId) {
+    setState(() {
+      showContent.forEach((key, value) {
+        if (key != questId) {
+          showContent[key] = false; // 다른 카드 내용은 숨김
+        }
+      });
+      showContent[questId] = !(showContent[questId] ?? false); // 현재 카드 내용 토글
+    });
   }
 
   Future<void> _fetchUserId() async {
@@ -78,7 +106,8 @@ class QuestTest2State extends State<QuestTest2> {
             userCoins = jsonResponse['coin'] ?? 0;
           });
         } else {
-          print('Failed to load user coins after token refresh: ${retryResponse.statusCode}');
+          print('Failed to load user coins after token refresh: ${retryResponse
+              .statusCode}');
           print('Response body: ${retryResponse.body}');
         }
       } else {
@@ -94,7 +123,8 @@ class QuestTest2State extends State<QuestTest2> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accessToken');
 
-    final url = Uri.parse('http://34.47.88.29:8082/api/users/$userId/quests/incomplete');
+    final url = Uri.parse(
+        'http://34.47.88.29:8082/api/users/$userId/quests/incomplete');
     try {
       final response = await http.get(
         url,
@@ -115,11 +145,13 @@ class QuestTest2State extends State<QuestTest2> {
     }
   }
 
+  // _fetchCompletedQuests 함수 수정
   Future<void> _fetchCompletedQuests() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('accessToken');
 
-    final url = Uri.parse('http://34.47.88.29:8082/api/users/$userId/quests/completed');
+    final url = Uri.parse(
+        'http://34.47.88.29:8082/api/users/$userId/quests/completed');
     try {
       final response = await http.get(
         url,
@@ -177,7 +209,8 @@ class QuestTest2State extends State<QuestTest2> {
     }
 
     // 퀘스트 완료 API 호출
-    final questUrl = Uri.parse('http://34.47.88.29:8082/api/users/$userId/quests/complete/$questId');
+    final questUrl = Uri.parse(
+        'http://34.47.88.29:8082/api/users/$userId/quests/complete/$questId');
     try {
       final response = await http.post(
         questUrl,
@@ -209,38 +242,6 @@ class QuestTest2State extends State<QuestTest2> {
         return AlertDialog(
           title: Text('Congratulations'),
           content: Text('Congratulations! You won 3 coins!!'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _showCompletedQuestsDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Completed Quests'),
-          content: Container(
-            width: double.maxFinite,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: completedQuests.length,
-              itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Text(completedQuests[index]['title']),
-                  subtitle: Text(completedQuests[index]['content']),
-                );
-              },
-            ),
-          ),
           actions: <Widget>[
             TextButton(
               child: Text('OK'),
@@ -301,40 +302,31 @@ class QuestTest2State extends State<QuestTest2> {
                     Text(
                       '$userCoins', // 사용자 코인 소지량
                       style: TextStyle(
-                        color: Color(0xFFFFF3F3),
+                        color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(width: 60), // 코인과 Quest 로고 사이 간격 조정
-                    Text(
-                      'Quest',
-                      style: TextStyle(
-                        color: Color(0xFFFFF3F3),
-                        fontSize: 30, // 폰트 크기 조정
-                        fontWeight: FontWeight.w400,
-                        height: 0.5,
-                      ),
-                    ),
                   ],
                 ),
-                SizedBox(height: 20),
-                buildShimmerButton(
-                  context,
-                  'Incomplete Quests',
-                  _fetchIncompleteQuests,
-                ),
-                buildShimmerButton(
-                  context,
-                  'Completed Quests',
-                  _showCompletedQuestsDialog,
+                SizedBox(height: 10), // 코인과 Quest 로고 사이 간격 조정
+                Text(
+                  'Quest',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30, // 폰트 크기 조정
+                    fontWeight: FontWeight.w400,
+                    height: 0.5,
+                  ),
                 ),
                 SizedBox(height: 20),
                 Expanded(
                   child: ListView(
                     children: [
-                      ...incompleteQuests.map((quest) => _buildQuestItem(quest, false)),
-                      // Completed quests are shown in a dialog
+                      ...incompleteQuests.map((quest) =>
+                          _buildQuestItem(quest, false)),
+                      ...completedQuests.map((quest) =>
+                          _buildQuestItem(quest, true)),
                     ],
                   ),
                 ),
@@ -382,12 +374,13 @@ class QuestTest2State extends State<QuestTest2> {
     );
   }
 
-  Widget buildShimmerButton(BuildContext context, String text, VoidCallback? onPressed) {
+  Widget buildShimmerButton(BuildContext context, String text,
+      VoidCallback? onPressed) {
     return Container(
       height: 50, // 버튼 높이 설정
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.black,
+          foregroundColor: Colors.white,
           backgroundColor: Color(0xFF8B4513), // 버튼 배경색을 흰색으로 설정
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15), // 버튼을 둥글게 설정
@@ -395,15 +388,11 @@ class QuestTest2State extends State<QuestTest2> {
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20), // 패딩 조정
         ),
         onPressed: onPressed,
-        child: Shimmer.fromColors(
-          baseColor: Colors.white,
-          highlightColor: Color(0xFFD2691E),
-          child: Text(
-            text,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-            ),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
@@ -413,57 +402,100 @@ class QuestTest2State extends State<QuestTest2> {
   Widget _buildQuestItem(Map<String, dynamic> quest, bool isCompleted) {
     bool canComplete = false;
 
-    if (quest['id'] == 1 && userCoins >= 10) {
+    int questId = quest['quest_id'] ?? 0; // 기본값 0 설정
+    String? nextAvailableTimeStr = quest['next_available_time'];
+    DateTime? nextAvailableTime = nextAvailableTimeStr != null ? DateTime.parse(nextAvailableTimeStr) : null;
+    Duration? timeRemaining = nextAvailableTime != null ? nextAvailableTime.difference(DateTime.now()) : null;
+
+    if (questId == 1 && userCoins >= 10) {
       canComplete = true;
-    } else if (quest['id'] == 2 && questCompleted[1] == true) {
+    } else if (questId == 2 && questCompleted[1] == true) {
       canComplete = true;
-    } else if (quest['id'] == 3 && questCompleted[3] == true) {
+    } else if (questId == 3 && questCompleted[3] == true) {
       canComplete = true;
-    } else if (quest['id'] == 4 && questCompleted[3] == true) {
+    } else if (questId == 4 && questCompleted[3] == true) {
       canComplete = true;
+    }
+
+    Color getTypeColor(String type) {
+      switch (type) {
+        case 'DAILY':
+          return Colors.black;
+        case 'BIWEEKLY':
+          return Colors.black;
+        case 'ONE_TIME':
+          return Colors.black;
+        default:
+          return Colors.black;
+      }
     }
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: Container(
-        padding: const EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
-          color:Color(0xFFF5DEB3),
-          // 퀘스트 폼 배경색 설정
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: [
-            BoxShadow(
-              color: Color(0x3F000000),
-              blurRadius: 4,
-              offset: Offset(0, 4),
-              spreadRadius: 0,
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              quest['title'],
-              style: TextStyle(
-                fontSize: 16, // 폰트 크기 조정
-                fontWeight: FontWeight.bold,
+      child: GestureDetector(
+        onTap: () => toggleQuestContent(questId),
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            color: isCompleted ? Colors.grey : Colors.white,
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: [
+              BoxShadow(
+                color: Color(0x3F000000),
+                blurRadius: 4,
+                offset: Offset(0, 4),
+                spreadRadius: 0,
               ),
-            ),
-            SizedBox(height: 8),
-            Text(
-              quest['content'],
-              style: TextStyle(
-                fontSize: 14,
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                quest['type'],
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: getTypeColor(quest['type']),
+                ),
               ),
-            ),
-            SizedBox(height: 10),
-            buildShimmerButton(
-              context,
-              isCompleted ? 'Completed' : 'Complete',
-              isCompleted || !canComplete ? null : () => _completeQuest(quest['id']),
-            ),
-          ],
+              SizedBox(height: 8),
+              Text(
+                quest['title'] ?? '',
+                style: TextStyle(
+                  fontSize: 16, // 폰트 크기 조정
+                  fontWeight: FontWeight.bold,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+              if (!isCompleted && timeRemaining != null && timeRemaining.isNegative == false)
+                SizedBox(height: 8),
+              if (!isCompleted && timeRemaining != null && timeRemaining.isNegative == false)
+                Text(
+                  _formatDuration(timeRemaining),
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontStyle: FontStyle.italic,
+                    color: Colors.red,
+                  ),
+                ),
+              if (showContent[questId] ?? false) ...[
+                SizedBox(height: 8),
+                Text(
+                  quest['content'] ?? '',
+                  style: TextStyle(
+                    fontSize: 14,
+                  ),
+                ),
+                SizedBox(height: 8),
+              ],
+              buildShimmerButton(
+                context,
+                isCompleted ? 'Quest Finished' : 'Start Quest',
+                isCompleted || !canComplete ? null : () => _completeQuest(questId),
+              ),
+            ],
+          ),
         ),
       ),
     );

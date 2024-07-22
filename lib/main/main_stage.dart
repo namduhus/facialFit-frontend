@@ -18,7 +18,6 @@ import 'package:SmileHelper/game/bonus/bonus_game.dart';
 import 'package:SmileHelper/Service/MlkitService.dart';
 import 'package:SmileHelper/game/mlkit/file_utils.dart'; // 좌표 저장 함수가 있는 파일
 import 'package:SmileHelper/css/screen_home.dart'; // BaseScreen 파일 import
-import 'package:shimmer/shimmer.dart';
 import 'second_page.dart'; // second_page.dart import
 
 class MainHome extends StatefulWidget {
@@ -433,7 +432,7 @@ class _MainHomeState extends State<MainHome> {
                   SizedBox(height: screenHeight * 0.5),
                   Positioned(
                     left: 0,
-                    top: screenHeight * 0.83,
+                    top: screenHeight * 0.8,
                     child: Container(
                       width: screenWidth,
                       child: Row(
@@ -465,8 +464,8 @@ class _MainHomeState extends State<MainHome> {
                       children: [
                         Image.asset(
                           'assets/images/coin.png',
-                          width: 30,
-                          height: 30,
+                          width: 45,
+                          height: 45,
                         ),
                         SizedBox(width: 10),
                         Text(
@@ -481,11 +480,11 @@ class _MainHomeState extends State<MainHome> {
                     ),
                   ),
                   Positioned(
-                    left: screenWidth * 0.2,
-                    top: screenHeight * 0.28,
+                    left: screenWidth * 0.16,
+                    top: screenHeight * 0.25,
                     child: Container(
-                      width: screenWidth * 0.4,
-                      height: screenHeight * 0.2,
+                      width: screenWidth * 0.5,
+                      height: screenHeight * 0.23,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage("assets/images/speech_bubble.png"),
@@ -493,12 +492,12 @@ class _MainHomeState extends State<MainHome> {
                         ),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 10.0), // 좌측, 상단, 우측, 하단 패딩 설정
+                        padding: EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 10.0), // 좌측, 상단, 우측, 하단 패딩 설정
                         child: Text(
                           'Good day, $nickname!\nKeep it up!',
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 11,
+                            fontSize: 15,
                             fontWeight: FontWeight.w800,
                           ),
                           textAlign: TextAlign.center,
@@ -513,8 +512,8 @@ class _MainHomeState extends State<MainHome> {
                       children: [
                         IconButton(
                           icon: Container(
-                            width: 33.0,  // 원하는 너비로 설정
-                            height: 33.0, // 원하는 높이로 설정
+                            width: 45.0,  // 원하는 너비로 설정
+                            height: 45.0, // 원하는 높이로 설정
                             child: Image.asset('assets/images/Quest2.png'),
                           ),
                           onPressed: () {
@@ -528,8 +527,8 @@ class _MainHomeState extends State<MainHome> {
                         // calendar 버튼의 onPressed 함수 수정
                         IconButton(
                           icon: Container(
-                            width: 33.0,  // 원하는 너비로 설정
-                            height: 33.0, // 원하는 높이로 설정
+                            width: 45.0,  // 원하는 너비로 설정
+                            height: 45.0, // 원하는 높이로 설정
                             child: Image.asset('assets/images/calendar.png'),
                           ),
                           onPressed: () {
@@ -542,8 +541,8 @@ class _MainHomeState extends State<MainHome> {
                         ),
                         IconButton(
                           icon: Container(
-                            width: 33.0,  // 원하는 너비로 설정
-                            height: 33.0, // 원하는 높이로 설정
+                            width: 45.0,  // 원하는 너비로 설정
+                            height: 45.0, // 원하는 높이로 설정
                             child: Image.asset('assets/images/setting2.png'),
                           ),
                           onPressed: () {
@@ -599,7 +598,7 @@ class _MainHomeState extends State<MainHome> {
       height: 50, // 버튼 높이 설정
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.black,
+          foregroundColor: Colors.white,
           backgroundColor: Color(0xFF8B4513), // 버튼 배경색을 흰색으로 설정
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15), // 버튼을 둥글게 설정
@@ -612,18 +611,14 @@ class _MainHomeState extends State<MainHome> {
             MaterialPageRoute(builder: (context) => page),
           );
         },
-        child: Shimmer.fromColors(
-          baseColor: Colors.white,
-          highlightColor: Color(0xFFD2691E),
           child: Text(
             text,
             style: TextStyle(
-              fontSize: 12,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),
         ),
-      ),
     );
   }
 }
