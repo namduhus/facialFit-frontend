@@ -65,19 +65,7 @@ class MyApp extends StatelessWidget {
             home: child,
             initialRoute: "/Login",
             getPages: [
-              // GetPage(
-              //   name: '/CameraView',
-              //   page: () => CameraView(),
-              // ),
-              // GetPage(
-              //   name: '/CameraScreen',
-              //   page: () => CameraScreen(
-              //     cameras: [],
-              //   ),
-              //   transition: Transition.zoom,
-              // ),
               GetPage(name: '/bonus', page: () => BonusGame()),
-              //GetPage(name: '/Splash', page: () => SplashScreen()),
             ],
             routes: {
               "/Login": (context) => LoginMain(),

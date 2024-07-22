@@ -9,7 +9,7 @@ class SecondPage extends StatefulWidget {
 }
 
 class _SecondPageState extends State<SecondPage> {
-  Map<String, List<Offset>> _coordinatesMap = {
+  final Map<String, List<Offset>> _coordinatesMap = {
     'landmarks': [],
     'face': [],
     'leftEyebrowTop': [],
