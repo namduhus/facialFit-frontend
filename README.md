@@ -1,26 +1,16 @@
-# iccas_test1
+# ICCAS 2024 Project 
+* FrontEnd
 
-A new Flutter project.
+## Project Name: 안면마비 환자를 위한 안면근육 게임 앱
+* assets: 게임 앱에 필요한 배경음악 및 이미지 모음
+* lib/calender: 캘린더 화면
+* lib/Service: ML Kit 및 API, Audio 연동 서비스
+* lib/css: 메인화면 폰트 및 배경 꾸미기
+* lib/game: 메인 게임 화면 및 구성 로직
+* lib/hardmode: bonus mode 게임 화면 및 구성 로직
+* lib/main: 메인 화면 및 회원정보 화면, 환경설정 화
+* lib/quest: 퀘스트 화면
+* lib/shop: 상점 화면
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
- - main 함수 실행되는 main 페이지에서 라우트 설정을 하거나 body부분에 원하는 페이지의 함수 넣으면 시작할 때 바로 나옴
- - 얼굴을 찍을 카메라 실행하는 부분에서 이해가 잘 안감
- - 로그인 등 api 테스트 필요
- - 자잘한 버튼들 혹은 기타 부분 조정
- - 회원가입 등 다시 배치
- - 게임/마사지 선택 부분에서 버튼 나오는 부분이 잘 안됨
-
-
- **카메라 마이크까지 허용하면 나오긴 함 
+## 시연 영상
+https://youtu.be/KKX3pRK6GZQ
